@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const ControlContent = () => {
   const [toggle, setToggle] = useState(false);
+  const [cctv, setCctv] = useState(false);
 
   return (
     <>
@@ -77,7 +78,12 @@ const ControlContent = () => {
             </div>
             <div className="flex flex-col items-center z-10">
               <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('./assets/icon/fan@2x.png')] bg-contain bg-no-repeat"></span>
-              <Button className="w-[5.625rem] h-[5.625rem] bg-[url('./assets/icon/cctv-icon-black@2x.png')] bg-contain bg-no-repeat"></Button>
+              <Button
+                onClick={() => {
+                  setCctv((prev) => !prev);
+                }}
+                className="w-[5.625rem] h-[5.625rem] bg-[url('./assets/icon/cctv-icon-black@2x.png')] bg-contain bg-no-repeat"
+              ></Button>
             </div>
             <div className="flex flex-col gap-2">
               <RowBar />
@@ -106,9 +112,14 @@ const ControlContent = () => {
         </div>
       </div>
 
+      {/* cctv 영역 */}
+      {cctv && (
+        <div className="z-10 w-[50rem] h-[25rem] bg-sub absolute bottom-[6rem] left-[50%] translate-x-[-50%]"></div>
+      )}
+
       {/* 하단 버튼 영역 */}
       <div className="absolute bottom-6 left-0 px-6 w-full flex flex-col gap-[3.125rem] justify-center items-center">
-        <div className="w-[20.9375rem] h-[13.9375rem] p-4 bg-white shadow-lg rounded-md relative">
+        <div className="z-7 w-[20.9375rem] h-[13.9375rem] p-4 bg-white shadow-lg rounded-md absolute bottom-[4.5rem]">
           <div className="absolute right-[.25rem] top-[.25rem]">
             <Button
               className="bg-green2 border-[#707070] rounded-md w-[1.125rem] h-[1.125rem] !p-0"

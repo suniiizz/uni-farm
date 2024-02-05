@@ -73,7 +73,7 @@ const WeatherControl = () => {
               <span className="cursor-pointer w-6 h-6 inline-block bg-[url('./assets/icon/section-arw-down-white@3x.png')] bg-no-repeat bg-center bg-contain"></span>
             </div>
 
-            <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('./assets/icon/green-house@2x.png')] bg-no-repeat bg-contain">
+            <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('./assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
               {section === "1" && <ControlContent />}
               {section === "2" && <div>22222</div>}
               {section === "3" && <div>33333</div>}
