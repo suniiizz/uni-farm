@@ -1,4 +1,4 @@
-import { buttonClassName } from "../constant/className";
+import { buttonClassName } from "@/components/common/constant/className";
 
 type Props = React.ComponentPropsWithoutRef<"button"> & {
   customType?: string;

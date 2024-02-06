@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
-import Button from "../../components/common/button";
-import ControlContent from "../../components/pages/control";
+import Button from "@/components/common/button";
+import ControlContent from "@/components/pages/control";
+import { ModalContext } from "@/components/common/modal/context/modalContext";
+import ControlModal from "@/components/pages/control/modal";
 
 const WeatherControl = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [section, setSection] = useState("");
+  const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  console.log("isOpen", isOpen);
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
@@ -34,6 +39,10 @@ const WeatherControl = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
+                  onClick={() => {
+                    onOpenModal();
+                    console.log("hello");
+                  }}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('./assets/icon/setting@2x.png')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   제어설정
@@ -81,6 +90,8 @@ const WeatherControl = () => {
           </div>
         </div>
       </div>
+
+      {isOpen && <ControlModal />}
     </>
   );
 };

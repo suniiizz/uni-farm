@@ -1,5 +1,5 @@
-import { ColBar, RowBar } from "../../common/slider";
-import Button from "../../common/button";
+import Button from "@/components/common/button";
+import { ColBar, RowBar } from "@/components/common/slider";
 import { useState } from "react";
 
 const ControlContent = () => {
