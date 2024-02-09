@@ -58,9 +58,7 @@ const Modal = ({ className, title, children, buttonList }: Props) => {
                 </Button>
               </div>
             </div>
-            {/* <div className="px-[1.875rem] pt-[1.875rem] pb-10 break-words overflow-y-auto h-[calc(100%-4.0625rem)]"> */}
             {children}
-            {/* </div> */}
           </div>
         </div>,
         document.body,

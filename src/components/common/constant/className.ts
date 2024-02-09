@@ -12,4 +12,5 @@ export const buttonClassName: ButtonStyleType = {
   DISABLED: `${buttonStyle}`,
   POPUP: `${buttonStyle}`,
   DEFAULT: `cursor-pointer text-black border-black text-[1.5rem] px-4 py-2 ${buttonStyle}`,
+  MODAL: `text-white bg-sub2 ${buttonStyle}`,
 };

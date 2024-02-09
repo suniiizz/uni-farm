@@ -6,6 +6,7 @@ export default {
       colors: {
         main: "#746A68",
         sub: "#C7C0BC",
+        sub2: "#54524F",
         bg: "#E3E3E3",
         line: "#C7C0BC",
         green: "#447135",

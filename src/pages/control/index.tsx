@@ -4,18 +4,20 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Button from "@/components/common/button";
 import ControlContent from "@/components/pages/control";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
-import ControlModal from "@/components/pages/control/modal";
+import ControlModal from "@/components/pages/control/modal/control";
 
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { VerticalTab } from "@/components/common/tab";
+import VerticalTab from "@/components/common/tab";
+import DeviceModal from "@/components/pages/control/modal";
 
 const WeatherControl = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [section, setSection] = useState("");
   const [value, setValue] = useState(0);
+  const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
@@ -23,8 +25,13 @@ const WeatherControl = () => {
     setSection(parsedSection ? parsedSection : "1");
   }, [location]);
 
-  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+  const handleSideTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleOpenModal = (type: string) => {
+    setModalType(type);
+    onOpenModal();
   };
 
   return (
@@ -47,9 +54,7 @@ const WeatherControl = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                  onClick={() => {
-                    onOpenModal();
-                  }}
+                  onClick={() => handleOpenModal("control")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('./assets/icon/setting@2x.png')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   제어설정
@@ -57,6 +62,7 @@ const WeatherControl = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
+                  onClick={() => handleOpenModal("device")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('./assets/icon/setting@2x.png')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   장치설정
@@ -73,11 +79,7 @@ const WeatherControl = () => {
                   variant="scrollable"
                   role="navigation"
                   selectionFollowsFocus
-                  onChange={handleChange}
-                  sx={{
-                    ".MuiTabScrollButton-root": {},
-                    "MuiTab-textColorInherit": { color: "#fff !important" },
-                  }}
+                  onChange={handleSideTabChange}
                 >
                   <div className="flex flex-col gap-[.625rem] h-full">
                     {LIST.map((list, index) => {
@@ -96,7 +98,7 @@ const WeatherControl = () => {
                               </span>
                             }
                             {...VerticalTab(index)}
-                            className="!text-[1.875rem] !p-0 !min-w-[3.125rem] vertical-rl;"
+                            className="!text-[1.875rem] !p-0 !min-w-[3.125rem]"
                           />
                         </Link>
                       );
@@ -116,7 +118,8 @@ const WeatherControl = () => {
         </div>
       </div>
 
-      {isOpen && <ControlModal />}
+      {isOpen && modalType === "control" && <ControlModal />}
+      {isOpen && modalType === "device" && <DeviceModal />}
     </>
   );
 };
