@@ -26,6 +26,10 @@
       "@/*": ["src/*"],
     },
   },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+  },
 
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
