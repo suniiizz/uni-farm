@@ -19,6 +19,7 @@ const WeatherControl = () => {
   const [value, setValue] = useState(0);
   const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
+  value;
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
