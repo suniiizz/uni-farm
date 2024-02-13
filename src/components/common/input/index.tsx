@@ -13,7 +13,7 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
 const Input = ({ unit, label, maxLength, ...props }: Props) => {
   // const { register } = useFormContext();
 
-  const inputWrap = `flex items-center justify-end gap-[.625rem] bg-sub2 rounded-lg h-[2.8125rem] px-4 py-3 ${props.inputWrap ?? ""}`;
+  const inputWrap = `flex items-center justify-end gap-[.625rem] rounded-lg h-[2.8125rem] px-4 py-3 ${props.inputWrap ?? ""}`;
   const className = `flex items-center outline-0 border-none bg-inherit w-6 ${props.className ?? ""}`;
 
   // if (!registerName)
@@ -49,47 +49,35 @@ const Input = ({ unit, label, maxLength, ...props }: Props) => {
 };
 
 const TimeInput = ({ maxLength, ...props }: Props) => {
-  const inputWrap = `flex items-center gap-[.625rem]`;
+  const inputWrap = `flex items-center ${props.inputWrap ?? ""}`;
   const className = `outline-0 border-none bg-inherit w-6 ${props.className ?? ""}`;
 
   return (
     <>
       <div
-        className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] px-[1.875rem] text-white`}
+        className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-[.875rem] text-white`}
       >
-        <div className={`${inputWrap}`}>
-          <div className="flex items-center gap-2">
-            <Input
-              maxLength={maxLength}
-              className={`${className} text-[1.375rem] font-bold`}
-            />
-            <span className="text-[1.375rem] font-bold">시</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              maxLength={maxLength}
-              className={`${className} text-[1.375rem] font-bold`}
-            />
-            <span className="text-[1.375rem] font-bold">분</span>
-          </div>
-        </div>
-        <span>~</span>
-        <div className={`${inputWrap}`}>
-          <div className="flex items-center gap-2">
-            <Input
-              maxLength={maxLength}
-              className={`${className} text-[1.375rem] font-bold`}
-            />
-            <span className="text-[1.375rem] font-bold">시</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              maxLength={maxLength}
-              className={`${className} text-[1.375rem] font-bold`}
-            />
-            <span className="text-[1.375rem] font-bold">분</span>
-          </div>
-        </div>
+        <Input
+          maxLength={maxLength}
+          className={`${className} text-[1.375rem] font-bold`}
+        />
+        <span className="text-[1.375rem] font-bold">시</span>
+        <Input
+          maxLength={maxLength}
+          className={`${className} text-[1.375rem] font-bold`}
+        />
+        <span className="text-[1.375rem] font-bold">분</span>
+        <span className="inline-block ml-4">~</span>
+        <Input
+          maxLength={maxLength}
+          className={`${className} text-[1.375rem] font-bold`}
+        />
+        <span className="text-[1.375rem] font-bold">시</span>
+        <Input
+          maxLength={maxLength}
+          className={`${className} text-[1.375rem] font-bold`}
+        />
+        <span className="text-[1.375rem] font-bold">분</span>
       </div>
     </>
   );

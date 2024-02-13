@@ -6,13 +6,11 @@ import { Input, TimeInput } from "@/components/common/input";
 import { useState } from "react";
 
 const ControlModal = () => {
-  const [select, setSelect] = useState("");
-  const [checkedList, setCheckedList] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
+  const [select, setSelect] = useState<string>("");
+  const [checkedList, setCheckedList] = useState<Array<string>>([]);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  console.log("checkedList", checkedList);
-
-  const checkedItemHandler = (value: string, isChecked: boolean) => {
+  const checkedItem = (value: string, isChecked: boolean) => {
     if (isChecked) {
       setCheckedList((prev) => [...prev, value]);
 
@@ -28,15 +26,15 @@ const ControlModal = () => {
     return;
   };
 
-  const checkHandler = (
+  const handleCheckedList = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: string,
   ) => {
     setIsChecked(!isChecked);
-    checkedItemHandler(value, e.target.checked);
+    checkedItem(value, e.target.checked);
   };
 
-  const handleControlSelect = (e: string) => {
+  const handleControlSelection = (e: string) => {
     setSelect(e);
   };
 
@@ -60,20 +58,25 @@ const ControlModal = () => {
                 <div className="flex items-center gap-[.625rem]" key={list.id}>
                   <Button
                     customType="MODAL"
-                    className="py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem]"
+                    className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem] ${checkedList.includes(list.name) && "bg-yellow"}`}
                   >
                     {list.name}
                   </Button>
-                  <TimeInput maxLength={2} className="text-right" />
+                  <TimeInput
+                    maxLength={2}
+                    className="text-right"
+                    inputWrap={`${checkedList.includes(list.name) && "bg-yellow"}`}
+                  />
                   <CheckBox
                     checked={checkedList.includes(list.name)}
-                    onChange={(e) => checkHandler(e, list.name)}
+                    onChange={(e) => handleCheckedList(e, list.name)}
                   />
                   <Select
                     options={SELECT_OPTION}
                     onChange={(e) => {
-                      handleControlSelect(e.target.value);
+                      handleControlSelection(e.target.value);
                     }}
+                    selectWrap={`${checkedList.includes(list.name) && "bg-yellow"}`}
                   />
                 </div>
               </>
@@ -84,7 +87,7 @@ const ControlModal = () => {
         <div className={`${select === "센서" ? "my-4" : "my-[3.75rem]"}`}>
           {select === "" || select === "예약" ? (
             <Input
-              inputWrap="w-[20.625rem]"
+              inputWrap="w-[20.625rem] bg-sub2"
               className="text-[1.375rem] font-bold w-full text-right text-white"
               unit="%"
               label="목표 위치"
@@ -111,7 +114,7 @@ const ControlModal = () => {
               <div className="flex flex-col gap-2">
                 {SENSOR_CONT_OPTION2.map((list) => {
                   return (
-                    <div className="flex justify-between">
+                    <div className="flex justify-between h-[2.8125rem]">
                       <CheckBox
                         labelTitle={`${list.name}`}
                         key={list.id}
@@ -125,7 +128,7 @@ const ControlModal = () => {
                         )}
                         {list.unit && (
                           <Input
-                            inputWrap="w-[7.5rem]"
+                            inputWrap="w-[7.5rem] bg-sub2"
                             className="text-[1.375rem] font-bold text-right text-white w-full"
                             unit={list.unit}
                           />
@@ -146,7 +149,7 @@ const ControlModal = () => {
                       />
                       {list.unit && (
                         <Input
-                          inputWrap="w-[7.5rem]"
+                          inputWrap="w-[7.5rem] bg-sub2"
                           className="text-[1.375rem] font-bold text-right text-white w-full"
                           unit={list.unit}
                         />
