@@ -116,7 +116,7 @@ const ControlContent = () => {
       {cctv && (
         <div className="z-10 w-[50rem] h-[25rem] bg-sub absolute bottom-[6rem] left-[50%] translate-x-[-50%]">
           <video id="test_video" controls autoPlay className="w-full h-full">
-            <source src="rtsp://your_rtsp_stream/url" />
+            <source src="" />
           </video>
         </div>
       )}
