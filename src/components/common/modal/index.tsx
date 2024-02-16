@@ -54,7 +54,7 @@ const Modal = ({ className, title, children, buttonList }: Props) => {
                 <Button
                   customType="MAIN"
                   onClick={onCloseModal}
-                  className="h-9 min-w-[4.375rem]"
+                  className="h-9 min-w-[4.375rem] flex justify-center items-center"
                 >
                   닫기
                 </Button>

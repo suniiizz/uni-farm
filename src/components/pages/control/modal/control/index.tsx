@@ -51,11 +51,11 @@ const ControlModal = () => {
           })}
         </div>
 
-        <div className="w-full flex flex-col justify-center items-center max-w-[36.8125rem] gap-[.375rem]">
+        <ul className="w-full flex flex-col justify-center items-center max-w-[36.8125rem] gap-[.375rem]">
           {COUNT_LIST.map((list) => {
             return (
               <>
-                <div className="flex items-center gap-[.625rem]" key={list.id}>
+                <li className="flex items-center gap-[.625rem]" key={list.id}>
                   <Button
                     customType="MODAL"
                     className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem] ${checkedList.includes(list.name) && "bg-yellow"}`}
@@ -78,11 +78,11 @@ const ControlModal = () => {
                     }}
                     selectWrap={`${checkedList.includes(list.name) && "bg-yellow"}`}
                   />
-                </div>
+                </li>
               </>
             );
           })}
-        </div>
+        </ul>
 
         <div className={`${select === "센서" ? "my-4" : "my-[3.75rem]"}`}>
           {select === "" || select === "예약" ? (
@@ -94,10 +94,10 @@ const ControlModal = () => {
             />
           ) : (
             <div className="mt-4 flex gap-4 items-center justify-center">
-              <div className="flex flex-col gap-2">
+              <ul className="flex flex-col gap-2">
                 {SENSOR_CONT_LIST.map((list) => {
                   return (
-                    <div className="flex gap-4">
+                    <li className="flex gap-4">
                       <CheckBox
                         labelTitle={`${list.id} 번째 사용`}
                         key={list.id}
@@ -107,14 +107,14 @@ const ControlModal = () => {
                         options={SENSOR_CONT_OPTION1}
                         selectWrap="w-[7.5rem]"
                       />
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
-              <div className="flex flex-col gap-2">
+              </ul>
+              <ul className="flex flex-col gap-2">
                 {SENSOR_CONT_OPTION2.map((list) => {
                   return (
-                    <div className="flex justify-between h-[2.8125rem]">
+                    <li className="flex justify-between h-[2.8125rem]">
                       <CheckBox
                         labelTitle={`${list.name}`}
                         key={list.id}
@@ -134,14 +134,14 @@ const ControlModal = () => {
                           />
                         )}
                       </div>
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
-              <div className="flex flex-col gap-2">
+              </ul>
+              <ul className="flex flex-col gap-2">
                 {SENSOR_CONT_OPTION3.map((list) => {
                   return (
-                    <div className="flex justify-between">
+                    <li className="flex justify-between">
                       <CheckBox
                         labelTitle={`${list.name}`}
                         key={list.id}
@@ -154,10 +154,10 @@ const ControlModal = () => {
                           unit={list.unit}
                         />
                       )}
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
             </div>
           )}
         </div>
