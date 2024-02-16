@@ -11,6 +11,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import VerticalTab from "@/components/common/tab";
 import DeviceModal from "@/components/pages/control/modal";
+import { styled } from "@mui/material/styles";
 
 const WeatherControl = () => {
   const location = useLocation();
@@ -19,7 +20,6 @@ const WeatherControl = () => {
   const [value, setValue] = useState(0);
   const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
-  value;
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
@@ -72,18 +72,20 @@ const WeatherControl = () => {
             </div>
 
             {/* 사이드 탭 */}
-            <div className="py-[1.25rem] flex items-center flex-col justify-between gap-[1.125rem] left-0 top-[4.375rem] w-[4.375rem] h-[calc(100%-4.375rem)] bg-main rounded-bl-[.625rem]">
+            <div className="py-[.625rem] flex items-center flex-col justify-between gap-[1.125rem] left-0 top-[4.375rem] w-[4.375rem] h-[calc(100%-4.375rem)] bg-main rounded-bl-[.625rem]">
               <div className="flex flex-col gap-[.625rem] h-full">
-                {/* <span className="cursor-pointer w-6 h-6 inline-block bg-[url('./assets/icon/section-arw-up-white@3x.png')] bg-no-repeat bg-center bg-contain"></span> */}
-                <Tabs
+                <CustomTabs
                   orientation="vertical"
                   variant="scrollable"
                   role="navigation"
-                  selectionFollowsFocus
+                  value={value}
+                  scrollButtons
+                  allowScrollButtonsMobile
                   onChange={handleSideTabChange}
+                  className="justify-between h-full"
                 >
                   <div className="flex flex-col gap-[.625rem] h-full">
-                    {LIST.map((list, index) => {
+                    {LIST.map((list) => {
                       return (
                         <Link
                           key={list.id}
@@ -98,15 +100,14 @@ const WeatherControl = () => {
                                 <br />동
                               </span>
                             }
-                            {...VerticalTab(index)}
+                            {...VerticalTab(list.id)}
                             className="!text-[1.875rem] !p-0 !min-w-[3.125rem]"
                           />
                         </Link>
                       );
                     })}
                   </div>
-                </Tabs>
-                {/* <span className="cursor-pointer w-6 h-6 inline-block bg-[url('./assets/icon/section-arw-down-white@3x.png')] bg-no-repeat bg-center bg-contain"></span> */}
+                </CustomTabs>
               </div>
             </div>
 
@@ -136,4 +137,28 @@ const LIST = [
   { id: 6, num: "6" },
   { id: 7, num: "7" },
   { id: 8, num: "8" },
+  { id: 9, num: "9" },
 ];
+
+const CustomTabs = styled(Tabs)({
+  "& .MuiTabs-scrollButtons.Mui-disabled": {
+    opacity: "100",
+  },
+  "& .MuiTabs-scrollButtons": {
+    background: `url('src/assets/icon/section-arw-up-white@3x.png')`,
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "60%",
+    width: "3.125rem",
+    height: "2.5rem",
+    "&:last-child": {
+      transform: "rotate(180deg)",
+    },
+  },
+  "& .MuiSvgIcon-fontSizeSmall": {
+    display: "none",
+  },
+  "& .MuiTabs-indicator": {
+    display: "none",
+  },
+});

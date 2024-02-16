@@ -2,7 +2,7 @@ import Button from "@/components/common/button";
 
 const Header = () => {
   return (
-    <div className="w-full h-[3.75rem] fixed top-0 left-0 flex items-center justify-between px-5 bg-main border-b border-sub">
+    <div className="z-20 w-full h-[3.75rem] fixed top-0 left-0 flex items-center justify-between px-5 bg-main border-b border-sub">
       <Button customType="MAIN" className="w-[3.75rem] h-[2.5rem]">
         홈
       </Button>

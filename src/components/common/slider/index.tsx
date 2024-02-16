@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
@@ -42,6 +43,18 @@ export const RowBar = () => {
     },
   });
 
+  const [value, setValue] = useState<number>();
+
+  const handleChange = (
+    event: React.SyntheticEvent | Event,
+    newValue: number | number[],
+  ) => {
+    // if (!confirm("동작 하시겠습니까?")) return;
+    // console.log(newValue);
+
+    setValue(newValue as number);
+  };
+
   return (
     <div className="z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md px-[.9375rem] py-[.625rem] flex items-center justify-between shadow-lg">
       <span className="mr-2 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('./assets/icon/section_arw_up@2x.png')] bg-no-repeat bg-center bg-contain"></span>
@@ -67,6 +80,8 @@ export const RowBar = () => {
           aria-label="row slider"
           defaultValue={0}
           marks={marks}
+          value={value}
+          onChangeCommitted={handleChange}
         />
       </Box>
       <div className="flex items-center flex-col">
