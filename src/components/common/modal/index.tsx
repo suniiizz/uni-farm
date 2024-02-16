@@ -40,9 +40,11 @@ const Modal = ({ className, title, children, buttonList }: Props) => {
                           customType="MAIN"
                           className="relative h-9 text-center flex items-center gap-2"
                         >
-                          <span
-                            className={`bg-[url('./assets/icon/${list.img}')] bg-no-repeat bg-center bg-contain w-6 h-6 inline-block`}
-                          ></span>
+                          <img
+                            src={`src/assets/icon/${list.img}`}
+                            alt="icon"
+                            className="w-6 h-6"
+                          />
                           {list.name}
                         </Button>
                       );

@@ -52,8 +52,13 @@ button {
   transition: border-color 0.25s;
 }
 
+p {
+  white-space: nowrap;
+}
+
 span {
   font-size: 1rem;
+  white-space: nowrap;
 }
 
 @media (prefers-color-scheme: light) {

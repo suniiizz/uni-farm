@@ -16,4 +16,4 @@ const DeviceModal = () => {
 
 export default DeviceModal;
 
-const BTN_LIST = [{ id: 2, name: "설정저장", img: "save@2x.png" }];
+const BTN_LIST = [{ id: 2, name: "설정저장", img: "save@2x.svg" }];

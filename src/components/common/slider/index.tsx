@@ -57,7 +57,7 @@ export const RowBar = () => {
 
   return (
     <div className="z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md px-[.9375rem] py-[.625rem] flex items-center justify-between shadow-lg">
-      <span className="mr-2 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('./assets/icon/section_arw_up@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+      <span className="mr-2 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
       <div className="flex items-center flex-col">
         <span>닫힘</span>
         <span>0%</span>
@@ -88,7 +88,7 @@ export const RowBar = () => {
         <span>열림</span>
         <span>100%</span>
       </div>
-      <span className="ml-2 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('./assets/icon/section_arw_up@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+      <span className="ml-2 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
     </div>
   );
 };
@@ -134,7 +134,7 @@ export const ColBar = () => {
 
   return (
     <div className="w-[3.75rem] h-[18.75rem] bg-[#fff] rounded-md px-[.9375rem] py-[.625rem] flex flex-col items-center justify-between shadow-lg">
-      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('./assets/icon/section_arw_up@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
       <div className="flex items-center flex-col">
         <span>닫힘</span>
         <span>0%</span>
@@ -162,7 +162,7 @@ export const ColBar = () => {
         <span>열림</span>
         <span>100%</span>
       </div>
-      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('./assets/icon/section_arw_down@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_down@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
-// import { ReactComponent as Weather } from "@/assets/icon/nav_icon_1@2x.png";
+// import { ReactComponent as Weather } from "@/assets/icon/nav_icon_1@2x.svg";
 
 const Nav = () => {
   return (
@@ -16,7 +16,7 @@ const Nav = () => {
                   component={<Link to={`${e.path}`} />}
                   // icon={
                   //   <span
-                  //     className={`bg-[url('src/assets/icon/nav_icon_1@2x.png)']`}
+                  //     className={`bg-[url('src/assets/icon/nav_icon_1@2x.svg)']`}
                   //   ></span>
                   // }
                   // icon={e.icon}
@@ -43,49 +43,49 @@ const MENU = [
     key: "원격 제어",
     label: "원격 제어",
     path: "/control",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "제어 정보",
     label: "제어 정보",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "센서 보기",
     label: "센서 보기",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "센서 기록",
     label: "센서 기록",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "경보 내역",
     label: "경보 내역",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "CCTV",
     label: "CCTV",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "사용자 리스트",
     label: "사용자 리스트",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
   {
     key: "농가 리스트",
     label: "농가 리스트",
     path: "/",
-    icon: "nav_icon_1@2x.png",
+    icon: "nav_icon_1@2x.svg",
   },
 ];
 

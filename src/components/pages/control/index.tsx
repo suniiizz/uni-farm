@@ -11,7 +11,7 @@ const ControlContent = () => {
       {/* 시간 */}
       <div className="w-full h-[5.3125rem] bg-[#fff] rounded-md shadow-lg flex justify-between items-center px-[1.25rem]">
         <div className="flex flex-col items-center mt-[1.25rem] gap-1">
-          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('./assets/icon/section_arw_left@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('src/assets/icon/section_arw_left@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
           <span>00시</span>
         </div>
         <ul className="flex justify-center items-center h-full gap-1 mb-0">
@@ -27,7 +27,7 @@ const ControlContent = () => {
           })}
         </ul>
         <div className="flex flex-col items-center mt-[1.25rem] gap-1">
-          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('./assets/icon/section_arw_right@2x.png')] bg-no-repeat bg-center bg-contain"></span>
+          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('src/assets/icon/section_arw_right@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
           <span>24시</span>
         </div>
       </div>
@@ -54,9 +54,11 @@ const ControlContent = () => {
                 key={list.id}
                 className="bg-[#fff] rounded-md p-4 flex justify-center items-center gap-5 h-[4.375rem] shadow-lg"
               >
-                <span
-                  className={`w-[2.5rem] h-[2.5rem] inline-block bg-[url('./assets/icon/${list.img}')] bg-no-repeat bg-center bg-contain`}
-                ></span>
+                <img
+                  src={`src/assets/icon/${list.img}`}
+                  alt="icon"
+                  className="w-[2.5rem] h-[2.5rem]"
+                />
                 <span>
                   {list.name1}: {list.value1} <br />
                   {list.name2}: {list.value2}
@@ -77,12 +79,12 @@ const ControlContent = () => {
               <RowBar />
             </div>
             <div className="flex flex-col items-center z-10">
-              <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('./assets/icon/fan@2x.png')] bg-contain bg-no-repeat"></span>
+              <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
               <Button
                 onClick={() => {
                   setCctv((prev) => !prev);
                 }}
-                className="w-[5.625rem] h-[5.625rem] bg-[url('./assets/icon/cctv-icon-black@2x.png')] bg-contain bg-no-repeat"
+                className="w-[5.625rem] h-[5.625rem] bg-[url('src/assets/icon/cctv-icon-black@2x.svg')] bg-contain bg-no-repeat"
               ></Button>
             </div>
             <div className="flex flex-col gap-2">
@@ -137,11 +139,15 @@ const ControlContent = () => {
               return (
                 <li
                   key={list.id}
-                  className="flex items-center text-[2rem] font-bold gap-[2.5rem] px-[.625rem] w-full "
+                  className={`flex items-center ${!list.img && "justify-center"} text-[2rem] font-bold gap-[2.5rem] px-[.625rem] w-full`}
                 >
-                  <span
-                    className={`w-[2.5rem] h-[2.5rem] inline-block bg-[url('./assets/icon/${list.img}')] bg-no-repeat bg-center bg-contain`}
-                  ></span>
+                  {list.img && (
+                    <img
+                      src={`src/assets/icon/${list.img}`}
+                      alt="icon"
+                      className="w-[2.5rem] h-[2.5rem]"
+                    />
+                  )}
                   <div>
                     {list.name} :{" "}
                     {list.name === "EC" ? (
@@ -227,7 +233,7 @@ const INFO_LIST1 = [
     name2: "습기",
     value1: "15.8 ℃",
     value2: "31.4 %",
-    img: "temper-icon3@2x",
+    img: "temper-icon3@2x.svg",
   },
   {
     id: 2,
@@ -235,7 +241,7 @@ const INFO_LIST1 = [
     name2: "일사",
     value1: "1 mm",
     value2: "18W/㎡",
-    img: "sun-icon@2x",
+    img: "sun-icon@2x.svg",
   },
   {
     id: 3,
@@ -243,15 +249,15 @@ const INFO_LIST1 = [
     name2: "풍속",
     value1: "246 ˚",
     value2: "0 m/s",
-    img: "wind-icon@2x",
+    img: "wind-icon@2x.svg",
   },
 ];
 
 const INFO_LIST2 = [
-  { id: 1, name: "온도", value: "℃", img: "temper-icon3@2x.png" },
-  { id: 2, name: "습도", value: "%", img: "sensor_humidity_2@2x.png" },
-  { id: 3, name: "CO₂", value: "ppm", img: "sensor-co2@2x.png" },
-  { id: 4, name: "일사", value: "W/㎡", img: "sun-icon@2x.png" },
+  { id: 1, name: "온도", value: "℃", img: "temper-icon3@2x.svg" },
+  { id: 2, name: "습도", value: "%", img: "sensor_humidity_2@2x.svg" },
+  { id: 3, name: "CO₂", value: "ppm", img: "sensor-co2@2x.svg" },
+  { id: 4, name: "일사", value: "W/㎡", img: "sun-icon@2x.svg" },
 ];
 
 const INFO_LIST3 = [
