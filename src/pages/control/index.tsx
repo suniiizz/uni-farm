@@ -1,18 +1,19 @@
+import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
-import Button from "@/components/common/button";
-import ControlContent from "@/components/pages/control";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
+import ControlContent from "@/components/pages/control";
 import ControlModal from "@/components/pages/control/modal/control";
 
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";
 import DeviceModal from "@/components/pages/control/modal";
-import { styled } from "@mui/material/styles";
 import SliderControl from "@/components/pages/control/modal/slider-control";
+
+import { styled } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 const WeatherControl = () => {
   const location = useLocation();

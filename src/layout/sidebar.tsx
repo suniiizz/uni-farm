@@ -65,7 +65,7 @@ const MENU = [
   {
     key: "기상청 날씨 정보",
     label: "기상청 날씨 정보",
-    path: "/",
+    path: "/weather",
     icon: <Weather />,
   },
   {
