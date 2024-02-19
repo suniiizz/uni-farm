@@ -43,7 +43,7 @@ const WeatherControl = () => {
           <div className="h-full relative">
             <div className="h-[4.375rem] p-6 bg-main rounded-t-[.625rem] border-b border-mainLine flex justify-between items-center relative">
               <div className="flex gap-6 items-center">
-                <h2 className="text-[1.625rem] text-[#fff] font-bold">
+                <h2 className="text-[1.5rem] text-[#fff] font-bold">
                   원격제어
                 </h2>
                 <span className="text-[#fff]">2023-12-18 15:25:46</span>
@@ -95,7 +95,7 @@ const WeatherControl = () => {
                           <Tab
                             value={list.num}
                             label={
-                              <span className="text-[1.875rem]">
+                              <span className="text-[1.5rem]">
                                 {list.num}
                                 <br />동
                               </span>

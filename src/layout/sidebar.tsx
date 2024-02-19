@@ -30,25 +30,25 @@ const Nav = () => {
           </Menu>
           <div className="w-[12.5rem] min-h-[20.625rem] h-auto bg-[#212120] fixed bottom-0 left-0 px-[.625rem] py-4">
             <p className="pb-[.625rem] border-b-2">(주)소하테크</p>
-            <div className="pt-4 pb-[1.875rem] flex flex-col gap-2">
+            <div className="pt-4 pb-[1.875rem] flex flex-col gap-1">
               <span className="">대표 윤득중</span>
-              <span className="whitespace-break-spaces">
+              <span className="whitespace-break-spaces lg:text-xs">
                 사업자등록번호 : 217-81-18219
               </span>
-              <span>전화 : 02-978-0461</span>
-              <span>팩스 : 02-978-0463</span>
+              <span className="lg:text-xs">전화 : 02-978-0461</span>
+              <span className="lg:text-xs">팩스 : 02-978-0463</span>
             </div>
-            <div className="flex flex-col gap-2">
-              <span className="whitespace-break-spaces">
+            <div className="flex flex-col gap-1">
+              <span className="whitespace-break-spaces lg:text-xs">
                 서울특별시 노원구 노원로 15길 10
               </span>
-              <span className="whitespace-break-spaces">
+              <span className="whitespace-break-spaces lg:text-xs">
                 하계동 하계테크노타운 A동 403호
               </span>
-              <span>(01788)</span>
-              <span>sale@soha-tech.com</span>
+              <span className="lg:text-xs">(01788)</span>
+              <span className="lg:text-xs">sale@soha-tech.com</span>
             </div>
-            <span className="whitespace-break-spaces">
+            <span className="whitespace-break-spaces lg:text-xs">
               Copyright ⓒ SOHA-TECH All Right Reserved.
             </span>
           </div>

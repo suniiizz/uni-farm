@@ -56,16 +56,16 @@ export const RowBar = () => {
   };
 
   return (
-    <div className="z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md px-[.9375rem] py-[.625rem] flex items-center justify-between shadow-lg">
-      <span className="mr-2 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
-      <div className="flex items-center flex-col">
+    <div className="z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg">
+      <span className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+      <div className="flex items-center flex-col w-[2.25rem]">
         <span>닫힘</span>
         <span>0%</span>
       </div>
       <Box
         sx={{
-          marginLeft: "10px",
-          marginRight: "10px",
+          marginLeft: "5px",
+          marginRight: "5px",
           maxWidth: "28.75rem",
           minWidth: "17.875rem",
           width: "auto",
@@ -84,11 +84,11 @@ export const RowBar = () => {
           onChangeCommitted={handleChange}
         />
       </Box>
-      <div className="flex items-center flex-col">
+      <div className="flex items-center flex-col w-[2.25rem]">
         <span>열림</span>
         <span>100%</span>
       </div>
-      <span className="ml-2 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+      <span className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
     </div>
   );
 };
@@ -133,7 +133,7 @@ export const ColBar = () => {
   });
 
   return (
-    <div className="w-[3.75rem] h-[18.75rem] bg-[#fff] rounded-md px-[.9375rem] py-[.625rem] flex flex-col items-center justify-between shadow-lg">
+    <div className="w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg">
       <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
       <div className="flex items-center flex-col">
         <span>닫힘</span>
@@ -141,10 +141,10 @@ export const ColBar = () => {
       </div>
       <Box
         sx={{
-          marginTop: "10px",
-          marginBottom: "10px",
+          marginTop: "4px",
+          marginBottom: "4px",
           width: "2.375rem",
-          height: "10.3125rem",
+          height: "5.9375rem",
           borderTop: "7px solid #707070",
           borderBottom: "7px solid #707070",
           borderRadius: "5px",

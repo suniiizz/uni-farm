@@ -19,7 +19,7 @@ const ControlContent = () => {
             return (
               <li
                 key={e.time}
-                className="cursor-pointer text-[1.75rem] font-bold text-black/30 p-1 min-w-[2.5rem] max-w-[3.4375rem] h-[2.625rem] bg-sub/50 flex justify-center items-center"
+                className="cursor-pointer text-[1.375rem] font-bold text-black/30 p-1 lg:min-w-[2.5rem] max-w-[3.4375rem] h-[2.625rem] bg-sub/50 flex justify-center items-center"
               >
                 {e.time}
               </li>
@@ -33,14 +33,14 @@ const ControlContent = () => {
       </div>
 
       {/* 상단 버튼 및 정보 영역 */}
-      <div className="w-full mt-4 flex justify-between items-center">
+      <div className="w-full mt-2 flex justify-between items-center">
         <div className="flex items-center gap-2">
           {CONTROL_LIST.map((list) => {
             return (
               <Button
                 key={list.id}
                 customType={`${list.name === "운전 시작" ? "GREEN" : list.name === "긴급 제어" ? "RED" : "SUB"}`}
-                className="min-w-[8.625rem]"
+                className="w-[7.5rem]"
               >
                 {list.name}
               </Button>
@@ -70,7 +70,7 @@ const ControlContent = () => {
       </div>
 
       {/* 제어 영역 */}
-      <div className="w-full mt-4 border relative">
+      <div className="w-full mt-2 border relative">
         <div className="w-full px-[4.25rem]">
           <div className="flex justify-between">
             <div className="flex flex-col gap-2">
@@ -116,7 +116,7 @@ const ControlContent = () => {
 
       {/* cctv 영역 */}
       {cctv && (
-        <div className="z-10 w-[50rem] h-[25rem] bg-sub absolute bottom-[6rem] left-[50%] translate-x-[-50%]">
+        <div className="z-10 w-[50%] h-[37%] bg-sub absolute bottom-[4.375rem] left-[50%] translate-x-[-50%]">
           <video id="test_video" controls autoPlay className="w-full h-full">
             <source src="" />
           </video>
@@ -125,7 +125,7 @@ const ControlContent = () => {
 
       {/* 하단 버튼 영역 */}
       <div className="absolute bottom-6 left-0 px-6 w-full flex flex-col gap-[3.125rem] justify-center items-center">
-        <div className="z-7 w-[20.9375rem] h-[13.9375rem] p-4 bg-white shadow-lg rounded-md absolute bottom-[4.5rem]">
+        <div className="z-7 w-[17.5rem] h-[11.25rem] p-4 bg-white shadow-lg rounded-md absolute bottom-[4.0625rem]">
           <div className="absolute right-[.25rem] top-[.25rem]">
             <Button
               className="bg-green2 border-[#707070] rounded-md w-[1.125rem] h-[1.125rem] !p-0"
@@ -139,7 +139,7 @@ const ControlContent = () => {
               return (
                 <li
                   key={list.id}
-                  className={`flex items-center ${!list.img && "justify-center"} text-[2rem] font-bold gap-[2.5rem] px-[.625rem] w-full`}
+                  className={`flex items-center ${!list.img && "justify-center"} text-[1.5rem] font-bold gap-[2.5rem] px-[.625rem] w-full`}
                 >
                   {list.img && (
                     <img
@@ -161,13 +161,13 @@ const ControlContent = () => {
             })}
           </ul>
         </div>
-        <div className="flex gap-6 justify-center items-center">
+        <div className="flex gap-4 justify-center items-center">
           {BTN_LIST.map((list) => {
             return (
               <Button
                 key={list.id}
                 customType="DEFAULT"
-                className={`max-w-[8.125rem] h-12 !text-[1.5rem] ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null}`}
+                className={`flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem] ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null}`}
               >
                 {list.name}
               </Button>
