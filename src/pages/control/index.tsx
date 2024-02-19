@@ -12,6 +12,7 @@ import Tab from "@mui/material/Tab";
 import VerticalTab from "@/components/common/tab";
 import DeviceModal from "@/components/pages/control/modal";
 import { styled } from "@mui/material/styles";
+import SliderControl from "@/components/pages/control/modal/slider-control";
 
 const WeatherControl = () => {
   const location = useLocation();
@@ -112,7 +113,12 @@ const WeatherControl = () => {
             </div>
 
             <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
-              {section === "1" && <ControlContent />}
+              {section === "1" && (
+                <ControlContent
+                  modalType={modalType}
+                  setModalType={setModalType}
+                />
+              )}
               {section === "2" && <div>22222</div>}
               {section === "3" && <div>33333</div>}
             </div>
@@ -122,6 +128,7 @@ const WeatherControl = () => {
 
       {isOpen && modalType === "control" && <ControlModal />}
       {isOpen && modalType === "device" && <DeviceModal />}
+      {isOpen && modalType === "slider" && <SliderControl />}
     </>
   );
 };

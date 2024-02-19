@@ -1,11 +1,14 @@
 import Button from "@/components/common/button";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="z-20 w-full h-[3.75rem] fixed top-0 left-0 flex items-center justify-between px-5 bg-main border-b border-sub">
-      <Button customType="MAIN" className="w-[3.75rem] h-[2.5rem]">
-        홈
-      </Button>
+    <div className="z-10 w-full h-[3.75rem] fixed top-0 left-0 flex items-center justify-between px-5 bg-main border-b border-sub">
+      <Link to="/">
+        <Button customType="MAIN" className="w-[3.75rem] h-[2.5rem]">
+          홈
+        </Button>
+      </Link>
       <Button
         customType="MAIN"
         className="w-100 min-w-[12.625rem] h-[2.5rem] relative text-center pl-[3.125rem] pr-[1.875rem]"

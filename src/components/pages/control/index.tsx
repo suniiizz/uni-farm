@@ -1,8 +1,14 @@
+import { useState } from "react";
 import Button from "@/components/common/button";
 import { ColBar, RowBar } from "@/components/common/slider";
-import { useState } from "react";
 
-const ControlContent = () => {
+const ControlContent = ({
+  modalType,
+  setModalType,
+}: {
+  modalType: string;
+  setModalType: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [toggle, setToggle] = useState(false);
   const [cctv, setCctv] = useState(false);
 
@@ -73,10 +79,12 @@ const ControlContent = () => {
       <div className="w-full mt-2 border relative">
         <div className="w-full px-[4.25rem]">
           <div className="flex justify-between">
-            <div className="flex flex-col gap-2">
-              <RowBar />
-              <RowBar />
-              <RowBar />
+            <div
+              className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
+            >
+              <RowBar setModalType={setModalType} />
+              <RowBar setModalType={setModalType} />
+              <RowBar setModalType={setModalType} />
             </div>
             <div className="flex flex-col items-center z-10">
               <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
@@ -87,28 +95,34 @@ const ControlContent = () => {
                 className="w-[5.625rem] h-[5.625rem] bg-[url('src/assets/icon/cctv-icon-black@2x.svg')] bg-contain bg-no-repeat"
               ></Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <RowBar />
-              <RowBar />
-              <RowBar />
+            <div
+              className={`flex flex-col gap-2 ${modalType === "slider" && "z-20"}`}
+            >
+              <RowBar setModalType={setModalType} />
+              <RowBar setModalType={setModalType} />
+              <RowBar setModalType={setModalType} />
             </div>
           </div>
         </div>
         <div className="flex justify-between absolute top-0 left-0 w-full">
-          <div className="flex flex-col gap-2">
-            <ColBar />
+          <div
+            className={`flex flex-col gap-2 ${modalType === "slider" && "z-20"}`}
+          >
+            <ColBar setModalType={setModalType} />
             <div className="flex gap-2">
-              <ColBar />
-              <ColBar />
-              <ColBar />
+              <ColBar setModalType={setModalType} />
+              <ColBar setModalType={setModalType} />
+              <ColBar setModalType={setModalType} />
             </div>
           </div>
-          <div className="flex flex-col gap-2 items-end">
-            <ColBar />
+          <div
+            className={`flex flex-col gap-2 items-end ${modalType === "slider" && "z-20"}`}
+          >
+            <ColBar setModalType={setModalType} />
             <div className="flex gap-2">
-              <ColBar />
-              <ColBar />
-              <ColBar />
+              <ColBar setModalType={setModalType} />
+              <ColBar setModalType={setModalType} />
+              <ColBar setModalType={setModalType} />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Weather from "@/assets/icon/nav_icon_1@2x.svg?react";
 import Remote from "@/assets/icon/nav_icon_2@2x.svg?react";
@@ -11,6 +11,8 @@ import Cctv from "@/assets/icon/nav_icon_7@2x.svg?react";
 import List from "@/assets/icon/list-icon@2x.svg?react";
 
 const Nav = () => {
+  const { pathname } = useLocation();
+
   return (
     <>
       <div className="flex h-screen fixed top-[3.75rem] left-0 z-10">
@@ -22,6 +24,7 @@ const Nav = () => {
                   key={e.key}
                   component={<Link to={`${e.path}`} />}
                   icon={e.icon}
+                  active={e.path === pathname}
                 >
                   {e.label}
                 </MenuItem>
@@ -74,43 +77,43 @@ const MENU = [
   {
     key: "제어 정보",
     label: "제어 정보",
-    path: "/",
+    path: "",
     icon: <Control />,
   },
   {
     key: "센서 보기",
     label: "센서 보기",
-    path: "/",
+    path: "",
     icon: <Sensor />,
   },
   {
     key: "센서 기록",
     label: "센서 기록",
-    path: "/",
+    path: "",
     icon: <SensorRecord />,
   },
   {
     key: "경보 내역",
     label: "경보 내역",
-    path: "/",
+    path: "",
     icon: <Alarm />,
   },
   {
     key: "CCTV",
     label: "CCTV",
-    path: "/",
+    path: "",
     icon: <Cctv />,
   },
   {
     key: "사용자 리스트",
     label: "사용자 리스트",
-    path: "/",
+    path: "",
     icon: <List />,
   },
   {
     key: "농가 리스트",
     label: "농가 리스트",
-    path: "/",
+    path: "",
     icon: <List />,
   },
 ];
@@ -121,6 +124,12 @@ const rootStyles = {
     color: "#fff",
     ".ps-sidebar-container": { backgroundColor: "#746A68" },
     ".ps-menu-icon": { minWidth: "1.5rem", width: "1.5rem", height: "1.5rem" },
+    ".ps-menu-button:hover": {
+      backgroundColor: "#D0943A",
+    },
+    ".ps-active": {
+      backgroundColor: "#D0943A",
+    },
   },
 };
 

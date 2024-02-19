@@ -14,9 +14,10 @@ type Props = {
   title: string;
   children: React.ReactNode;
   buttonList?: buttonListArray;
+  type?: boolean;
 };
 
-const Modal = ({ className, title, children, buttonList }: Props) => {
+const Modal = ({ className, title, children, buttonList, type }: Props) => {
   const { onCloseModal } = useContext(ModalContext);
 
   return (
@@ -24,12 +25,16 @@ const Modal = ({ className, title, children, buttonList }: Props) => {
       {createPortal(
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black z-10 bg-opacity-60">
           <div
-            className={`fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 min-h-[500px] rounded-lg px-[1.875rem] py-[1.25rem] ${
+            className={`fixed ${type ? "bottom-[15%] left-[58%]" : "top-[50%] left-[50%]"}  -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 h-auto rounded-lg px-[1.875rem] py-[1.25rem] ${
               className ? className : ""
             }`}
           >
             <div className="flex justify-between items-center border-b border-white/30 pb-6">
-              <span className="text-[22px] font-bold text-white">{title}</span>
+              <span
+                className={`text-[22px] font-bold ${type ? "text-black text-center w-full" : "text-white"}`}
+              >
+                {title}
+              </span>
               <div className="flex gap-2">
                 {buttonList && (
                   <>
@@ -51,13 +56,15 @@ const Modal = ({ className, title, children, buttonList }: Props) => {
                     })}
                   </>
                 )}
-                <Button
-                  customType="MAIN"
-                  onClick={onCloseModal}
-                  className="h-9 min-w-[4.375rem] flex justify-center items-center"
-                >
-                  닫기
-                </Button>
+                {!type && (
+                  <Button
+                    customType="MAIN"
+                    onClick={onCloseModal}
+                    className="h-9 min-w-[4.375rem] flex justify-center items-center"
+                  >
+                    닫기
+                  </Button>
+                )}
               </div>
             </div>
             {children}
