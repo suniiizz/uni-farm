@@ -31,7 +31,7 @@ const Nav = () => {
               );
             })}
           </Menu>
-          <div className="w-[12.5rem] min-h-[20.625rem] h-auto bg-[#212120] fixed bottom-0 left-0 px-[.625rem] py-4">
+          <div className="w-[12.5rem] max-h-[20.625rem] h-auto bg-[#212120] p-[.625rem]">
             <p className="pb-[.625rem] border-b-2">(주)소하테크</p>
             <div className="pt-4 pb-[1.875rem] flex flex-col gap-1">
               <span className="">대표 윤득중</span>
@@ -83,7 +83,7 @@ const MENU = [
   {
     key: "센서 보기",
     label: "센서 보기",
-    path: "",
+    path: "/sensor-view",
     icon: <Sensor />,
   },
   {
@@ -122,7 +122,13 @@ const rootStyles = {
   "&.ps-sidebar-root": {
     borderRightWidth: "0",
     color: "#fff",
-    ".ps-sidebar-container": { backgroundColor: "#746A68" },
+    ".ps-sidebar-container": {
+      backgroundColor: "#746A68",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      height: "calc(100vh - 60px)",
+    },
     ".ps-menu-icon": { minWidth: "1.5rem", width: "1.5rem", height: "1.5rem" },
     ".ps-menu-button:hover": {
       backgroundColor: "#D0943A",

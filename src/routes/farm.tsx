@@ -1,6 +1,6 @@
-import Layout from "../layout";
 import { RouteObject } from "react-router-dom";
-import FarmList from "@/components/pages/control/farm";
+import Layout from "@/layout";
+import FarmList from "@/pages/farm";
 
 const farmRoute: RouteObject = {
   path: "farm",

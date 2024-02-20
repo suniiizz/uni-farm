@@ -1,6 +1,6 @@
-import Layout from "../layout";
 import { RouteObject } from "react-router-dom";
-import WeatherInfo from "@/components/pages/weather";
+import Layout from "@/layout";
+import WeatherInfo from "@/pages/weather";
 
 const weatherRoute: RouteObject = {
   path: "weather",

@@ -7,7 +7,7 @@ const WeatherInfo = () => {
         <h2 className="text-[1.5rem] text-[#fff] font-bold">기상청 날씨정보</h2>
       </div>
       <div className="p-6">
-        <Select options={REGION_LIST} selectWrap="w-[18.75rem]" />
+        <Select options={REGION_LIST} selectWrap="!w-[18.75rem]" />
 
         <div className="grid-cols-2 grid gap-[.625rem] justify-center mt-[3.125rem]">
           {INFO_LIST.map((list) => {

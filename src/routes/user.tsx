@@ -1,6 +1,6 @@
-import Layout from "../layout";
 import { RouteObject } from "react-router-dom";
-import UserList from "@/components/pages/user";
+import Layout from "@/layout";
+import UserList from "@/pages/user";
 
 const userRoute: RouteObject = {
   path: "user",
