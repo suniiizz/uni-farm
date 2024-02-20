@@ -1,4 +1,4 @@
-const buttonStyle = "rounded-lg border font-bold px-2 text-sm";
+const buttonStyle = "rounded-lg border font-bold px-2 text-sm text-center";
 
 type ButtonStyleType = {
   [key: string]: string;

@@ -14,7 +14,7 @@ const Input = ({ unit, label, maxLength, ...props }: Props) => {
   // const { register } = useFormContext();
 
   const inputWrap = `flex items-center justify-end gap-[.625rem] rounded-lg h-[2.8125rem] px-4 py-3 ${props.inputWrap ?? ""}`;
-  const className = `flex items-center outline-0 border-none bg-inherit w-6 ${props.className ?? ""}`;
+  const className = `flex items-center outline-0 border-none bg-inherit w-6 text-[.9375rem] placeholder:text-[.9375rem] ${props.className ?? ""}`;
 
   // if (!registerName)
   //   return (

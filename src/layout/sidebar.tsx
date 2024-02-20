@@ -107,13 +107,13 @@ const MENU = [
   {
     key: "사용자 리스트",
     label: "사용자 리스트",
-    path: "",
+    path: "/user",
     icon: <List />,
   },
   {
     key: "농가 리스트",
     label: "농가 리스트",
-    path: "",
+    path: "/farm",
     icon: <List />,
   },
 ];

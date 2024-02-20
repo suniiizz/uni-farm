@@ -8,10 +8,12 @@ export default {
         sub: "#C7C0BC",
         sub2: "#54524F",
         bg: "#E3E3E3",
+        bg2: "#E1DFDF",
         line: "#C7C0BC",
         green: "#447135",
         green2: "#B0C642",
         red: "#F41313",
+        red2: "#D9CBCB",
         blue: "#38549D",
         yellow: "#D0943A",
 
