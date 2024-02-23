@@ -84,7 +84,7 @@ const ControlModal = () => {
           })}
         </ul>
 
-        <div className={`${select === "센서" ? "my-4" : "my-[3.75rem]"}`}>
+        <div className={`${select === "센서" ? "my-4" : "my-[1.875rem]"}`}>
           {select === "" || select === "예약" ? (
             <Input
               inputWrap="w-[20.625rem] bg-sub2"

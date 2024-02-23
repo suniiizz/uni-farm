@@ -8,9 +8,16 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   label?: string;
   registerName?: string;
   maxLength?: number;
+  labelMarginNone?: boolean;
 };
 
-const Input = ({ unit, label, maxLength, ...props }: Props) => {
+const Input = ({
+  unit,
+  label,
+  maxLength,
+  labelMarginNone,
+  ...props
+}: Props) => {
   // const { register } = useFormContext();
 
   const inputWrap = `flex items-center justify-end gap-[.625rem] rounded-lg h-[2.8125rem] px-4 py-3 ${props.inputWrap ?? ""}`;
@@ -26,7 +33,9 @@ const Input = ({ unit, label, maxLength, ...props }: Props) => {
   return (
     <>
       {label && (
-        <span className="text-white font-bold text-[1.375rem] inline-block mb-3">
+        <span
+          className={`text-white font-bold text-[1.375rem] inline-block ${!labelMarginNone ? "mb-3" : "mb-0"}`}
+        >
           {label}
         </span>
       )}

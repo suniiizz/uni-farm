@@ -3,7 +3,8 @@ import { useContext, useState } from "react";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import { ColBar, RowBar } from "@/components/common/slider";
-import BtnControl from "@/components/pages/control/modal/button";
+import BtnControl from "@/components/pages/control/modal/button-control";
+import BtnControlModal from "./modal/button-control/buttonControl";
 
 const ControlContent = ({
   modalType,
@@ -22,8 +23,6 @@ const ControlContent = ({
     setModalType("btn");
     onOpenModal();
   };
-
-  console.log("controlBtn", typeof controlBtn);
 
   return (
     <>
@@ -207,10 +206,10 @@ const ControlContent = ({
       </div>
 
       {isOpen && modalType === "btn" && (
-        <BtnControl
-          controlBtn={controlBtn}
-          // setModalType={setModalType}
-        />
+        <BtnControl controlBtn={controlBtn} setModalType={setModalType} />
+      )}
+      {isOpen && modalType === "btn-control" && (
+        <BtnControlModal controlBtn={controlBtn} />
       )}
     </>
   );

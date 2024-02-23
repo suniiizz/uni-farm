@@ -6,10 +6,10 @@ import Modal from "@/components/common/modal";
 
 const BtnControl = ({
   controlBtn,
-  // setModalType,
+  setModalType,
 }: {
   controlBtn: string;
-  // setModalType: React.Dispatch<React.SetStateAction<string>>;
+  setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { onCloseModal } = useContext(ModalContext);
 
@@ -17,8 +17,9 @@ const BtnControl = ({
     <>
       <Modal
         title={`(${controlBtn})수동 동작 하시겠습니까?`}
-        className="w-[23.75rem] z-100 bg-white text-black"
+        className="w-[23.75rem] h-auto z-100 bg-white"
         type
+        custom
       >
         <Button
           onClick={onCloseModal}
@@ -32,7 +33,11 @@ const BtnControl = ({
           <Button customType="SUB" className="w-[7.5rem]">
             OFF
           </Button>
-          <Button customType="SUB" className="w-[7.5rem]">
+          <Button
+            customType="SUB"
+            className="w-[7.5rem]"
+            onClick={() => setModalType("btn-control")}
+          >
             제어설정
           </Button>
         </div>
