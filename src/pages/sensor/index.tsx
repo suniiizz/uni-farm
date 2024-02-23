@@ -17,7 +17,7 @@ const SensorView = () => {
   const [section, setSection] = useState("");
   const [value, setValue] = useState(0);
   const [modalType, setModalType] = useState("");
-  const { isOpen, onOpenModal } = useContext(ModalContext);
+  const { onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
