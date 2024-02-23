@@ -33,63 +33,65 @@ const FarmList = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col justify-center h-full mt-[1.875rem]">
-          <table className="table-fixed border-spacing-0 border-collapse w-full border border-white text-[.8125rem]">
-            <thead className="bg-bg2">
-              <tr>
-                {TABLE_HEAD.map((value, id) => {
+        <div className="flex flex-col justify-between h-full mt-[1.875rem]">
+          <div className="overflow-auto h-[36.25rem]">
+            <table className="table-fixed border-spacing-0 border-collapse w-full border border-white text-[.8125rem]">
+              <thead className="bg-bg2">
+                <tr>
+                  {TABLE_HEAD.map((value, id) => {
+                    return (
+                      <th
+                        key={id}
+                        className={`w-[${value.width}%] font-normal border p-3 whitespace-nowrap sticky top-0 bg-bg2`}
+                      >
+                        {value.name}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+
+              <tbody className="bg-red2">
+                {TABLE_BODY.map((value, id) => {
                   return (
-                    <th
-                      key={id}
-                      className={`w-[${value.width}%] font-normal border p-3 whitespace-nowrap`}
-                    >
-                      {value.name}
-                    </th>
+                    <tr key={id} className="text-center">
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.chekbox}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.no}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.code}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.name}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.user}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.phone}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.unit}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.address}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.shipping}
+                      </td>
+                      <td className="border p-[.625rem] h-[3.75rem]">
+                        {value.install}
+                      </td>
+                    </tr>
                   );
                 })}
-              </tr>
-            </thead>
-
-            <tbody className="bg-red2">
-              {TABLE_BODY.map((value, id) => {
-                return (
-                  <tr key={id} className="text-center">
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.chekbox}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.no}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.code}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.name}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.user}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.phone}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.unit}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.address}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.shipping}
-                    </td>
-                    <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.install}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="mt-5 w-full flex justify-center">
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-6 w-full flex justify-center">
             <TablePagination />
           </div>
         </div>

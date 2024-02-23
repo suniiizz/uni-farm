@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import { ColBar, RowBar } from "@/components/common/slider";
+import BtnControl from "@/components/pages/control/modal/button";
 
 const ControlContent = ({
   modalType,
@@ -11,6 +14,16 @@ const ControlContent = ({
 }) => {
   const [toggle, setToggle] = useState(false);
   const [cctv, setCctv] = useState(false);
+  const [controlBtn, setControlBtn] = useState("");
+  const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  const handelModifyBtn = (name: string) => {
+    setControlBtn(name);
+    setModalType("btn");
+    onOpenModal();
+  };
+
+  console.log("controlBtn", typeof controlBtn);
 
   return (
     <>
@@ -153,13 +166,13 @@ const ControlContent = ({
               return (
                 <li
                   key={list.id}
-                  className={`flex items-center ${!list.img && "justify-center"} text-[1.5rem] font-bold gap-[2.5rem] px-[.625rem] w-full`}
+                  className={`flex items-center ${!list.img && "justify-center"} text-[1.5rem] font-bold gap-[1.5rem] px-[.625rem] w-full`}
                 >
                   {list.img && (
                     <img
                       src={`src/assets/icon/${list.img}`}
                       alt="icon"
-                      className="w-[2.5rem] h-[2.5rem]"
+                      className="w-[2.5rem] h-[2.5rem] p-1"
                     />
                   )}
                   <div>
@@ -182,6 +195,9 @@ const ControlContent = ({
                 key={list.id}
                 customType="DEFAULT"
                 className={`flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem] ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null}`}
+                onClick={() => {
+                  handelModifyBtn(list.name);
+                }}
               >
                 {list.name}
               </Button>
@@ -189,6 +205,13 @@ const ControlContent = ({
           })}
         </div>
       </div>
+
+      {isOpen && modalType === "btn" && (
+        <BtnControl
+          controlBtn={controlBtn}
+          // setModalType={setModalType}
+        />
+      )}
     </>
   );
 };
@@ -275,7 +298,7 @@ const INFO_LIST2 = [
 ];
 
 const INFO_LIST3 = [
-  { id: 1, name: "Pt100", value: "℃", img: "" },
-  { id: 2, name: "pH", value: "pH", img: "" },
-  { id: 3, name: "EC", value: "mD/cm", img: "" },
+  { id: 1, name: "Pt100", value: "℃", img: "temper-icon@2x.svg" },
+  { id: 2, name: "pH", value: "pH", img: "ph.svg" },
+  { id: 3, name: "EC", value: "mD/cm", img: "ec.svg" },
 ];

@@ -13,7 +13,7 @@ const SliderControl = () => {
         className="w-[23.75rem] z-100 bg-white text-black"
         type
       >
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-2">
           <Button customType="SUB" className="w-[7.5rem]">
             동작
           </Button>
