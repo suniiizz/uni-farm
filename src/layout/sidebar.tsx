@@ -75,9 +75,9 @@ const MENU = [
     icon: <Remote />,
   },
   {
-    key: "제어 정보",
-    label: "제어 정보",
-    path: "",
+    key: "제어 기록",
+    label: "제어 기록",
+    path: "/control-record",
     icon: <Control />,
   },
   {
@@ -89,13 +89,13 @@ const MENU = [
   {
     key: "센서 기록",
     label: "센서 기록",
-    path: "",
+    path: "/sensor-record",
     icon: <SensorRecord />,
   },
   {
     key: "경보 내역",
     label: "경보 내역",
-    path: "",
+    path: "/alert",
     icon: <Alarm />,
   },
   {

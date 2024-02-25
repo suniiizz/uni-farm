@@ -45,7 +45,9 @@ const UserList = () => {
                       key={id}
                       className={`w-[${value.width}%] font-normal border p-3 whitespace-nowrap`}
                     >
-                      {value.name}
+                      <div className="flex justify-center items-center ">
+                        {value.name}
+                      </div>
                     </th>
                   );
                 })}
@@ -57,7 +59,9 @@ const UserList = () => {
                 return (
                   <tr key={id} className="text-center">
                     <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.chekbox}
+                      <div className="flex justify-center items-center h-full">
+                        {value.chekbox}
+                      </div>
                     </td>
                     <td className="border p-[.625rem] h-[3.75rem]">
                       {value.no}
@@ -78,7 +82,9 @@ const UserList = () => {
                       {value.num}
                     </td>
                     <td className="border p-[.625rem] h-[3.75rem]">
-                      {value.phone}
+                      <div className="flex justify-center items-center h-full whitespace-normal">
+                        {value.phone}
+                      </div>
                     </td>
                     <td className="border p-[.625rem] h-[3.75rem]">
                       {value.register}

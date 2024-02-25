@@ -8,8 +8,8 @@ import VerticalTab from "@/components/common/tab";
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import SensorContent from "@/components/pages/sensor/index";
-// import ControlModal from "@/components/pages/control/modal/control";
+import SensorContent from "@/components/pages/sensor-view/index";
+import RegisterModal from "@/components/pages/sensor-view/modal/register";
 
 const SensorView = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const SensorView = () => {
   const [section, setSection] = useState("");
   const [value, setValue] = useState(0);
   const [modalType, setModalType] = useState("");
-  const { onOpenModal } = useContext(ModalContext);
+  const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
@@ -49,7 +49,7 @@ const SensorView = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                  onClick={() => handleOpenModal("control")}
+                  onClick={() => handleOpenModal("register")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   센서등록
@@ -57,7 +57,7 @@ const SensorView = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                  onClick={() => handleOpenModal("device")}
+                  onClick={() => handleOpenModal("control")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   센서설정
@@ -114,7 +114,7 @@ const SensorView = () => {
         </div>
       </div>
 
-      {/* {isOpen && modalType === "control" && <ControlModal />} */}
+      {isOpen && modalType === "control" && <RegisterModal />}
     </>
   );
 };

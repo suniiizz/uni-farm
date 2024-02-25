@@ -1,8 +1,8 @@
 import Layout from "@/layout";
 import { RouteObject } from "react-router-dom";
-import SensorView from "@/pages/sensor";
+import SensorView from "@/pages/sensor-view";
 
-const senosorRoute: RouteObject = {
+const sensorViewRoute: RouteObject = {
   path: "sensor-view",
   element: <Layout />,
   children: [
@@ -13,4 +13,4 @@ const senosorRoute: RouteObject = {
   ],
 };
 
-export default senosorRoute;
+export default sensorViewRoute;

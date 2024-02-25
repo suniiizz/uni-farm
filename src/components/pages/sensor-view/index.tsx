@@ -28,7 +28,7 @@ const SensorContent = () => {
         </div>
       </div>
 
-      <div className="mt-[1.875rem]">
+      <div className="mt-2">
         <table className="border-separate border-spacing-3 table-fixed w-full text-[.8125rem]">
           <thead className="bg-sub2">
             <tr>
@@ -38,7 +38,7 @@ const SensorContent = () => {
                     key={id}
                     className={`first:bg-main first:shadow-none first:w-[10%] w-[12%] text-[1.125rem] text-white font-normal p-2 rounded-md shadow-lg`}
                   >
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-2 font-bold">
                       {value.img && (
                         <img
                           src={`src/assets/icon/${value.img}`}
@@ -47,6 +47,8 @@ const SensorContent = () => {
                         />
                       )}
                       {value.name}
+                      <br />
+                      {value.unit}
                     </div>
                   </th>
                 );
@@ -61,22 +63,22 @@ const SensorContent = () => {
                   key={id}
                   className="text-center text-white font-bold text-[1.125rem]"
                 >
-                  <th className="rounded-md shadow-lg px-3 py-1">{value.th}</th>
-                  <td className="rounded-md shadow-lg px-3 py-1">
+                  <th className="rounded-md shadow-lg px-3 py-3">{value.th}</th>
+                  <td className="rounded-md shadow-lg px-3 py-3">
                     {value.tem}
                   </td>
-                  <td className="rounded-md shadow-lg px-3 py-1">
+                  <td className="rounded-md shadow-lg px-3 py-3">
                     {value.hum}
                   </td>
-                  <td className="rounded-md shadow-lg px-3 py-1">
+                  <td className="rounded-md shadow-lg px-3 py-3">
                     {value.co2}
                   </td>
-                  <td className="rounded-md shadow-lg px-3 py-1">
+                  <td className="rounded-md shadow-lg px-3 py-3">
                     {value.solar}
                   </td>
-                  <td className="rounded-md shadow-lg px-3 py-1">{value.pt}</td>
-                  <td className="rounded-md shadow-lg px-3 py-1">{value.ph}</td>
-                  <td className="rounded-md shadow-lg px-3 py-1">{value.ec}</td>
+                  <td className="rounded-md shadow-lg px-3 py-3">{value.pt}</td>
+                  <td className="rounded-md shadow-lg px-3 py-3">{value.ph}</td>
+                  <td className="rounded-md shadow-lg px-3 py-3">{value.ec}</td>
                 </tr>
               );
             })}
@@ -133,13 +135,13 @@ const INFO_LIST = [
 
 const TABLE_HEAD = [
   { name: "" },
-  { name: "온도 (℃)", img: "sensor_temper@2x.svg" },
-  { name: "습도 (%)", img: "sensor_humidity_2@2x.svg" },
-  { name: "CO₂ (ppm)", img: "sensor-co2@2x.svg" },
-  { name: "solar (W/㎡)", img: "sun-icon@2x.svg" },
-  { name: "Pt100 (℃)", img: "temper-icon@2X.svg" },
-  { name: "pH (pH)", img: "ph.svg" },
-  { name: "EC (mD/cm)", img: "ec.svg" },
+  { name: "온도", unit: "(℃)", img: "sensor_temper@2x.svg" },
+  { name: "습도)", unit: "(%)", img: "sensor_humidity_2@2x.svg" },
+  { name: "CO₂", unit: "(ppm)", img: "sensor-co2@2x.svg" },
+  { name: "일사", unit: "(W/㎡)", img: "sun-icon@2x.svg" },
+  { name: "Pt100", unit: "(℃)", img: "temper-icon@2X.svg" },
+  { name: "pH", unit: "(pH)", img: "ph.svg" },
+  { name: "EC", unit: "(mD/cm)", img: "ec.svg" },
 ];
 
 const TABLE_BODY = [

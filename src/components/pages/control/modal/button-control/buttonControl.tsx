@@ -45,7 +45,7 @@ const BtnControlModal = ({ controlBtn }: { controlBtn: string }) => {
     <Modal
       title={`${controlBtn} 제어 설정`}
       buttonList={BTN_LIST}
-      className="w-[54.625rem] h-auto z-100"
+      className="w-[46.25rem] h-auto z-100"
     >
       <div className="w-full flex flex-col justify-center items-center py-3 gap-5">
         <ul className="w-auto flex flex-col justify-center items-center gap-[.375rem]">
