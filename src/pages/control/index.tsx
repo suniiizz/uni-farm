@@ -9,7 +9,6 @@ import ControlModal from "@/components/pages/control/modal/control";
 import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";
 import DeviceModal from "@/components/pages/control/modal/device";
-import SliderControl from "@/components/pages/control/modal/slider-control";
 
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
@@ -39,7 +38,7 @@ const WeatherControl = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full relative">
         <div className="m-6 bg-bg rounded-[.625rem] h-[calc(100vh-6.75rem)]">
           {/* 상단 타이틀 */}
           <div className="h-full relative">
@@ -130,7 +129,6 @@ const WeatherControl = () => {
 
       {isOpen && modalType === "control" && <ControlModal />}
       {isOpen && modalType === "device" && <DeviceModal />}
-      {isOpen && modalType === "slider" && <SliderControl />}
     </>
   );
 };

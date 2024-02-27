@@ -5,6 +5,7 @@ import Button from "@/components/common/button";
 import { ColBar, RowBar } from "@/components/common/slider";
 import BtnControl from "@/components/pages/control/modal/button-control";
 import BtnControlModal from "./modal/button-control/buttonControl";
+import SliderControl from "./modal/slider-control";
 
 const ControlContent = ({
   modalType,
@@ -204,12 +205,16 @@ const ControlContent = ({
           })}
         </div>
       </div>
-
-      {isOpen && modalType === "btn" && (
-        <BtnControl controlBtn={controlBtn} setModalType={setModalType} />
-      )}
-      {isOpen && modalType === "btn-control" && (
-        <BtnControlModal controlBtn={controlBtn} />
+      {isOpen && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-10 bg-opacity-60">
+          {modalType === "btn" && (
+            <BtnControl controlBtn={controlBtn} setModalType={setModalType} />
+          )}
+          {modalType === "btn-control" && (
+            <BtnControlModal controlBtn={controlBtn} />
+          )}
+          {modalType === "slider" && <SliderControl />}
+        </div>
       )}
     </>
   );

@@ -19,7 +19,6 @@ const BtnControl = ({
         title={`(${controlBtn})수동 동작 하시겠습니까?`}
         className="w-[23.75rem] h-auto z-100 bg-white"
         type
-        custom
       >
         <Button
           onClick={onCloseModal}

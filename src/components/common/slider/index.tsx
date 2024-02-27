@@ -16,8 +16,6 @@ export const RowBar = ({
     event: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
-    // if (!confirm("동작 하시겠습니까?")) return;
-
     setValue(newValue as number);
   };
 
@@ -81,8 +79,6 @@ export const ColBar = ({
     event: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
-    // if (!confirm("동작 하시겠습니까?")) return;
-
     setValue(newValue as number);
   };
 
