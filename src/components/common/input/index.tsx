@@ -34,7 +34,7 @@ const Input = ({
     <>
       {label && (
         <span
-          className={`text-white font-bold text-[1.375rem] inline-block ${!labelMarginNone ? "mb-3" : "mb-0"}`}
+          className={`text-white font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-3" : "mb-0"}`}
         >
           {label}
         </span>

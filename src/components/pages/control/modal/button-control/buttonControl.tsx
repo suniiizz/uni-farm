@@ -154,8 +154,8 @@ const SELECT_OPTION = [
 ];
 
 const SENSOR_CONT_OPTION = [
-  { id: 1, name: "목표위치", unit: "(℃)", label: "On" },
-  { id: 2, name: "목표위치", unit: "(초)", label: "Cycle" },
-  { id: 3, name: "목표위치", unit: "(℃)", label: "Off" },
-  { id: 4, name: "풍향", unit: "(%)", label: "Twin Timer" },
+  { id: 1, unit: "(℃)", label: "On" },
+  { id: 2, unit: "(초)", label: "Cycle" },
+  { id: 3, unit: "(℃)", label: "Off" },
+  { id: 4, unit: "(%)", label: "Twin Timer" },
 ];

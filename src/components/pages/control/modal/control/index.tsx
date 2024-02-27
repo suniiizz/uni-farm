@@ -9,6 +9,7 @@ const ControlModal = () => {
   const [select, setSelect] = useState<string>("");
   const [checkedList, setCheckedList] = useState<Array<string>>([]);
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [timerControl, setTimerControl] = useState<boolean>(false);
 
   const checkedItem = (value: string, isChecked: boolean) => {
     if (isChecked) {
@@ -34,9 +35,15 @@ const ControlModal = () => {
     checkedItem(value, e.target.checked);
   };
 
-  const handleControlSelection = (e: string) => {
-    setSelect(e);
+  const handleControlSelection = (value: string) => {
+    setSelect(value);
   };
+
+  const handleTimerCheck = () => {
+    setTimerControl(!timerControl);
+  };
+
+  console.log("==>", timerControl);
 
   return (
     <Modal
@@ -84,23 +91,53 @@ const ControlModal = () => {
           })}
         </ul>
 
-        <div className={`${select === "센서" ? "my-4" : "my-[1.875rem]"}`}>
+        <div
+          className={`${select === "센서" ? "my-4" : "my-[1.875rem]"} w-full flex justify-center`}
+        >
           {select === "" || select === "예약" ? (
-            <Input
-              inputWrap="w-[20.625rem] bg-sub2"
-              className="text-[1.375rem] font-bold w-full text-right text-white"
-              unit="%"
-              label="목표 위치"
-            />
+            <div className="flex justify-between w-[75%]">
+              <CheckBox
+                labelTitle="타이머 제어"
+                onChange={() => handleTimerCheck()}
+              />
+              {timerControl ? (
+                <ul className="gap-2 grid grid-cols-2 gap-x-[1.875rem]">
+                  {TIMER_OPTION.map((list) => {
+                    return (
+                      <li className="flex justify-between items-center gap-4">
+                        {list.unit && (
+                          <Input
+                            inputWrap="w-[7.5rem] bg-sub2"
+                            className="text-[1.125rem] font-bold text-right text-white"
+                            unit={list.unit}
+                            label={list.label}
+                            labelMarginNone
+                          />
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Input
+                    inputWrap="w-[12.5rem] bg-sub2"
+                    className="text-[1.375rem] font-bold w-full text-right text-white"
+                    unit="%"
+                    label="목표 위치"
+                    labelMarginNone
+                  />
+                </div>
+              )}
+            </div>
           ) : (
             <div className="mt-4 flex gap-4 items-center justify-center">
               <ul className="flex flex-col gap-2">
                 {SENSOR_CONT_LIST.map((list) => {
                   return (
-                    <li className="flex gap-4">
+                    <li className="flex gap-4" key={list.id}>
                       <CheckBox
                         labelTitle={`${list.id} 번째 사용`}
-                        key={list.id}
                         className="!gap-2"
                       />
                       <Select
@@ -220,4 +257,11 @@ const SENSOR_CONT_OPTION3 = [
   { id: 3, name: "목표위치", unit: "%" },
   { id: 4, name: "풍향", unit: "˚" },
   { id: 5, name: "작동시간", unit: "%" },
+];
+
+const TIMER_OPTION = [
+  { id: 1, unit: "초", label: "사이클" },
+  { id: 2, unit: "%", label: "ON위치" },
+  { id: 3, unit: "%", label: "작동시간" },
+  { id: 4, unit: "%", label: "OFF위치" },
 ];
