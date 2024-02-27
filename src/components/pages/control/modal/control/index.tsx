@@ -108,7 +108,7 @@ const ControlModal = () => {
                         {list.unit && (
                           <Input
                             inputWrap="w-[7.5rem] bg-sub2"
-                            className="text-[1.125rem] font-bold text-right text-white"
+                            className="text-4 font-bold text-right text-white"
                             unit={list.unit}
                             label={list.label}
                             labelMarginNone
@@ -122,7 +122,7 @@ const ControlModal = () => {
                 <div className="flex items-center gap-4">
                   <Input
                     inputWrap="w-[12.5rem] bg-sub2"
-                    className="text-[1.375rem] font-bold w-full text-right text-white"
+                    className="text-4 font-bold w-full text-right text-white"
                     unit="%"
                     label="목표 위치"
                     labelMarginNone
@@ -166,7 +166,7 @@ const ControlModal = () => {
                         {list.unit && (
                           <Input
                             inputWrap="w-[7.5rem] bg-sub2"
-                            className="text-[1.375rem] font-bold text-right text-white w-full"
+                            className="text-4 font-bold text-right text-white w-full"
                             unit={list.unit}
                           />
                         )}
@@ -187,7 +187,7 @@ const ControlModal = () => {
                       {list.unit && (
                         <Input
                           inputWrap="w-[7.5rem] bg-sub2"
-                          className="text-[1.375rem] font-bold text-right text-white w-full"
+                          className="text-4 font-bold text-right text-white w-full"
                           unit={list.unit}
                         />
                       )}

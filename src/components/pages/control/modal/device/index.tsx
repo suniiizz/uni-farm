@@ -30,12 +30,12 @@ const DeviceModal = () => {
                   </span>
                   <Input
                     inputWrap="w-[7.5rem] bg-sub2 mr-[3.75rem] ml-2"
-                    className="text-[1.375rem] font-bold text-right text-white w-full"
+                    className="text-4 font-bold text-right text-white w-full"
                     unit={list.unit1 && list.unit1}
                   />
                   <Input
                     inputWrap="w-[7.5rem] bg-sub2"
-                    className="text-[1.375rem] font-bold text-right text-white w-full"
+                    className="text-4 font-bold text-right text-white w-full"
                     unit={list.unit2 && list.unit2}
                   />
                 </li>
@@ -58,7 +58,7 @@ const DeviceModal = () => {
                   </span>
                   <Input
                     inputWrap="w-[7.5rem] bg-sub2 ml-2"
-                    className="text-[1.375rem] font-bold text-right text-white w-full"
+                    className="text-4 font-bold text-right text-white w-full"
                     unit={list.unit1 && list.unit1}
                   />
                 </li>

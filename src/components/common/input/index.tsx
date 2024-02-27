@@ -9,6 +9,7 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   registerName?: string;
   maxLength?: number;
   labelMarginNone?: boolean;
+  disabled?: boolean;
 };
 
 const Input = ({
@@ -16,11 +17,12 @@ const Input = ({
   label,
   maxLength,
   labelMarginNone,
+  disabled,
   ...props
 }: Props) => {
   // const { register } = useFormContext();
 
-  const inputWrap = `flex items-center justify-end gap-[.625rem] rounded-lg h-[2.8125rem] px-4 py-3 ${props.inputWrap ?? ""}`;
+  const inputWrap = `flex items-center justify-end gap-1 rounded-lg h-[2.8125rem] px-3 py-2 ${props.inputWrap ?? ""}`;
   const className = `flex items-center outline-0 border-none bg-inherit w-6 text-[.9375rem] placeholder:text-[.9375rem] ${props.className ?? ""}`;
 
   // if (!registerName)
@@ -34,7 +36,7 @@ const Input = ({
     <>
       {label && (
         <span
-          className={`text-white font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-3" : "mb-0"}`}
+          className={`text-white font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-2" : "mb-0"}`}
         >
           {label}
         </span>
@@ -44,14 +46,13 @@ const Input = ({
           type="text"
           {...props}
           className={className}
+          disabled={disabled}
           maxLength={maxLength}
           // {...register(registerName, {
           //   maxLength: maxLength && maxLength,
           // })}
         />
-        {unit && (
-          <span className="text-white font-bold text-[1.125rem]">{unit}</span>
-        )}
+        {unit && <span className="text-white text-4">{unit}</span>}
       </div>
     </>
   );
