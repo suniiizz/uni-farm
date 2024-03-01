@@ -142,11 +142,21 @@ const ControlContent = ({
       </div>
 
       {/* cctv 영역 */}
+      
       {cctv && (
+<<<<<<< Updated upstream
         <div className="z-10 w-[50%] h-[37%] bg-sub absolute bottom-[4.375rem] left-[50%] translate-x-[-50%]">
           <video id="test_video" controls autoPlay className="w-full h-full">
             <source src="" />
           </video>
+=======
+        <div className="z-10 w-[50rem] h-[25rem] bg-sub absolute bottom-[6rem] left-[50%] translate-x-[-50%]">
+          
+          <embed type="application/x-vlc-plugin" pluginspage="http://videolan.org" version="VideoLAN.VLCPlugin.2" width="100%" height="100%" id="vlc" loop="yes" autoplay="yes" 
+          target="rtsp://sohatech:123qwe!!@121.164.215.196:554/Streaming/channels/101"></embed>
+           
+         
+>>>>>>> Stashed changes
         </div>
       )}
 
