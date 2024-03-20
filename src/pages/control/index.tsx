@@ -18,7 +18,7 @@ const WeatherControl = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [section, setSection] = useState("");
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
@@ -81,8 +81,8 @@ const WeatherControl = () => {
                   role="navigation"
                   value={value}
                   scrollButtons
-                  allowScrollButtonsMobile
                   onChange={handleSideTabChange}
+                  selectionFollowsFocus
                   className="justify-between h-full"
                 >
                   <div className="flex flex-col gap-[.625rem] h-full">

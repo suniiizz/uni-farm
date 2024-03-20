@@ -24,11 +24,11 @@ export const RowReverseBar = ({
     onOpenModal();
   };
 
-  function valueLabelFormat(value: number) {
+  const valueLabelFormat = (value: number) => {
     const reversedValue =
       ((marks.length - 1 - value) / (marks.length - 1)) * 10 + 90;
     return reversedValue;
-  }
+  };
 
   return (
     <>

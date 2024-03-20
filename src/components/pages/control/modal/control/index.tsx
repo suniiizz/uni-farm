@@ -43,8 +43,6 @@ const ControlModal = () => {
     setTimerControl(!timerControl);
   };
 
-  console.log("==>", timerControl);
-
   return (
     <Modal
       title="개폐기 시간 및 작동방법 설정"
