@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
@@ -17,7 +17,23 @@ const ControlContent = ({
   const [toggle, setToggle] = useState(false);
   const [cctv, setCctv] = useState(false);
   const [controlBtn, setControlBtn] = useState("");
+  const [sensorData, setSensorData] = useState(null);
   const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1');
+        const data = await response.json();
+        console.log('data :', data);
+        setSensorData(data); // API 데이터를 상태에 저장
+      } catch (error) {
+        console.error('Error fetching sensor data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handelModifyBtn = (name: string) => {
     setControlBtn(name);
