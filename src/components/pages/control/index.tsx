@@ -17,33 +17,23 @@ const ControlContent = ({
   const [toggle, setToggle] = useState(false);
   const [cctv, setCctv] = useState(false);
   const [controlBtn, setControlBtn] = useState("");
-  const [sensorData, setSensorData] = useState(null);
+  const [sensorData, setSensorData] = useState([]);
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
-    // JSONP 요청을 보내는 함수
-    const fetchData = () => {
-      // JSONP 요청을 보낼 URL
-      const url = 'http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1&callback=handleData';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
+        );
+        const data = await response.json();
 
-      // 요청을 보내고 응답을 처리하는 함수
-      window.handleData = (responseData) => {
-        setData(responseData);
-      };
-
-      // 스크립트 태그를 생성하여 JSONP 요청 보내기
-      const script = document.createElement('script');
-      script.src = url;
-      document.body.appendChild(script);
+        setSensorData(data); // API 데이터를 상태에 저장
+      } catch (error) {
+        console.error("Error fetching sensor data:", error);
+      }
     };
-
-    // 컴포넌트가 마운트될 때 데이터 요청하기
     fetchData();
-
-    // 컴포넌트가 언마운트될 때 콜백 함수 정리하기
-    return () => {
-      window.handleData = null;
-    };
   }, []);
 
   const handelModifyBtn = (name: string) => {
@@ -51,6 +41,61 @@ const ControlContent = ({
     setModalType("btn");
     onOpenModal();
   };
+
+  const INFO_LIST2 = [
+    {
+      id: 1,
+      name: "온도",
+      value: `${sensorData[0]?.sensorDtoList[0].value}`,
+      unit: "℃",
+      img: "temper-icon3@2x.svg",
+    },
+    {
+      id: 2,
+      name: "습도",
+      value: `${sensorData[0]?.sensorDtoList[1].value}`,
+      unit: "%",
+      img: "sensor_humidity_2@2x.svg",
+    },
+    {
+      id: 3,
+      name: "CO₂",
+      value: `${sensorData[0]?.sensorDtoList[2].value}`,
+      unit: "ppm",
+      img: "sensor-co2@2x.svg",
+    },
+    {
+      id: 4,
+      name: "일사",
+      value: `${sensorData[0]?.sensorDtoList[3].value}`,
+      unit: "W/㎡",
+      img: "sun-icon@2x.svg",
+    },
+  ];
+
+  const INFO_LIST3 = [
+    {
+      id: 1,
+      name: "Pt100",
+      value: `${sensorData[0]?.sensorDtoList[4].value}`,
+      unit: "℃",
+      img: "temper-icon@2x.svg",
+    },
+    {
+      id: 2,
+      name: "pH",
+      value: `${sensorData[0]?.sensorDtoList[5].value}`,
+      unit: "pH",
+      img: "ph.svg",
+    },
+    {
+      id: 3,
+      name: "EC",
+      value: `${sensorData[0]?.sensorDtoList[6].value}`,
+      unit: "mD/cm",
+      img: "ec.svg",
+    },
+  ];
 
   return (
     <>
@@ -169,7 +214,6 @@ const ControlContent = ({
       </div>
 
       {/* cctv 영역 */}
-      
       {cctv && (
         <div className="z-10 w-[50%] h-[37%] bg-sub absolute bottom-[4.375rem] left-[50%] translate-x-[-50%]">
           <video id="test_video" controls autoPlay className="w-full h-full">
@@ -204,12 +248,25 @@ const ControlContent = ({
                     />
                   )}
                   <div>
-                    {list.name} :{" "}
+                    {list.name} : {list.value}
                     {list.name === "EC" ? (
-                      <span className="text-[1.375rem]">{list.value}</span>
+                      <span className="text-[1.375rem]">{list.unit}</span>
                     ) : (
-                      `${list.value}`
+                      `${list.unit}`
                     )}
+                    {/* {sensorData[0]?.sensorDtoList.map((data, index) => {
+                      return (
+                        <li
+                          key={data.id}
+                          className={`flex items-center text-[1.5rem] font-bold gap-[1.5rem] px-[.625rem] w-full`}
+                        >
+                          <span key={index}>
+                            {data.value}
+                            {data.unit}
+                          </span>
+                        </li>
+                      );
+                    })} */}
                   </div>
                 </li>
               );
@@ -320,17 +377,4 @@ const INFO_LIST1 = [
     value2: "0 m/s",
     img: "wind-icon@2x.svg",
   },
-];
-
-const INFO_LIST2 = [
-  { id: 1, name: "온도", value: "℃", img: "temper-icon3@2x.svg" },
-  { id: 2, name: "습도", value: "%", img: "sensor_humidity_2@2x.svg" },
-  { id: 3, name: "CO₂", value: "ppm", img: "sensor-co2@2x.svg" },
-  { id: 4, name: "일사", value: "W/㎡", img: "sun-icon@2x.svg" },
-];
-
-const INFO_LIST3 = [
-  { id: 1, name: "Pt100", value: "℃", img: "temper-icon@2x.svg" },
-  { id: 2, name: "pH", value: "pH", img: "ph.svg" },
-  { id: 3, name: "EC", value: "mD/cm", img: "ec.svg" },
 ];
