@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
-import { ColBar, RowBar } from "@/components/common/slider";
+import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import BtnControl from "@/components/pages/control/modal/button-control";
 import BtnControlModal from "./modal/button-control/buttonControl";
 import SliderControl from "./modal/slider-control";
@@ -181,11 +181,11 @@ const ControlContent = ({
               ></Button>
             </div>
             <div
-              className={`flex flex-col gap-2 ${modalType === "slider" && "z-20"}`}
+              className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
             >
-              <RowBar setModalType={setModalType} />
-              <RowBar setModalType={setModalType} />
-              <RowBar setModalType={setModalType} />
+              <RowReverseBar setModalType={setModalType} />
+              <RowReverseBar setModalType={setModalType} />
+              <RowReverseBar setModalType={setModalType} />
             </div>
           </div>
         </div>

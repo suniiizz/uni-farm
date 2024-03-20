@@ -4,6 +4,77 @@ import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import { ModalContext } from "../modal/context/modalContext";
 
+export const RowReverseBar = ({
+  setModalType,
+}: {
+  setModalType: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const [value, setValue] = useState<number>(100);
+  const { onOpenModal } = useContext(ModalContext);
+
+  const handleChange = (
+    event: React.SyntheticEvent | Event,
+    newValue: number | number[],
+  ) => {
+    setValue(newValue as number);
+  };
+
+  const handleSliderContorl = (type: string) => {
+    setModalType(type);
+    onOpenModal();
+  };
+
+  function valueLabelFormat(value: number) {
+    const reversedValue =
+      ((marks.length - 1 - value) / (marks.length - 1)) * 10 + 90;
+    return reversedValue;
+  }
+
+  return (
+    <>
+      <div
+        className={`z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+      >
+        <span className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+        <div className="flex items-center flex-col w-[2.25rem]">
+          <span>열림</span>
+          <span>100%</span>
+        </div>
+        <Box
+          sx={{
+            marginLeft: "5px",
+            marginRight: "5px",
+            maxWidth: "28.75rem",
+            minWidth: "17.875rem",
+            width: "auto",
+            height: "2.375rem",
+            borderLeft: "7px solid #707070",
+            borderRight: "7px solid #707070",
+            borderRadius: "5px",
+          }}
+        >
+          <RowSlider
+            track="inverted"
+            valueLabelDisplay="auto"
+            aria-label="row slider"
+            valueLabelFormat={valueLabelFormat}
+            defaultValue={0}
+            marks={marks}
+            value={value}
+            onChangeCommitted={handleChange}
+            onClick={() => handleSliderContorl("slider")}
+          />
+        </Box>
+        <div className="flex items-center flex-col w-[2.25rem]">
+          <span>닫힘</span>
+          <span>0%</span>
+        </div>
+        <span className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+      </div>
+    </>
+  );
+};
+
 export const RowBar = ({
   setModalType,
 }: {
@@ -171,6 +242,8 @@ const RowSlider = styled(Slider)({
   },
   "& .MuiSlider-track": {
     borderRadius: "0",
+    backgroundColor: "rgb(230, 238, 218)",
+    border: "currentColor",
   },
   "& .MuiSlider-thumb": {
     width: "8px",
@@ -184,6 +257,7 @@ const RowSlider = styled(Slider)({
     },
     "&:before": {
       boxShadow: "none",
+      right: "0",
     },
     "&:after": {
       position: "absolute",
