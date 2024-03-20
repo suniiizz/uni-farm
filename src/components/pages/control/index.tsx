@@ -21,18 +21,29 @@ const ControlContent = ({
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1');
-        const data = await response.json();
-        console.log('data :', data);
-        setSensorData(data); // API 데이터를 상태에 저장
-      } catch (error) {
-        console.error('Error fetching sensor data:', error);
-      }
+    // JSONP 요청을 보내는 함수
+    const fetchData = () => {
+      // JSONP 요청을 보낼 URL
+      const url = 'http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1&callback=handleData';
+
+      // 요청을 보내고 응답을 처리하는 함수
+      window.handleData = (responseData) => {
+        setData(responseData);
+      };
+
+      // 스크립트 태그를 생성하여 JSONP 요청 보내기
+      const script = document.createElement('script');
+      script.src = url;
+      document.body.appendChild(script);
     };
 
+    // 컴포넌트가 마운트될 때 데이터 요청하기
     fetchData();
+
+    // 컴포넌트가 언마운트될 때 콜백 함수 정리하기
+    return () => {
+      window.handleData = null;
+    };
   }, []);
 
   const handelModifyBtn = (name: string) => {
