@@ -6,6 +6,17 @@ import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import BtnControl from "@/components/pages/control/modal/button-control";
 import BtnControlModal from "./modal/button-control/buttonControl";
 import SliderControl from "./modal/slider-control";
+import axios from "axios";
+
+type sensorDtoListProps = {
+  id: number;
+  value: number;
+};
+
+type SensorDataProps = {
+  id: number;
+  sensorDtoList: sensorDtoListProps[];
+};
 
 const ControlContent = ({
   modalType,
@@ -21,19 +32,16 @@ const ControlContent = ({
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
-        );
-        const data = await response.json();
-
-        setSensorData(data); // API 데이터를 상태에 저장
-      } catch (error) {
+    axios
+      .get(
+        "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
+      )
+      .then((response) => {
+        setSensorData(response.data);
+      })
+      .catch((error) => {
         console.error("Error fetching sensor data:", error);
-      }
-    };
-    fetchData();
+      });
   }, []);
 
   const handelModifyBtn = (name: string) => {
@@ -42,60 +50,15 @@ const ControlContent = ({
     onOpenModal();
   };
 
-  const INFO_LIST2 = [
-    {
-      id: 1,
-      name: "온도",
-      value: `${sensorData[0]?.sensorDtoList[0].value ?? ""}`,
-      unit: "℃",
-      img: "temper-icon3@2x.svg",
-    },
-    {
-      id: 2,
-      name: "습도",
-      value: `${sensorData[0]?.sensorDtoList[1].value ?? ""}`,
-      unit: "%",
-      img: "sensor_humidity_2@2x.svg",
-    },
-    {
-      id: 3,
-      name: "CO₂",
-      value: `${sensorData[0]?.sensorDtoList[2].value ?? ""}`,
-      unit: "ppm",
-      img: "sensor-co2@2x.svg",
-    },
-    {
-      id: 4,
-      name: "일사",
-      value: `${sensorData[0]?.sensorDtoList[3].value ?? ""}`,
-      unit: "W/㎡",
-      img: "sun-icon@2x.svg",
-    },
-  ];
+  const sensorDataFunc = (id: number) => {
+    const sensorDataList: SensorDataProps | undefined = sensorData.find(
+      (item: SensorDataProps) => item.id === 74,
+    );
 
-  const INFO_LIST3 = [
-    {
-      id: 1,
-      name: "Pt100",
-      value: `${sensorData[0]?.sensorDtoList[4].value ?? ""}`,
-      unit: "℃",
-      img: "temper-icon@2x.svg",
-    },
-    {
-      id: 2,
-      name: "pH",
-      value: `${sensorData[0]?.sensorDtoList[5].value ?? ""}`,
-      unit: "pH",
-      img: "ph.svg",
-    },
-    {
-      id: 3,
-      name: "EC",
-      value: `${sensorData[0]?.sensorDtoList[6].value ?? ""}`,
-      unit: "mD/cm",
-      img: "ec.svg",
-    },
-  ];
+    return sensorDataList?.sensorDtoList.find(
+      (item: sensorDtoListProps) => item.id === id,
+    ).value;
+  };
 
   return (
     <>
@@ -235,6 +198,24 @@ const ControlContent = ({
           </div>
           <ul className="mb-0 w-full flex flex-col justify-center items-center h-full">
             {(!toggle ? INFO_LIST2 : INFO_LIST3).map((list) => {
+              const status = (text: string) => {
+                switch (text) {
+                  case "온도":
+                    return <>{sensorDataFunc(75)}</>;
+                  case "습도":
+                    return <>{sensorDataFunc(76)}</>;
+                  case "CO₂":
+                    return <>{sensorDataFunc(77)}</>;
+                  case "일사":
+                    return <>{sensorDataFunc(78)}</>;
+                  case "Pt100":
+                    return <>{sensorDataFunc(79)}</>;
+                  case "pH":
+                    return <>{sensorDataFunc(80)}</>;
+                  case "EC":
+                    return <>{sensorDataFunc(81)}</>;
+                }
+              };
               return (
                 <li
                   key={list.id}
@@ -248,25 +229,12 @@ const ControlContent = ({
                     />
                   )}
                   <div>
-                    {list.name} : {list.value}
+                    {list.name} : {status(list.name)}
                     {list.name === "EC" ? (
                       <span className="text-[1.375rem]">{list.unit}</span>
                     ) : (
                       `${list.unit}`
                     )}
-                    {/* {sensorData[0]?.sensorDtoList.map((data, index) => {
-                      return (
-                        <li
-                          key={data.id}
-                          className={`flex items-center text-[1.5rem] font-bold gap-[1.5rem] px-[.625rem] w-full`}
-                        >
-                          <span key={index}>
-                            {data.value}
-                            {data.unit}
-                          </span>
-                        </li>
-                      );
-                    })} */}
                   </div>
                 </li>
               );
@@ -376,5 +344,53 @@ const INFO_LIST1 = [
     value1: "246 ˚",
     value2: "0 m/s",
     img: "wind-icon@2x.svg",
+  },
+];
+
+const INFO_LIST2 = [
+  {
+    id: 1,
+    name: "온도",
+    unit: "℃",
+    img: "temper-icon3@2x.svg",
+  },
+  {
+    id: 2,
+    name: "습도",
+    unit: "%",
+    img: "sensor_humidity_2@2x.svg",
+  },
+  {
+    id: 3,
+    name: "CO₂",
+    unit: "ppm",
+    img: "sensor-co2@2x.svg",
+  },
+  {
+    id: 4,
+    name: "일사",
+    unit: "W/㎡",
+    img: "sun-icon@2x.svg",
+  },
+];
+
+const INFO_LIST3 = [
+  {
+    id: 1,
+    name: "Pt100",
+    unit: "℃",
+    img: "temper-icon@2x.svg",
+  },
+  {
+    id: 2,
+    name: "pH",
+    unit: "pH",
+    img: "ph.svg",
+  },
+  {
+    id: 3,
+    name: "EC",
+    unit: "mD/cm",
+    img: "ec.svg",
   },
 ];
