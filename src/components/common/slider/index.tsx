@@ -6,10 +6,12 @@ import { ModalContext } from "../modal/context/modalContext";
 
 export const RowReverseBar = ({
   setModalType,
+  currentValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
+  currentValue: number;
 }) => {
-  const [value, setValue] = useState<number>(100);
+  const [value, setValue] = useState<number>(0);
   const { onOpenModal } = useContext(ModalContext);
 
   const handleChange = (
@@ -29,6 +31,8 @@ export const RowReverseBar = ({
       ((marks.length - 1 - value) / (marks.length - 1)) * 10 + 90;
     return reversedValue;
   };
+
+  console.log("---", currentValue);
 
   return (
     <>
@@ -58,9 +62,9 @@ export const RowReverseBar = ({
             valueLabelDisplay="auto"
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
-            defaultValue={0}
+            defaultValue={-currentValue}
             marks={marks}
-            value={value}
+            // value={value}
             onChangeCommitted={handleChange}
             onClick={() => handleSliderContorl("slider")}
           />
@@ -77,11 +81,13 @@ export const RowReverseBar = ({
 
 export const RowBar = ({
   setModalType,
+  currentValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
+  currentValue: number;
 }) => {
-  const [value, setValue] = useState<number>(0);
   const { onOpenModal } = useContext(ModalContext);
+  const [value, setValue] = useState<number>(0);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
@@ -121,9 +127,9 @@ export const RowBar = ({
           <RowSlider
             valueLabelDisplay="auto"
             aria-label="row slider"
-            defaultValue={0}
+            defaultValue={currentValue}
             marks={marks}
-            value={value}
+            // value={value}
             onChangeCommitted={handleChange}
             onClick={() => handleSliderContorl("slider")}
           />
@@ -140,8 +146,12 @@ export const RowBar = ({
 
 export const ColBar = ({
   setModalType,
+  className,
+  currentValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
+  currentValue: number;
 }) => {
   const [value, setValue] = useState<number>(0);
   const { onOpenModal } = useContext(ModalContext);
@@ -158,40 +168,44 @@ export const ColBar = ({
     onOpenModal();
   };
 
+  const colSliderWrap = `${className ?? ""}`;
+
   return (
-    <div className="w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg">
-      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
-      <div className="flex items-center flex-col">
-        <span>닫힘</span>
-        <span>0%</span>
+    <div className={colSliderWrap}>
+      <div className="w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg">
+        <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+        <div className="flex items-center flex-col">
+          <span>닫힘</span>
+          <span>0%</span>
+        </div>
+        <Box
+          sx={{
+            marginTop: "4px",
+            marginBottom: "4px",
+            width: "2.375rem",
+            height: "5.9375rem",
+            borderTop: "7px solid #707070",
+            borderBottom: "7px solid #707070",
+            borderRadius: "5px",
+          }}
+        >
+          <ColSlider
+            orientation="vertical"
+            valueLabelDisplay="auto"
+            aria-label="col slider"
+            defaultValue={currentValue}
+            marks={marks}
+            // value={value}
+            onChangeCommitted={handleChange}
+            onClick={() => handleSliderContorl("slider")}
+          />
+        </Box>
+        <div className="flex items-center flex-col">
+          <span>열림</span>
+          <span>100%</span>
+        </div>
+        <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_down@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
       </div>
-      <Box
-        sx={{
-          marginTop: "4px",
-          marginBottom: "4px",
-          width: "2.375rem",
-          height: "5.9375rem",
-          borderTop: "7px solid #707070",
-          borderBottom: "7px solid #707070",
-          borderRadius: "5px",
-        }}
-      >
-        <ColSlider
-          orientation="vertical"
-          valueLabelDisplay="auto"
-          aria-label="col slider"
-          defaultValue={0}
-          marks={marks}
-          value={value}
-          onChangeCommitted={handleChange}
-          onClick={() => handleSliderContorl("slider")}
-        />
-      </Box>
-      <div className="flex items-center flex-col">
-        <span>열림</span>
-        <span>100%</span>
-      </div>
-      <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_down@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
     </div>
   );
 };

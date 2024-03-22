@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
-import ControlContent from "@/components/pages/control";
 import ControlModal from "@/components/pages/control/modal/control";
+import ControlContent from "@/components/pages/control";
 
 import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";

@@ -1,22 +1,16 @@
 import { useContext, useState, useEffect } from "react";
 
+import axios from "axios";
+// import useGlobalQuery from "@/hooks/global/useGlobalQuery";
+// import { useGetSensor } from "@/hooks/service/control/useGetSensor";
+
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import BtnControl from "@/components/pages/control/modal/button-control";
-import BtnControlModal from "./modal/button-control/buttonControl";
-import SliderControl from "./modal/slider-control";
-import axios from "axios";
-
-type sensorDtoListProps = {
-  id: number;
-  value: number;
-};
-
-type SensorDataProps = {
-  id: number;
-  sensorDtoList: sensorDtoListProps[];
-};
+import BtnControlModal from "@/components/pages/control/modal/button-control/buttonControl";
+import SliderControl from "@/components/pages/control/modal/slider-control";
+import { ControlData, SensorData, SensorDtoList } from "control";
 
 const ControlContent = ({
   modalType,
@@ -25,11 +19,15 @@ const ControlContent = ({
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [toggle, setToggle] = useState(false);
-  const [cctv, setCctv] = useState(false);
-  const [controlBtn, setControlBtn] = useState("");
-  const [sensorData, setSensorData] = useState([]);
   const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [cctv, setCctv] = useState<boolean>(false);
+  const [controlBtn, setControlBtn] = useState<string>("");
+  const [sensorData, setSensorData] = useState([]);
+  const [controlData, setControlData] = useState([]);
+
+  // const { data: sensorList } = useGlobalQuery(useGetSensor);
 
   useEffect(() => {
     axios
@@ -44,6 +42,22 @@ const ControlContent = ({
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(
+        "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
+      )
+      .then((response) => {
+        setControlData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching sensor data:", error);
+      });
+  }, []);
+
+  const slierLeftTop = controlData.find((item) => item.location === 7);
+  const slierRightTop = controlData.find((item) => item.location === 8);
+
   const handelModifyBtn = (name: string) => {
     setControlBtn(name);
     setModalType("btn");
@@ -51,13 +65,21 @@ const ControlContent = ({
   };
 
   const sensorDataFunc = (id: number) => {
-    const sensorDataList: SensorDataProps | undefined = sensorData.find(
-      (item: SensorDataProps) => item.id === 74,
+    const sensorDataList: SensorData | undefined = sensorData.find(
+      (item: SensorData) => item.id === 74,
     );
 
     return sensorDataList?.sensorDtoList.find(
-      (item: sensorDtoListProps) => item.id === id,
+      (item: SensorDtoList) => item.id === id,
     ).value;
+  };
+
+  const controlDataFunc = (location: number) => {
+    const controlDataList = controlData?.find(
+      (item) => item.location === location,
+    );
+
+    return controlDataList?.value;
   };
 
   return (
@@ -130,9 +152,32 @@ const ControlContent = ({
             <div
               className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
             >
-              <RowBar setModalType={setModalType} />
-              <RowBar setModalType={setModalType} />
-              <RowBar setModalType={setModalType} />
+              {controlData?.map((object: ControlData) => {
+                return (
+                  <>
+                    {object.location === 13 && (
+                      <RowBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(13)}
+                      />
+                    )}
+                    {object.location === 11 && (
+                      <>
+                        <RowBar
+                          setModalType={setModalType}
+                          currentValue={controlDataFunc(11)}
+                        />
+                      </>
+                    )}
+                    {object.location === 9 && (
+                      <RowBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(9)}
+                      />
+                    )}
+                  </>
+                );
+              })}
             </div>
             <div className="flex flex-col items-center z-10">
               <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
@@ -146,9 +191,30 @@ const ControlContent = ({
             <div
               className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
             >
-              <RowReverseBar setModalType={setModalType} />
-              <RowReverseBar setModalType={setModalType} />
-              <RowReverseBar setModalType={setModalType} />
+              {controlData?.map((object: ControlData) => {
+                return (
+                  <>
+                    {object.location === 14 && (
+                      <RowReverseBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(14)}
+                      />
+                    )}
+                    {object.location === 12 && (
+                      <RowReverseBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(12)}
+                      />
+                    )}
+                    {object.location === 10 && (
+                      <RowReverseBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(10)}
+                      />
+                    )}
+                  </>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -156,21 +222,81 @@ const ControlContent = ({
           <div
             className={`flex flex-col gap-2 ${modalType === "slider" && "z-20"}`}
           >
-            <ColBar setModalType={setModalType} />
-            <div className="flex gap-2">
-              <ColBar setModalType={setModalType} />
-              <ColBar setModalType={setModalType} />
-              <ColBar setModalType={setModalType} />
+            {slierLeftTop && (
+              <ColBar
+                setModalType={setModalType}
+                currentValue={controlDataFunc(7)}
+              />
+            )}
+            <div className="grid grid-cols-3 gap-2 flex-col-reverse max-w-[29.875rem] ">
+              {controlData?.map((value: ControlData) => {
+                return (
+                  <>
+                    {/* {value.location === 7 && (
+                      <>
+                        <ColBar
+                          setModalType={setModalType}
+                          className="grid-cols-subgrid"
+                        />
+                      </>
+                    )} */}
+                    {value.location === 5 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(5)}
+                      />
+                    )}
+                    {value.location === 3 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(3)}
+                      />
+                    )}
+                    {value.location === 1 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(1)}
+                      />
+                    )}
+                  </>
+                );
+              })}
             </div>
           </div>
           <div
             className={`flex flex-col gap-2 items-end ${modalType === "slider" && "z-20"}`}
           >
-            <ColBar setModalType={setModalType} />
+            {slierRightTop && (
+              <ColBar
+                setModalType={setModalType}
+                currentValue={controlDataFunc(8)}
+              />
+            )}
             <div className="flex gap-2">
-              <ColBar setModalType={setModalType} />
-              <ColBar setModalType={setModalType} />
-              <ColBar setModalType={setModalType} />
+              {controlData?.map((value: ControlData) => {
+                return (
+                  <>
+                    {value.location === 2 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(2)}
+                      />
+                    )}
+                    {value.location === 4 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(4)}
+                      />
+                    )}
+                    {value.location === 6 && (
+                      <ColBar
+                        setModalType={setModalType}
+                        currentValue={controlDataFunc(6)}
+                      />
+                    )}
+                  </>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -198,8 +324,8 @@ const ControlContent = ({
           </div>
           <ul className="mb-0 w-full flex flex-col justify-center items-center h-full">
             {(!toggle ? INFO_LIST2 : INFO_LIST3).map((list) => {
-              const status = (text: string) => {
-                switch (text) {
+              const value = (name: string) => {
+                switch (name) {
                   case "온도":
                     return <>{sensorDataFunc(75)}</>;
                   case "습도":
@@ -214,6 +340,8 @@ const ControlContent = ({
                     return <>{sensorDataFunc(80)}</>;
                   case "EC":
                     return <>{sensorDataFunc(81)}</>;
+                  default:
+                    return;
                 }
               };
               return (
@@ -229,7 +357,7 @@ const ControlContent = ({
                     />
                   )}
                   <div>
-                    {list.name} : {status(list.name)}
+                    {list.name} : {value(list.name)}
                     {list.name === "EC" ? (
                       <span className="text-[1.375rem]">{list.unit}</span>
                     ) : (
