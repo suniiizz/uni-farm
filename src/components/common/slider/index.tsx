@@ -53,7 +53,7 @@ export const RowReverseBar = ({
             borderRadius: "5px",
           }}
         >
-          <RowSlider
+          <RowReverseSlider
             track="inverted"
             valueLabelDisplay="auto"
             aria-label="row slider"
@@ -232,7 +232,7 @@ const marks = [
   },
 ];
 
-const RowSlider = styled(Slider)({
+const RowReverseSlider = styled(Slider)({
   color: "#BDD39F",
   height: "2.375rem",
   padding: "0",
@@ -244,6 +244,46 @@ const RowSlider = styled(Slider)({
     borderRadius: "0",
     backgroundColor: "rgb(230, 238, 218)",
     border: "currentColor",
+  },
+  "& .MuiSlider-thumb": {
+    width: "8px",
+    height: "100%",
+    background: "#fff",
+    border: "1px solid #707070",
+    borderRadius: "5px",
+    position: "relative",
+    "&:focus, &:hover, &.Mui-active": {
+      boxShadow: "0px 0px 3px 1px rgba(0, 0, 0, 0.1)",
+    },
+    "&:before": {
+      boxShadow: "none",
+      right: "0",
+    },
+    "&:after": {
+      position: "absolute",
+      width: "1px",
+      height: "90%",
+      background: "#FF0000",
+      borderRadius: "0",
+    },
+  },
+  "& .MuiSlider-mark": {
+    width: "1px",
+    height: "100%",
+    background: "#fff",
+  },
+});
+
+const RowSlider = styled(Slider)({
+  color: "#BDD39F",
+  height: "2.375rem",
+  padding: "0",
+  borderRadius: "0",
+  "& .MuiSlider-rail": {
+    borderRadius: "0",
+  },
+  "& .MuiSlider-track": {
+    borderRadius: "0",
   },
   "& .MuiSlider-thumb": {
     width: "8px",
