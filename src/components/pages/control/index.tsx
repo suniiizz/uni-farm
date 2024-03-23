@@ -13,6 +13,20 @@ import BtnControlModal from "@/components/pages/control/modal/button-control/but
 import SliderControl from "@/components/pages/control/modal/slider-control";
 import { ControlData, SensorData, SensorDtoList } from "control";
 
+export type initialData = {
+  id: number;
+  no: number;
+  enable: number;
+  shape: number;
+  shapeName: string;
+  location: number;
+  outputNo: number;
+  value: number;
+  controlMode: number;
+  houseNo: string;
+  farmCode: string;
+};
+
 const ControlContent = ({
   modalType,
   setModalType,
@@ -21,13 +35,14 @@ const ControlContent = ({
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isOpen, onOpenModal } = useContext(ModalContext);
+  const { sensorData } = useSensor();
+  const { controlData } = useControl();
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
+  const [data, setData] = useState([]);
 
-  const { sensorData } = useSensor();
-  const { controlData } = useControl();
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
 
   const slierLeftTop = controlData.find((item) => item.location === 7);
@@ -125,7 +140,7 @@ const ControlContent = ({
         <div className="w-full px-[4.25rem]">
           <div className="flex justify-between">
             <div
-              className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
+              className={`flex justify-end flex-col-reverse gap-2 ${modalType === "slider" && "z-30"}`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -134,6 +149,8 @@ const ControlContent = ({
                       <RowBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(13)}
+                        location={object.location}
+                        setData={setData}
                       />
                     )}
                     {object.location === 11 && (
@@ -141,6 +158,8 @@ const ControlContent = ({
                         <RowBar
                           setModalType={setModalType}
                           currentValue={controlDataFunc(11)}
+                          location={object.location}
+                          setData={setData}
                         />
                       </>
                     )}
@@ -148,6 +167,8 @@ const ControlContent = ({
                       <RowBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(9)}
+                        location={object.location}
+                        setData={setData}
                       />
                     )}
                   </>
@@ -165,7 +186,7 @@ const ControlContent = ({
               ></Button>
             </div>
             <div
-              className={`flex flex-col gap-2 ${modalType === "slider" && "z-30"}`}
+              className={`flex justify-end flex-col-reverse gap-2 ${modalType === "slider" && "z-30"}`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -208,14 +229,6 @@ const ControlContent = ({
               {controlData?.map((value: ControlData) => {
                 return (
                   <>
-                    {/* {value.location === 7 && (
-                      <>
-                        <ColBar
-                          setModalType={setModalType}
-                          className="grid-cols-subgrid"
-                        />
-                      </>
-                    )} */}
                     {value.location === 5 && (
                       <ColBar
                         setModalType={setModalType}
@@ -370,7 +383,7 @@ const ControlContent = ({
           {modalType === "btn-control" && (
             <BtnControlModal controlBtn={controlBtn} />
           )}
-          {modalType === "slider" && <SliderControl />}
+          {modalType === "slider" && <SliderControl data={data} />}
         </div>
       )}
     </>

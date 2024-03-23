@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import { ModalContext } from "../modal/context/modalContext";
+import useControl from "@/hooks/service/control/useControl";
+import { initialData } from "@/components/pages/control";
 
 export const RowReverseBar = ({
   setModalType,
@@ -80,18 +82,37 @@ export const RowReverseBar = ({
 export const RowBar = ({
   setModalType,
   currentValue,
+  location,
+  setData,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
+  location: number;
+  setData: React.Dispatch<React.SetStateAction<initialData[]>>;
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
 
+  const { controlData } = useControl();
+
   const handleChange = (
-    event: React.SyntheticEvent | Event,
+    e: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
+    // 슬라이더 변경 값 저장
     setValue(newValue as number);
+
+    // 슬라이더 변경 값 데이터화 저장
+    setData((prevData) => {
+      const newData = controlData.map((item) => {
+        if (item.location === location) {
+          return { ...item, value: newValue };
+        }
+        return item;
+      });
+
+      return newData;
+    });
   };
 
   const handleSliderContorl = (type: string) => {
@@ -125,9 +146,10 @@ export const RowBar = ({
           <RowSlider
             valueLabelDisplay="auto"
             aria-label="row slider"
-            defaultValue={currentValue}
             marks={marks}
-            // value={value}
+            value={value}
+            max={100}
+            min={0}
             onChangeCommitted={handleChange}
             onClick={() => handleSliderContorl("slider")}
           />

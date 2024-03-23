@@ -21,19 +21,6 @@ export const updataControlData = async (params) => {
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${params}`,
     null,
     {
-      // params: {
-      //   id: params.id,
-      //   no: params.no,
-      //   enable: params.enable,
-      //   shape: params.shape,
-      //   shapeName: params.shapeName,
-      //   location: params.location,
-      //   outputNo: params.outputNo,
-      //   value: params.value,
-      //   controlMode: params.controlMode,
-      //   houseNo: params.houseNo,
-      //   farmCode: params.farmCode,
-      // },
       // headers: {
       //   "Content-Type": "application/json",
       // },
