@@ -1,8 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
-import axios from "axios";
 // import useGlobalQuery from "@/hooks/global/useGlobalQuery";
 // import { useGetSensor } from "@/hooks/service/control/useGetSensor";
+import useSensor from "@/hooks/service/control/useSensor";
+import useControl from "@/hooks/service/control/useControl";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
@@ -24,36 +25,10 @@ const ControlContent = ({
   const [toggle, setToggle] = useState<boolean>(false);
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
-  const [sensorData, setSensorData] = useState([]);
-  const [controlData, setControlData] = useState([]);
 
+  const { sensorData } = useSensor();
+  const { controlData } = useControl();
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
-      )
-      .then((response) => {
-        setSensorData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sensor data:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://cors-anywhere.herokuapp.com/http://175.123.253.182/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
-      )
-      .then((response) => {
-        setControlData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sensor data:", error);
-      });
-  }, []);
 
   const slierLeftTop = controlData.find((item) => item.location === 7);
   const slierRightTop = controlData.find((item) => item.location === 8);
@@ -179,6 +154,7 @@ const ControlContent = ({
                 );
               })}
             </div>
+
             <div className="flex flex-col items-center z-10">
               <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
               <Button

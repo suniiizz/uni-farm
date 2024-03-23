@@ -32,8 +32,6 @@ export const RowReverseBar = ({
     return reversedValue;
   };
 
-  console.log("---", currentValue);
-
   return (
     <>
       <div
@@ -87,7 +85,7 @@ export const RowBar = ({
   currentValue: number;
 }) => {
   const { onOpenModal } = useContext(ModalContext);
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(currentValue);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
