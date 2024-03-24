@@ -35,13 +35,14 @@ const ControlContent = ({
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isOpen, onOpenModal } = useContext(ModalContext);
-  const { sensorData } = useSensor();
-  const { controlData } = useControl();
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
   const [data, setData] = useState([]);
+
+  const { sensorData } = useSensor();
+  const { controlData } = useControl();
 
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
 

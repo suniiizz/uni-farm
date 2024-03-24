@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
-import { ModalContext } from "@/components/common/modal/context/modalContext";
-import Button from "@/components/common/button";
-import VerticalTab from "@/components/common/tab";
-
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
+import { ModalContext } from "@/components/common/modal/context/modalContext";
+import Button from "@/components/common/button";
+import VerticalTab from "@/components/common/tab";
 import SensorContent from "@/components/pages/sensor-view/index";
 import RegisterModal from "@/components/pages/sensor-view/modal/register";
 

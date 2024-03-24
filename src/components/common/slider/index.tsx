@@ -195,8 +195,8 @@ export const ColBar = ({
       <div className="w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg">
         <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
         <div className="flex items-center flex-col">
-          <span>닫힘</span>
-          <span>0%</span>
+          <span>열림</span>
+          <span>100%</span>
         </div>
         <Box
           sx={{
@@ -221,8 +221,8 @@ export const ColBar = ({
           />
         </Box>
         <div className="flex items-center flex-col">
-          <span>열림</span>
-          <span>100%</span>
+          <span>닫힘</span>
+          <span>0%</span>
         </div>
         <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_down@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
       </div>
