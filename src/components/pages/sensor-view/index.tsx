@@ -4,9 +4,9 @@ import { SensorData, SensorDtoList } from "control";
 const SensorContent = () => {
   const { sensorData } = useSensor();
 
-  const sensorDataFunc = (id: number, type: string) => {
+  const sensorDataFunc = (id: number) => {
     const sensorDataList: SensorData | undefined = sensorData.find(
-      (item: SensorData) => item.id === (type === "out" ? 115 : 74),
+      (item: SensorData) => item.id === 115,
     );
 
     return sensorDataList?.sensorDtoList.find(
@@ -24,19 +24,19 @@ const SensorContent = () => {
             const value = (name: string) => {
               switch (name) {
                 case "기온":
-                  return <>{sensorDataFunc(116, "out")}</>;
+                  return <>{sensorDataFunc(116)}</>;
                 case "습기":
-                  return <>{sensorDataFunc(117, "out")}</>;
+                  return <>{sensorDataFunc(117)}</>;
                 case "강우":
-                  return <>{sensorDataFunc(118, "out")}</>;
+                  return <>{sensorDataFunc(118)}</>;
                 case "일사":
-                  return <>{sensorDataFunc(119, "out")}</>;
+                  return <>{sensorDataFunc(119)}</>;
                 case "풍향":
-                  return <>{sensorDataFunc(120, "out")}</>;
+                  return <>{sensorDataFunc(120)}</>;
                 case "풍속":
-                  return <>{sensorDataFunc(121, "out")}</>;
+                  return <>{sensorDataFunc(121)}</>;
                 case "CO₂":
-                  return <>{sensorDataFunc(122, "out")}</>;
+                  return <>{sensorDataFunc(122)}</>;
                 default:
                   return;
               }
