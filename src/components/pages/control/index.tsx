@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // import useGlobalQuery from "@/hooks/global/useGlobalQuery";
 // import { useGetSensor } from "@/hooks/service/control/useGetSensor";
@@ -39,6 +39,7 @@ const ControlContent = ({
   const [toggle, setToggle] = useState<boolean>(false);
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
+  const [sliderValue, setSliderValue] = useState({});
   const [data, setData] = useState([]);
 
   const { sensorData } = useSensor();
@@ -72,6 +73,31 @@ const ControlContent = ({
 
     return controlDataList?.value;
   };
+
+  // 변경한 슬라이더 위치, 값 저장
+  const handleSliderChange = (location: number, value: number) => {
+    setSliderValue((prevValues) => ({
+      ...prevValues,
+      [location]: value,
+    }));
+  };
+
+  // 변경한 슬라이더 값 업데이트
+  const updateControlData = async () => {
+    const updatedData = controlData.map((item) => {
+      const { location } = item;
+      if (sliderValue.hasOwnProperty(location)) {
+        return { ...item, value: sliderValue[location] };
+      }
+      return item;
+    });
+
+    setData(updatedData);
+  };
+
+  useEffect(() => {
+    updateControlData();
+  }, [controlData, sliderValue]);
 
   return (
     <>
@@ -151,7 +177,7 @@ const ControlContent = ({
                         setModalType={setModalType}
                         currentValue={controlDataFunc(13)}
                         location={object.location}
-                        setData={setData}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                     {object.location === 11 && (
@@ -160,7 +186,7 @@ const ControlContent = ({
                           setModalType={setModalType}
                           currentValue={controlDataFunc(11)}
                           location={object.location}
-                          setData={setData}
+                          sliderValue={handleSliderChange}
                         />
                       </>
                     )}
@@ -169,7 +195,7 @@ const ControlContent = ({
                         setModalType={setModalType}
                         currentValue={controlDataFunc(9)}
                         location={object.location}
-                        setData={setData}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                   </>

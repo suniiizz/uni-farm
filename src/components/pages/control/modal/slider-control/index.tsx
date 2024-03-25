@@ -12,6 +12,8 @@ const SliderControl = ({ data }: { data: initialData[] }) => {
 
   const handleMoveClick = async () => {
     updataControlData(JSON.stringify(data));
+
+    onCloseModal();
   };
 
   const handleCancleClick = () => {
