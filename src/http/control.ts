@@ -16,7 +16,7 @@ export const getControlData = async () => {
     enable: "1",
   };
 
-  ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, null);
+  ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
 
   // const response = axios.get(
   //   "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
@@ -27,7 +27,7 @@ export const getControlData = async () => {
 
 export const updataControlData = async (params) => {
   const response = axios.post(
-    `{https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
+    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
     null,
     {
       // headers: {
