@@ -5,13 +5,14 @@ const useControl = () => {
   const [controlData, setControlData] = useState([]);
 
   const fetchControlData = async () => {
-    await getControlData()
-      .then((response) => {
-        setControlData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching control data:", error);
-      });
+    await getControlData();
+    // getControlData()
+    //   .then((response) => {
+    //     setControlData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching control data:", error);
+    //   });
   };
 
   const handleRefetch = async () => {

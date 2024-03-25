@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ajaxRequest } from "@/http/sns";
 
 export const getSensorData = async () => {
   const response = axios.get(
@@ -9,16 +10,24 @@ export const getSensorData = async () => {
 };
 
 export const getControlData = async () => {
-  const response = axios.get(
-    "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
-  );
+  const data = {
+    farmCode: "0002",
+    houseNo: "01",
+    enable: "1",
+  };
 
-  return response;
+  ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, null);
+
+  // const response = axios.get(
+  //   "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
+  // );
+
+  return ajaxRequest;
 };
 
 export const updataControlData = async (params) => {
   const response = axios.post(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${params}`,
+    `{https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
     null,
     {
       // headers: {
