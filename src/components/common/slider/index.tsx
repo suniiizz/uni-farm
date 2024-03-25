@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
@@ -83,17 +83,15 @@ export const RowBar = ({
   setModalType,
   currentValue,
   location,
-  setData,
+  sliderValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
   location: number;
-  setData: React.Dispatch<React.SetStateAction<initialData[]>>;
+  sliderValue: (location: number, value: number) => void;
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
-
-  const { controlData } = useControl();
 
   const handleChange = (
     e: React.SyntheticEvent | Event,
@@ -102,17 +100,8 @@ export const RowBar = ({
     // 슬라이더 변경 값 저장
     setValue(newValue as number);
 
-    // 슬라이더 변경 값 데이터화 저장
-    setData((prevData) => {
-      const newData = controlData.map((item) => {
-        if (item.location === location) {
-          return { ...item, value: newValue };
-        }
-        return item;
-      });
-
-      return newData;
-    });
+    // 슬라이더 변경된 location 저장
+    sliderValue(location, newValue);
   };
 
   const handleSliderContorl = (type: string) => {
