@@ -10,19 +10,19 @@ export const getSensorData = async () => {
 };
 
 export const getControlData = async () => {
-  const data = {
-    farmCode: "0002",
-    houseNo: "01",
-    enable: "1",
-  };
+  // const data = {
+  //   farmCode: "0002",
+  //   houseNo: "01",
+  //   enable: "1",
+  // };
 
-  ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
+  // ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
 
-  // const response = axios.get(
-  //   "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
-  // );
+  const response = axios.get(
+    "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
+  );
 
-  return ajaxRequest;
+  return response;
 };
 
 export const updataControlData = async (params) => {
