@@ -17,6 +17,7 @@ type Props = {
   type?: boolean;
   titleBlack?: boolean;
   custom?: boolean;
+  pbNone?: boolean;
 };
 
 const Modal = ({
@@ -26,6 +27,7 @@ const Modal = ({
   buttonList,
   type,
   custom,
+  pbNone,
 }: Props) => {
   const { onCloseModal } = useContext(ModalContext);
 
@@ -41,7 +43,9 @@ const Modal = ({
               className ? className : ""
             }`}
           >
-            <div className="flex justify-between items-center border-b border-white/30 pb-6">
+            <div
+              className={`flex justify-between items-center border-b border-white/30 pb-6 ${pbNone && "pb-0"}`}
+            >
               <span
                 className={`text-[22px] font-bold ${type ? "text-black text-center w-full" : "text-white"}`}
               >

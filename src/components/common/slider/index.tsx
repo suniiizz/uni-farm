@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import { ModalContext } from "../modal/context/modalContext";
-import useControl from "@/hooks/service/control/useControl";
-import { initialData } from "@/components/pages/control";
 
 export const RowReverseBar = ({
   setModalType,

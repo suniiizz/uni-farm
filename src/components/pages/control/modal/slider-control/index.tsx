@@ -5,10 +5,10 @@ import { updataControlData } from "@/http/control";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import Modal from "@/components/common/modal";
-import { initialData } from "@/components/pages/control";
+import { initialData } from "@/components/pages/control/ControlContent";
 
 const SliderControl = ({ data }: { data: initialData[] }) => {
-  const { onCloseModal } = useContext(ModalContext); // 모달 타입 변경 함수 추가
+  const { onCloseModal } = useContext(ModalContext);
 
   const handleMoveClick = async () => {
     updataControlData(JSON.stringify(data));
