@@ -4,7 +4,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import ControlModal from "@/components/pages/control/modal/control-setting";
-import ControlContent from "@/components/pages/control/ControlContent";
+import ControlContent from "@/components/pages/control/controlContent";
 
 import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";

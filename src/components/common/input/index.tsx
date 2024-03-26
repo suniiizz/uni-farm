@@ -1,5 +1,5 @@
 import React from "react";
-// import { useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 type Props = React.ComponentPropsWithoutRef<"input"> & {
   className?: string;
@@ -10,6 +10,7 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   maxLength?: number;
   labelMarginNone?: boolean;
   disabled?: boolean;
+  labelBlack?: boolean;
 };
 
 const Input = ({
@@ -18,25 +19,27 @@ const Input = ({
   maxLength,
   labelMarginNone,
   disabled,
+  labelBlack,
+  registerName,
   ...props
 }: Props) => {
-  // const { register } = useFormContext();
+  const { register } = useFormContext();
 
   const inputWrap = `flex items-center justify-end gap-1 rounded-lg h-[2.8125rem] px-3 py-2 ${props.inputWrap ?? ""}`;
   const className = `flex items-center outline-0 border-none bg-inherit w-6 text-[.9375rem] placeholder:text-[.9375rem] ${props.className ?? ""}`;
 
-  // if (!registerName)
-  //   return (
-  //     <div className={inputWrap ?? ""}>
-  //       <input {...props} className={className} />
-  //     </div>
-  //   );
+  if (!registerName)
+    return (
+      <div className={inputWrap ?? ""}>
+        <input {...props} className={className} />
+      </div>
+    );
 
   return (
     <>
       {label && (
         <span
-          className={`text-white font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-2" : "mb-0"}`}
+          className={`${labelBlack ? "text-black" : "text-white"} font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-2" : "mb-0"}`}
         >
           {label}
         </span>
@@ -48,9 +51,9 @@ const Input = ({
           className={className}
           disabled={disabled}
           maxLength={maxLength}
-          // {...register(registerName, {
-          //   maxLength: maxLength && maxLength,
-          // })}
+          {...register(registerName, {
+            maxLength: maxLength && maxLength,
+          })}
         />
         {unit && <span className="text-white text-4">{unit}</span>}
       </div>

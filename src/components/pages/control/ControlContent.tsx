@@ -178,7 +178,7 @@ const ControlContent = ({
         <div className="w-full px-[4.25rem]">
           <div className="flex justify-between">
             <div
-              className={`flex justify-end flex-col-reverse gap-2 ${modalType === "slider" && "z-30"}`}
+              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -224,7 +224,7 @@ const ControlContent = ({
               ></Button>
             </div>
             <div
-              className={`flex justify-end flex-col-reverse gap-2 ${modalType === "slider" && "z-30"}`}
+              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-20"}`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -261,7 +261,7 @@ const ControlContent = ({
         </div>
         <div className="flex justify-between absolute top-0 left-0 w-full">
           <div
-            className={`flex flex-col gap-2 ${modalType === "slider" && "z-20"}`}
+            className={`flex flex-col gap-2 ${(modalType === "slider" || modalType === "group") && "z-20"}`}
           >
             {slierLeftTop && (
               <ColBar
@@ -305,7 +305,7 @@ const ControlContent = ({
             </div>
           </div>
           <div
-            className={`flex flex-col gap-2 items-end ${modalType === "slider" && "z-20"}`}
+            className={`flex flex-col gap-2 items-end ${(modalType === "slider" || modalType === "group") && "z-20"}`}
           >
             {slierRightTop && (
               <ColBar
@@ -418,7 +418,9 @@ const ControlContent = ({
             })}
           </ul>
         </div>
-        <div className="flex gap-4 justify-center items-center">
+        <div
+          className={`flex gap-4 justify-center items-center ${modalType === "group" && "z-20"}`}
+        >
           {BTN_LIST.map((list) => {
             return (
               <Button

@@ -10,7 +10,7 @@ export const buttonClassName: ButtonStyleType = {
   RED: `text-white bg-red ${buttonStyle}`,
   SUB: `text-white bg-main ${buttonStyle}`,
   DISABLED: `${buttonStyle}`,
-  POPUP: `${buttonStyle}`,
+  INPUT: `bg-sub3 border-black ${buttonStyle}`,
   DEFAULT: `cursor-pointer text-black border-black text-[1.5rem] px-4 py-2 ${buttonStyle}`,
   MODAL: `text-white bg-sub2 ${buttonStyle}`,
 };

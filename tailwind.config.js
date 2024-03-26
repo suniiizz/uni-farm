@@ -7,6 +7,7 @@ export default {
         main: "#746A68",
         sub: "#C7C0BC",
         sub2: "#54524F",
+        sub3: "#A5A2A0",
         bg: "#E3E3E3",
         bg2: "#E1DFDF",
         line: "#C7C0BC",

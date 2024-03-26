@@ -5,7 +5,7 @@ import { updataControlData } from "@/http/control";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import Modal from "@/components/common/modal";
-import { initialData } from "@/components/pages/control/ControlContent";
+import { initialData } from "@/components/pages/control/controlContent";
 
 const SliderControl = ({ data }: { data: initialData[] }) => {
   const { onCloseModal } = useContext(ModalContext);
