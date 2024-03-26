@@ -15,7 +15,7 @@ export const RowReverseBar = ({
   location: number;
   sliderValue: (location: number, value: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(currentValue);
+  const [value, setValue] = useState<number>(currentValue + 100);
   const { onOpenModal } = useContext(ModalContext);
 
   const handleChange = (
@@ -24,11 +24,12 @@ export const RowReverseBar = ({
   ) => {
     const reversedValue =
       ((marks.length - 1 - newValue) / (marks.length - 1)) * 10 + 90;
+
     // 슬라이더 변경 값 저장
-    setValue(reversedValue as number);
+    setValue(newValue as number);
 
     // 슬라이더 변경된 location 저장
-    sliderValue(location, newValue);
+    sliderValue(location, reversedValue);
   };
 
   const handleSliderContorl = (type: string) => {
@@ -238,42 +239,6 @@ export const ColBar = ({
   );
 };
 
-const marks = [
-  {
-    value: 0,
-  },
-  {
-    value: 10,
-  },
-  {
-    value: 20,
-  },
-  {
-    value: 30,
-  },
-  {
-    value: 40,
-  },
-  {
-    value: 50,
-  },
-  {
-    value: 60,
-  },
-  {
-    value: 70,
-  },
-  {
-    value: 80,
-  },
-  {
-    value: 90,
-  },
-  {
-    value: 100,
-  },
-];
-
 const RowReverseSlider = styled(Slider)({
   color: "#BDD39F",
   height: "2.375rem",
@@ -393,3 +358,39 @@ const ColSlider = styled(Slider)({
     background: "#fff",
   },
 });
+
+const marks = [
+  {
+    value: 0,
+  },
+  {
+    value: 10,
+  },
+  {
+    value: 20,
+  },
+  {
+    value: 30,
+  },
+  {
+    value: 40,
+  },
+  {
+    value: 50,
+  },
+  {
+    value: 60,
+  },
+  {
+    value: 70,
+  },
+  {
+    value: 80,
+  },
+  {
+    value: 90,
+  },
+  {
+    value: 100,
+  },
+];
