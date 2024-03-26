@@ -233,18 +233,24 @@ const ControlContent = ({
                       <RowReverseBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(14)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                     {object.location === 12 && (
                       <RowReverseBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(12)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                     {object.location === 10 && (
                       <RowReverseBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(10)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                   </>
@@ -261,28 +267,36 @@ const ControlContent = ({
               <ColBar
                 setModalType={setModalType}
                 currentValue={controlDataFunc(7)}
+                location={7}
+                sliderValue={handleSliderChange}
               />
             )}
             <div className="grid grid-cols-3 gap-2 flex-col-reverse max-w-[29.875rem] ">
-              {controlData?.map((value: ControlData) => {
+              {controlData?.map((object: ControlData) => {
                 return (
                   <>
-                    {value.location === 5 && (
+                    {object.location === 5 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(5)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
-                    {value.location === 3 && (
+                    {object.location === 3 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(3)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
-                    {value.location === 1 && (
+                    {object.location === 1 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(1)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                   </>
@@ -297,28 +311,36 @@ const ControlContent = ({
               <ColBar
                 setModalType={setModalType}
                 currentValue={controlDataFunc(8)}
+                location={8}
+                sliderValue={handleSliderChange}
               />
             )}
             <div className="flex gap-2">
-              {controlData?.map((value: ControlData) => {
+              {controlData?.map((object: ControlData) => {
                 return (
                   <>
-                    {value.location === 2 && (
+                    {object.location === 2 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(2)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
-                    {value.location === 4 && (
+                    {object.location === 4 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(4)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
-                    {value.location === 6 && (
+                    {object.location === 6 && (
                       <ColBar
                         setModalType={setModalType}
                         currentValue={controlDataFunc(6)}
+                        location={object.location}
+                        sliderValue={handleSliderChange}
                       />
                     )}
                   </>

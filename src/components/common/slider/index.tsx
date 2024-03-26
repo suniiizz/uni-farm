@@ -7,18 +7,28 @@ import { ModalContext } from "../modal/context/modalContext";
 export const RowReverseBar = ({
   setModalType,
   currentValue,
+  location,
+  sliderValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
+  location: number;
+  sliderValue: (location: number, value: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
-    setValue(newValue as number);
+    const reversedValue =
+      ((marks.length - 1 - newValue) / (marks.length - 1)) * 10 + 90;
+    // 슬라이더 변경 값 저장
+    setValue(reversedValue as number);
+
+    // 슬라이더 변경된 location 저장
+    sliderValue(location, newValue);
   };
 
   const handleSliderContorl = (type: string) => {
@@ -60,9 +70,11 @@ export const RowReverseBar = ({
             valueLabelDisplay="auto"
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
-            defaultValue={-currentValue}
+            // defaultValue={-currentValue}
             marks={marks}
-            // value={value}
+            value={value}
+            max={100}
+            min={0}
             onChangeCommitted={handleChange}
             onClick={() => handleSliderContorl("slider")}
           />
@@ -155,19 +167,27 @@ export const ColBar = ({
   setModalType,
   className,
   currentValue,
+  location,
+  sliderValue,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   currentValue: number;
+  location: number;
+  sliderValue: (location: number, value: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
+    // 슬라이더 변경 값 저장
     setValue(newValue as number);
+
+    // 슬라이더 변경된 location 저장
+    sliderValue(location, newValue);
   };
 
   const handleSliderContorl = (type: string) => {
@@ -200,9 +220,10 @@ export const ColBar = ({
             orientation="vertical"
             valueLabelDisplay="auto"
             aria-label="col slider"
-            defaultValue={currentValue}
             marks={marks}
-            // value={value}
+            value={value}
+            max={100}
+            min={0}
             onChangeCommitted={handleChange}
             onClick={() => handleSliderContorl("slider")}
           />

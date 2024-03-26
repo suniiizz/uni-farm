@@ -26,14 +26,8 @@ export const getControlData = async () => {
 };
 
 export const updataControlData = async (params) => {
-  const response = axios.post(
+  const response = axios.get(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
-    null,
-    {
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-    },
   );
 
   return response;
