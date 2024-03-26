@@ -419,7 +419,7 @@ const ControlContent = ({
           </ul>
         </div>
         <div
-          className={`flex gap-4 justify-center items-center ${modalType === "group" && "z-20"}`}
+          className={`flex gap-4 justify-center items-center ${modalType === "group" && controlBtn === "자동 제어 복귀" && "z-20"}`}
         >
           {BTN_LIST.map((list) => {
             return (
