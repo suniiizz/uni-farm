@@ -207,6 +207,7 @@ const ControlContent = ({
                         currentValue={controlDataFunc(9)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        zIndex
                       />
                     )}
                   </>
@@ -224,7 +225,7 @@ const ControlContent = ({
               ></Button>
             </div>
             <div
-              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-20"}`}
+              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -251,6 +252,7 @@ const ControlContent = ({
                         currentValue={controlDataFunc(10)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        zIndex
                       />
                     )}
                   </>
@@ -437,18 +439,25 @@ const ControlContent = ({
           })}
         </div>
       </div>
-      {isOpen && (
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-10 bg-opacity-60">
-          {modalType === "group" && <GroupContol controlBtn={controlBtn} />}
-          {modalType === "manual" && (
-            <ManualControl manualBtn={manualBtn} setModalType={setModalType} />
-          )}
-          {modalType === "manual-control" && (
-            <ManualControlModal manualBtn={manualBtn} />
-          )}
-          {modalType === "slider" && <SliderControl data={data} />}
-        </div>
-      )}
+      {isOpen &&
+        (modalType === "group" ||
+          modalType === "manual" ||
+          modalType === "manual-control" ||
+          modalType === "slider") && (
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-10 bg-opacity-60">
+            {modalType === "group" && <GroupContol controlBtn={controlBtn} />}
+            {modalType === "manual" && (
+              <ManualControl
+                manualBtn={manualBtn}
+                setModalType={setModalType}
+              />
+            )}
+            {modalType === "manual-control" && (
+              <ManualControlModal manualBtn={manualBtn} />
+            )}
+            {modalType === "slider" && <SliderControl data={data} />}
+          </div>
+        )}
     </>
   );
 };

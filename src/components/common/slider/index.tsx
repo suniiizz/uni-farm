@@ -9,11 +9,13 @@ export const RowReverseBar = ({
   currentValue,
   location,
   sliderValue,
+  zIndex,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
   location: number;
   sliderValue: (location: number, value: number) => void;
+  zIndex?: boolean;
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
@@ -46,7 +48,7 @@ export const RowReverseBar = ({
   return (
     <>
       <div
-        className={`z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        className={`${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
       >
         <span className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
         <div className="flex items-center flex-col w-[2.25rem]">
@@ -72,6 +74,7 @@ export const RowReverseBar = ({
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
             marks={marks}
+            // value={value}
             max={100}
             min={0}
             onChangeCommitted={handleChange}
@@ -93,11 +96,13 @@ export const RowBar = ({
   currentValue,
   location,
   sliderValue,
+  zIndex,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
   location: number;
   sliderValue: (location: number, value: number) => void;
+  zIndex?: boolean;
 }) => {
   const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
@@ -118,12 +123,31 @@ export const RowBar = ({
     onOpenModal();
   };
 
+  const handelCloseBtn = (type: string) => {
+    if (type === "close") {
+      if (value > 0) {
+        setValue((prev) => prev - 1);
+      }
+    } else if (type === "open") {
+      if (value < 100) {
+        setValue((prev) => prev + 1);
+      }
+    }
+  };
+
+  // console.log("value", value);
+
   return (
     <>
       <div
-        className={`z-10 w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        className={`${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
       >
-        <span className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+        <span
+          onClick={() => {
+            handelCloseBtn("close"), handleSliderContorl("slider");
+          }}
+          className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
+        ></span>
         <div className="flex items-center flex-col w-[2.25rem]">
           <span>닫힘</span>
           <span>0%</span>
@@ -156,7 +180,12 @@ export const RowBar = ({
           <span>열림</span>
           <span>100%</span>
         </div>
-        <span className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+        <span
+          onClick={() => {
+            handelCloseBtn("open"), handleSliderContorl("slider");
+          }}
+          className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
+        ></span>
       </div>
     </>
   );
