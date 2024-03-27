@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { updataControlData } from "@/http/control";
+import { updateControlData } from "@/http/control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
@@ -11,7 +11,7 @@ const SliderControl = ({ data }: { data: initialData[] }) => {
   const { onCloseModal } = useContext(ModalContext);
 
   const handleMoveClick = async () => {
-    updataControlData(JSON.stringify(data));
+    updateControlData(JSON.stringify(data));
 
     onCloseModal();
   };

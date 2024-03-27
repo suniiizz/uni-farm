@@ -130,7 +130,7 @@ const WeatherControl = () => {
           </div>
         </div>
 
-        {isOpen && modalType === "control" && <ControlModal type />}
+        {isOpen && modalType === "control" && <ControlModal />}
         {isOpen && modalType === "device" && <DeviceModal />}
       </FormProvider>
     </>

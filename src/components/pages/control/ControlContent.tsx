@@ -4,12 +4,14 @@ import { useContext, useEffect, useState } from "react";
 // import { useGetSensor } from "@/hooks/service/control/useGetSensor";
 import useSensor from "@/hooks/service/control/useSensor";
 import useControl from "@/hooks/service/control/useControl";
+import useManual from "@/hooks/service/control/useManual";
+import { updateManual } from "@/http/control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import SliderControl from "@/components/pages/control/modal/slider-control";
-import { ControlData, SensorData, SensorDtoList } from "control";
+import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
 import GroupContol from "./modal/control-button/groupContorl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
 import ManualControlModal from "@/components/pages/control/modal/manual-button/ManualControl";
@@ -35,29 +37,24 @@ const ControlContent = ({
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const { isOpen, onOpenModal } = useContext(ModalContext);
+  const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
   const [manualBtn, setManualBtn] = useState<string>("");
   const [sliderValue, setSliderValue] = useState({});
   const [cctv, setCctv] = useState<boolean>(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ControlData>([]);
 
   const { sensorData } = useSensor();
   const { controlData } = useControl();
+  const { manualData } = useManual();
 
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
 
   const handleControlBtn = (name: string) => {
     setControlBtn(name);
     setModalType("group");
-    onOpenModal();
-  };
-
-  const handelManulBtn = (name: string) => {
-    setManualBtn(name);
-    setModalType("manual");
     onOpenModal();
   };
 
@@ -75,8 +72,8 @@ const ControlContent = ({
   const slierRightTop = controlData.find((item) => item.location === 8);
 
   const controlDataFunc = (location: number) => {
-    const controlDataList = controlData?.find(
-      (item) => item.location === location,
+    const controlDataList: ControlData | undefined = controlData?.find(
+      (item: ControlData) => item.location === location,
     );
 
     return controlDataList?.value;
@@ -91,7 +88,7 @@ const ControlContent = ({
   };
 
   // 변경한 슬라이더 값 업데이트
-  const updateControlData = async () => {
+  const updateControlData = () => {
     const updatedData = controlData.map((item) => {
       const { location } = item;
       if (sliderValue.hasOwnProperty(location)) {
@@ -106,6 +103,28 @@ const ControlContent = ({
   useEffect(() => {
     updateControlData();
   }, [controlData, sliderValue]);
+
+  const handleManualBtn = (name: string) => {
+    setManualBtn(name);
+    setModalType("manual");
+    onOpenModal();
+  };
+
+  const handleManualMove = (control: string, id: number) => {
+    const updatedManualData = manualData.map((item: ManualData) => {
+      if (control === "on" && item.no === id) {
+        return { ...item, value: 100 };
+      }
+      if (control === "off" && item.no === id) {
+        return { ...item, value: 0 };
+      }
+      return item;
+    });
+
+    updateManual(JSON.stringify(updatedManualData));
+
+    onCloseModal();
+  };
 
   return (
     <>
@@ -263,7 +282,7 @@ const ControlContent = ({
         </div>
         <div className="flex justify-between absolute top-0 left-0 w-full">
           <div
-            className={`flex flex-col gap-2 ${(modalType === "slider" || modalType === "group") && "z-20"}`}
+            className={`flex flex-col gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
           >
             {slierLeftTop && (
               <ColBar
@@ -307,7 +326,7 @@ const ControlContent = ({
             </div>
           </div>
           <div
-            className={`flex flex-col gap-2 items-end ${(modalType === "slider" || modalType === "group") && "z-20"}`}
+            className={`flex flex-col gap-2 items-end ${(modalType === "slider" || modalType === "group") && "z-30"}`}
           >
             {slierRightTop && (
               <ColBar
@@ -430,7 +449,7 @@ const ControlContent = ({
                 customType="DEFAULT"
                 className={`flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem] ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null}`}
                 onClick={() => {
-                  handelManulBtn(list.name);
+                  handleManualBtn(list.name);
                 }}
               >
                 {list.name}
@@ -444,12 +463,13 @@ const ControlContent = ({
           modalType === "manual" ||
           modalType === "manual-control" ||
           modalType === "slider") && (
-          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-10 bg-opacity-60">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60">
             {modalType === "group" && <GroupContol controlBtn={controlBtn} />}
             {modalType === "manual" && (
               <ManualControl
                 manualBtn={manualBtn}
                 setModalType={setModalType}
+                handleManualMove={handleManualMove}
               />
             )}
             {modalType === "manual-control" && (

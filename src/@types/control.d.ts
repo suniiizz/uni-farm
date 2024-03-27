@@ -21,5 +21,9 @@ declare module "control" {
     controlMode: number;
     houseNo: string;
     farmCode: string;
+  }[];
+
+  export type ManualData = {
+    no: number;
   };
 }
