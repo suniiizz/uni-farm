@@ -15,8 +15,8 @@ export const RowReverseBar = ({
   location: number;
   sliderValue: (location: number, value: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(currentValue + 100);
   const { onOpenModal } = useContext(ModalContext);
+  const [value, setValue] = useState<number>(currentValue);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
@@ -71,9 +71,7 @@ export const RowReverseBar = ({
             valueLabelDisplay="auto"
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
-            // defaultValue={-currentValue}
             marks={marks}
-            value={value}
             max={100}
             min={0}
             onChangeCommitted={handleChange}
@@ -101,8 +99,8 @@ export const RowBar = ({
   location: number;
   sliderValue: (location: number, value: number) => void;
 }) => {
-  const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
+  const { onOpenModal } = useContext(ModalContext);
 
   const handleChange = (
     e: React.SyntheticEvent | Event,
@@ -177,8 +175,8 @@ export const ColBar = ({
   location: number;
   sliderValue: (location: number, value: number) => void;
 }) => {
-  const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
+  const [value, setValue] = useState<number>(currentValue);
 
   const handleChange = (
     event: React.SyntheticEvent | Event,
