@@ -43,7 +43,7 @@ export const getManualData = async () => {
 
 export const updateManual = async (params: string) => {
   const response = axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_realy?farmCode=0002&houseNo=01&enable=1${encodeURI(params)}`,
+    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
   );
 
   return response;

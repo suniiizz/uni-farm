@@ -92,7 +92,7 @@ const ControlContent = ({
     const updatedData = controlData.map((item) => {
       const { location } = item;
       if (sliderValue.hasOwnProperty(location)) {
-        return { ...item, value: sliderValue[location] };
+        return { ...item, value: sliderValue[location], controlMode: 2 };
       }
       return item;
     });
@@ -113,10 +113,10 @@ const ControlContent = ({
   const handleManualMove = (control: string, id: number) => {
     const updatedManualData = manualData.map((item: ManualData) => {
       if (control === "on" && item.no === id) {
-        return { ...item, value: 100 };
+        return { ...item, value: 100, controlMode: 1 };
       }
       if (control === "off" && item.no === id) {
-        return { ...item, value: 0 };
+        return { ...item, value: 0, controlMode: 1 };
       }
       return item;
     });
