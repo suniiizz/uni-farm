@@ -14,21 +14,7 @@ import SliderControl from "@/components/pages/control/modal/slider-control";
 import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
 import GroupContol from "./modal/control-button/groupContorl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
-import ManualControlModal from "@/components/pages/control/modal/manual-button/ManualControl";
-
-export type initialData = {
-  id: number;
-  no: number;
-  enable: number;
-  shape: number;
-  shapeName: string;
-  location: number;
-  outputNo: number;
-  value: number;
-  controlMode: number;
-  houseNo: string;
-  farmCode: string;
-};
+import ManualControlModal from "@/components/pages/control/modal/manual-button/manualControl";
 
 const ControlContent = ({
   modalType,
@@ -44,7 +30,9 @@ const ControlContent = ({
   const [manualBtn, setManualBtn] = useState<string>("");
   const [sliderValue, setSliderValue] = useState({});
   const [cctv, setCctv] = useState<boolean>(false);
-  const [data, setData] = useState<ControlData>([]);
+  const [data, setData] = useState<ControlData[]>([]);
+  const [sliderChecked, setSliderChecked] = useState<Array<number>>([]);
+  const [manualChecked, setManualChecked] = useState<Array<number>>([]);
 
   const { sensorData } = useSensor();
   const { controlData } = useControl();
@@ -52,12 +40,14 @@ const ControlContent = ({
 
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
 
+  // 상단 그룹 제어 버튼 모달
   const handleControlBtn = (name: string) => {
     setControlBtn(name);
     setModalType("group");
     onOpenModal();
   };
 
+  // 평균 데이터 박스
   const sensorDataFunc = (id: number) => {
     const sensorDataList: SensorData | undefined = sensorData.find(
       (item: SensorData) => item.id === 74,
@@ -68,11 +58,13 @@ const ControlContent = ({
     ).value;
   };
 
+  // 7,8 슬라이더 위치
   const slierLeftTop = controlData.find((item) => item.location === 7);
   const slierRightTop = controlData.find((item) => item.location === 8);
 
+  // 현재 슬라이더 값 데이터
   const controlDataFunc = (location: number) => {
-    const controlDataList: ControlData | undefined = controlData?.find(
+    const controlDataList: ControlData | undefined = controlData.find(
       (item: ControlData) => item.location === location,
     );
 
@@ -104,13 +96,17 @@ const ControlContent = ({
     updateControlData();
   }, [controlData, sliderValue]);
 
+  // 하단 제어 버튼 모달
   const handleManualBtn = (name: string) => {
+    if (modalType === "group") return;
+
     setManualBtn(name);
     setModalType("manual");
     onOpenModal();
   };
 
-  const handleManualMove = (control: string, id: number) => {
+  // 하단 제어 버튼 on/off
+  const handleManualMove = (control: string, id?: number) => {
     const updatedManualData = manualData.map((item: ManualData) => {
       if (control === "on" && item.no === id) {
         return { ...item, value: 100, controlMode: 1 };
@@ -124,6 +120,32 @@ const ControlContent = ({
     updateManual(JSON.stringify(updatedManualData));
 
     onCloseModal();
+  };
+
+  // 자동 제어 복귀 슬라이더 체크리스트
+  const handleSliderChecked = (location: number) => {
+    if (modalType !== "group") return;
+
+    const isClicked = sliderChecked.includes(location);
+
+    if (isClicked) {
+      setSliderChecked((prev) => prev.filter((id) => id !== location));
+    } else {
+      setSliderChecked((prev) => [...prev, location]);
+    }
+  };
+
+  // 하단 제어 버튼 체크리스트
+  const handleManualChecked = (location: number) => {
+    if (modalType !== "group") return;
+
+    const isClicked = manualChecked.includes(location);
+
+    if (isClicked) {
+      setManualChecked((prev) => prev.filter((id) => id !== location));
+    } else {
+      setManualChecked((prev) => [...prev, location]);
+    }
   };
 
   return (
@@ -197,7 +219,7 @@ const ControlContent = ({
         <div className="w-full px-[4.25rem]">
           <div className="flex justify-between">
             <div
-              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
+              className={`${(modalType === "slider" || modalType === "group") && "z-40"} flex justify-end flex-col-reverse gap-2`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -208,6 +230,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(13)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 11 && (
@@ -217,6 +242,9 @@ const ControlContent = ({
                           currentValue={controlDataFunc(11)}
                           location={object.location}
                           sliderValue={handleSliderChange}
+                          disabled={modalType === "group" ? true : false}
+                          handleSliderChecked={handleSliderChecked}
+                          sliderChecked={sliderChecked}
                         />
                       </>
                     )}
@@ -227,6 +255,9 @@ const ControlContent = ({
                         location={object.location}
                         sliderValue={handleSliderChange}
                         zIndex
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                   </>
@@ -244,7 +275,7 @@ const ControlContent = ({
               ></Button>
             </div>
             <div
-              className={`flex justify-end flex-col-reverse gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
+              className={`${(modalType === "slider" || modalType === "group") && "z-40"} flex justify-end flex-col-reverse gap-2`}
             >
               {controlData?.map((object: ControlData) => {
                 return (
@@ -255,6 +286,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(14)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 12 && (
@@ -263,6 +297,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(12)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 10 && (
@@ -272,6 +309,9 @@ const ControlContent = ({
                         location={object.location}
                         sliderValue={handleSliderChange}
                         zIndex
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                   </>
@@ -282,7 +322,7 @@ const ControlContent = ({
         </div>
         <div className="flex justify-between absolute top-0 left-0 w-full">
           <div
-            className={`flex flex-col gap-2 ${(modalType === "slider" || modalType === "group") && "z-30"}`}
+            className={`${(modalType === "slider" || modalType === "group") && "z-30"} flex flex-col gap-2`}
           >
             {slierLeftTop && (
               <ColBar
@@ -290,6 +330,9 @@ const ControlContent = ({
                 currentValue={controlDataFunc(7)}
                 location={7}
                 sliderValue={handleSliderChange}
+                disabled={modalType === "group" ? true : false}
+                handleSliderChecked={handleSliderChecked}
+                sliderChecked={sliderChecked}
               />
             )}
             <div className="grid grid-cols-3 gap-2 flex-col-reverse max-w-[29.875rem] ">
@@ -302,6 +345,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(5)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 3 && (
@@ -310,6 +356,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(3)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 1 && (
@@ -318,6 +367,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(1)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                   </>
@@ -326,7 +378,7 @@ const ControlContent = ({
             </div>
           </div>
           <div
-            className={`flex flex-col gap-2 items-end ${(modalType === "slider" || modalType === "group") && "z-30"}`}
+            className={`${(modalType === "slider" || modalType === "group") && "z-30"} flex flex-col gap-2 items-end`}
           >
             {slierRightTop && (
               <ColBar
@@ -334,6 +386,9 @@ const ControlContent = ({
                 currentValue={controlDataFunc(8)}
                 location={8}
                 sliderValue={handleSliderChange}
+                disabled={modalType === "group" ? true : false}
+                handleSliderChecked={handleSliderChecked}
+                sliderChecked={sliderChecked}
               />
             )}
             <div className="flex gap-2">
@@ -346,6 +401,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(2)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 4 && (
@@ -354,6 +412,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(4)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                     {object.location === 6 && (
@@ -362,6 +423,9 @@ const ControlContent = ({
                         currentValue={controlDataFunc(6)}
                         location={object.location}
                         sliderValue={handleSliderChange}
+                        disabled={modalType === "group" ? true : false}
+                        handleSliderChecked={handleSliderChecked}
+                        sliderChecked={sliderChecked}
                       />
                     )}
                   </>
@@ -440,16 +504,17 @@ const ControlContent = ({
           </ul>
         </div>
         <div
-          className={`flex gap-4 justify-center items-center ${modalType === "group" && controlBtn === "자동 제어 복귀" && "z-20"}`}
+          className={`${modalType === "group" && controlBtn === "자동 제어 복귀" && "z-30"} flex gap-4 justify-center items-center`}
         >
           {BTN_LIST.map((list) => {
             return (
               <Button
                 key={list.id}
                 customType="DEFAULT"
-                className={`flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem] ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null}`}
+                className={`${manualChecked.includes(list.id) ? "bg-yellow text-white" : ""} ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null} flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem]`}
                 onClick={() => {
                   handleManualBtn(list.name);
+                  handleManualChecked(list.id);
                 }}
               >
                 {list.name}

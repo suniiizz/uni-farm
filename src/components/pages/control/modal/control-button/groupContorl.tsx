@@ -12,8 +12,18 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
 
   const methods = useForm();
 
-  const handleTargetPosition = (num: number) => {
-    methods.setValue("targetLocaion", num);
+  const handleSelectPosition = (num: number) => {
+    methods.setValue("selectLocaion", num);
+  };
+
+  const handleAutoControl = () => {
+    console.log("자동 제어 시작");
+    onCloseModal();
+  };
+
+  const handleCancleClick = () => {
+    onCloseModal();
+    window.location.reload();
   };
 
   return (
@@ -56,7 +66,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                           customType="INPUT"
                           className="font-normal"
                           onClick={() =>
-                            handleTargetPosition(parseInt(list.num))
+                            handleSelectPosition(parseInt(list.num))
                           }
                         >
                           {list.num}%
@@ -66,7 +76,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                   </div>
                 </div>
                 <Input
-                  registerName="targetLocaion"
+                  registerName="selectLocaion"
                   inputWrap="w-full bg-sub2"
                   className="text-4 font-normal w-full text-right text-white"
                   unit="%"
@@ -81,7 +91,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                 <Button
                   customType="SUB"
                   className="w-[7.5rem]"
-                  onClick={onCloseModal}
+                  onClick={handleCancleClick}
                 >
                   동작 취소
                 </Button>
@@ -91,13 +101,17 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
               </>
             ) : (
               <>
-                <Button customType="SUB" className="w-[7.5rem]">
+                <Button
+                  customType="SUB"
+                  className="w-[7.5rem]"
+                  onClick={handleAutoControl}
+                >
                   예
                 </Button>
                 <Button
                   customType="SUB"
                   className="w-[7.5rem]"
-                  onClick={onCloseModal}
+                  onClick={handleCancleClick}
                 >
                   아니오
                 </Button>

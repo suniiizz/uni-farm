@@ -11,36 +11,26 @@ const ControlModal = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
 
-  const checkedItem = (value: string, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckedList((prev) => [...prev, value]);
-
-      return;
-    }
-
-    if (!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter((item) => item !== value));
-
-      return;
-    }
-
-    return;
-  };
-
-  const handleCheckedList = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: string,
-  ) => {
-    setIsChecked(!isChecked);
-    checkedItem(value, e.target.checked);
-  };
-
   const handleControlSelection = (value: string) => {
     setSelect(value);
   };
 
   const handleTimerCheck = () => {
     setTimerControl(!timerControl);
+  };
+
+  const handleCheckedList = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: string,
+  ) => {
+    const isChecked = e.target.checked;
+    setIsChecked(isChecked);
+
+    if (isChecked) {
+      setCheckedList((prev) => [...prev, value]);
+    } else {
+      setCheckedList((prev) => prev.filter((item) => item !== value));
+    }
   };
 
   return (

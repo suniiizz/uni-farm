@@ -30,9 +30,18 @@ const Input = ({
 
   if (!registerName)
     return (
-      <div className={inputWrap ?? ""}>
-        <input {...props} className={className} />
-      </div>
+      <>
+        {label && (
+          <span
+            className={`${labelBlack ? "text-black" : "text-white"} font-bold text-[1.125rem] inline-block ${!labelMarginNone ? "mb-2" : "mb-0"}`}
+          >
+            {label}
+          </span>
+        )}
+        <div className={inputWrap ?? ""}>
+          <input {...props} className={className} />
+        </div>
+      </>
     );
 
   return (

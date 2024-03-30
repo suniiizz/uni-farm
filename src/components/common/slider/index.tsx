@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import { ModalContext } from "../modal/context/modalContext";
+import { red } from "@mui/material/colors";
 
 export const RowReverseBar = ({
   setModalType,
@@ -10,12 +11,18 @@ export const RowReverseBar = ({
   location,
   sliderValue,
   zIndex,
+  disabled,
+  handleSliderChecked,
+  sliderChecked,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
   location: number;
   sliderValue: (location: number, value: number) => void;
   zIndex?: boolean;
+  disabled?: boolean;
+  handleSliderChecked: (divId: number) => void;
+  sliderChecked: number[];
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
@@ -35,6 +42,8 @@ export const RowReverseBar = ({
   };
 
   const handleSliderContorl = (type: string) => {
+    if (disabled) return;
+
     setModalType(type);
     onOpenModal();
   };
@@ -48,7 +57,8 @@ export const RowReverseBar = ({
   return (
     <>
       <div
-        className={`${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        className={`${sliderChecked.includes(location) ? "bg-yellow" : ""} ${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        onClick={() => handleSliderChecked(location)}
       >
         <span className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
         <div className="flex items-center flex-col w-[2.25rem]">
@@ -69,12 +79,12 @@ export const RowReverseBar = ({
           }}
         >
           <RowReverseSlider
+            disabled={disabled}
             track="inverted"
             valueLabelDisplay="auto"
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
             marks={marks}
-            // value={value}
             max={100}
             min={0}
             onChangeCommitted={handleChange}
@@ -97,12 +107,18 @@ export const RowBar = ({
   location,
   sliderValue,
   zIndex,
+  disabled,
+  handleSliderChecked,
+  sliderChecked,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
   location: number;
   sliderValue: (location: number, value: number) => void;
   zIndex?: boolean;
+  disabled?: boolean;
+  handleSliderChecked: (divId: number) => void;
+  sliderChecked: number[];
 }) => {
   const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
@@ -119,11 +135,15 @@ export const RowBar = ({
   };
 
   const handleSliderContorl = (type: string) => {
+    if (disabled) return;
+
     setModalType(type);
     onOpenModal();
   };
 
   const handelCloseBtn = (type: string) => {
+    if (disabled) return;
+
     if (type === "close") {
       if (value > 0) {
         setValue((prev) => prev - 1);
@@ -135,12 +155,11 @@ export const RowBar = ({
     }
   };
 
-  // console.log("value", value);
-
   return (
     <>
       <div
-        className={`${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        className={`${sliderChecked.includes(location) ? "bg-yellow" : ""} ${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+        onClick={() => handleSliderChecked(location)}
       >
         <span
           onClick={() => {
@@ -166,6 +185,7 @@ export const RowBar = ({
           }}
         >
           <RowSlider
+            disabled={disabled}
             valueLabelDisplay="auto"
             aria-label="row slider"
             marks={marks}
@@ -197,12 +217,18 @@ export const ColBar = ({
   currentValue,
   location,
   sliderValue,
+  disabled,
+  handleSliderChecked,
+  sliderChecked,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   currentValue: number;
   location: number;
   sliderValue: (location: number, value: number) => void;
+  disabled?: boolean;
+  handleSliderChecked: (divId: number) => void;
+  sliderChecked: number[];
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
@@ -227,7 +253,10 @@ export const ColBar = ({
 
   return (
     <div className={colSliderWrap}>
-      <div className="w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg">
+      <div
+        onClick={() => handleSliderChecked(location)}
+        className={`${sliderChecked.includes(location) ? "bg-yellow" : ""} w-[3.75rem] h-[auto] bg-[#fff] rounded-md lg:px-[.625rem] lg:py-[.5rem] flex flex-col items-center justify-between shadow-lg`}
+      >
         <span className="cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
         <div className="flex items-center flex-col">
           <span>열림</span>
@@ -245,6 +274,7 @@ export const ColBar = ({
           }}
         >
           <ColSlider
+            disabled={disabled}
             orientation="vertical"
             valueLabelDisplay="auto"
             aria-label="col slider"
