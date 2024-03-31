@@ -78,8 +78,9 @@ const ControlContent = ({
       const { location } = item;
       if (sliderChecked.includes(location)) {
         return { ...item, value: 210, controlMode: 4 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateControlData(JSON.stringify(selectLocation));
@@ -91,8 +92,9 @@ const ControlContent = ({
       const { no } = item;
       if (manualChecked.includes(no)) {
         return { ...item, value: 210, controlMode: 4 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateManualData(JSON.stringify(selectManual));
@@ -104,8 +106,9 @@ const ControlContent = ({
       const { location } = item;
       if (sliderChecked.includes(location)) {
         return { ...item, value: inputValue, controlMode: 7 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateControlData(JSON.stringify(selectLocation));
@@ -117,8 +120,9 @@ const ControlContent = ({
       const { location } = item;
       if (sliderChecked.includes(location)) {
         return { ...item, controlMode: 7 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateControlData(JSON.stringify(selectLocation));
@@ -130,8 +134,9 @@ const ControlContent = ({
       const { no } = item;
       if (manualChecked.includes(no)) {
         return { ...item, controlMode: 7 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateManualData(JSON.stringify(selectManual));
@@ -139,7 +144,7 @@ const ControlContent = ({
 
   // 평균 데이터 박스
   const sensorDataFunc = (id: number) => {
-    const sensorDataList: SensorData | undefined = sensorData.find(
+    const sensorDataList = sensorData.find(
       (item: SensorData) => item.id === 74,
     );
 
@@ -158,7 +163,7 @@ const ControlContent = ({
 
   // 현재 슬라이더 값 데이터
   const controlDataFunc = (location: number) => {
-    const controlDataList: ControlData | undefined = controlData.find(
+    const controlDataList = controlData.find(
       (item: ControlData) => item.location === location,
     );
 
@@ -179,8 +184,9 @@ const ControlContent = ({
       const { location } = item;
       if (sliderValue.hasOwnProperty(location)) {
         return { ...item, value: sliderValue[location], controlMode: 2 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateControlData(JSON.stringify(updatedData));
@@ -204,11 +210,11 @@ const ControlContent = ({
     const updatedManualData = manualData.map((item: ManualData) => {
       if (control === "on" && item.no === id) {
         return { ...item, value: 100, controlMode: 1 };
-      }
-      if (control === "off" && item.no === id) {
+      } else if (control === "off" && item.no === id) {
         return { ...item, value: 0, controlMode: 1 };
+      } else {
+        return { ...item, controlMode: 0 };
       }
-      return item;
     });
 
     updateManualData(JSON.stringify(updatedManualData));

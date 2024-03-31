@@ -40,6 +40,7 @@ const Input = ({
         )}
         <div className={inputWrap ?? ""}>
           <input {...props} className={className} />
+          {unit && <span className="text-white text-4">{unit}</span>}
         </div>
       </>
     );
@@ -77,27 +78,31 @@ const TimeInput = ({ maxLength, ...props }: Props) => {
   return (
     <>
       <div
-        className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-[.875rem] text-white`}
+        className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-5 text-white`}
       >
         <Input
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
+          inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
+          inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">분</span>
-        <span className="inline-block ml-4">~</span>
+        <span className="inline-block ml-2">~</span>
         <Input
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
+          inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
+          inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">분</span>
       </div>
