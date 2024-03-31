@@ -39,7 +39,7 @@ const Modal = ({
             <div className="fixed top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60"></div>
           )}
           <div
-            className={`fixed ${type ? (custom ? "top-[50%] left-[50%]" : "bottom-[15%] left-[58%]") : "top-[50%] left-[50%]"}  -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 h-auto rounded-lg px-[1.875rem] py-[1.25rem] ${
+            className={`fixed ${type ? (custom ? "top-[50%] left-[50%]" : "bottom-[15%] left-[58%]") : "top-[50%] left-[50%]"} -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 h-auto rounded-lg px-[1.875rem] py-[1.25rem] ${
               className ? className : ""
             }`}
           >

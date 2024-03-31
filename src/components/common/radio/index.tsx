@@ -4,9 +4,10 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   className?: string;
   registerName: string;
   labelTitle?: string;
+  onChangeCallback?: () => void;
 };
 
-const Radio = ({ registerName, ...props }: Props) => {
+const Radio = ({ registerName, onChangeCallback, ...props }: Props) => {
   const { register } = useFormContext();
 
   return (
@@ -17,7 +18,7 @@ const Radio = ({ registerName, ...props }: Props) => {
     >
       <input
         id={props.id}
-        {...register(registerName, {})}
+        {...register(registerName, { onChange: onChangeCallback })}
         className={`appearance-none relative ${
           props.disabled ? "cursor-default" : "cursor-pointer"
         } relative cursor-pointer h-6 w-6 border-none before:content-[''] before:w-6 before:h-6 before:block before:bg-center before:bg-contain before:bg-[url(src/assets/icon/chk_1@2x.svg)] checked:before:bg-[url(src/assets/icon/chk_1_on2@2x.svg)]`}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ajaxRequest } from "@/http/sns";
+// import { ajaxRequest } from "@/http/sns";
 
 export const getSensorData = async () => {
   const response = axios.get(
@@ -41,7 +41,7 @@ export const getManualData = async () => {
   return response;
 };
 
-export const updateManual = async (params: string) => {
+export const updateManualData = async (params: string) => {
   const response = axios.get(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
   );

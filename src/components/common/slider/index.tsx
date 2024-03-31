@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import { ModalContext } from "../modal/context/modalContext";
-import { red } from "@mui/material/colors";
 
 export const RowReverseBar = ({
   setModalType,

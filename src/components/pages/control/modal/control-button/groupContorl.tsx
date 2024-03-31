@@ -7,21 +7,51 @@ import Radio from "@/components/common/radio";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/common/input";
 
-const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
+const GroupControl = ({
+  controlBtn,
+  updateAutoControlData,
+  updateAutoManualData,
+  updateGroupControlData,
+  setSliderChecked,
+  setManualChecked,
+  setModalType,
+}: {
+  controlBtn: string;
+  updateAutoControlData: () => void;
+  updateAutoManualData: () => void;
+  updateGroupControlData: (inputValue: number) => void;
+  setSliderChecked: React.Dispatch<React.SetStateAction<number[]>>;
+  setManualChecked: React.Dispatch<React.SetStateAction<number[]>>;
+  setModalType: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { onCloseModal } = useContext(ModalContext);
 
   const methods = useForm();
 
   const handleSelectPosition = (num: number) => {
-    methods.setValue("selectLocaion", num);
+    methods.setValue("selectLocation", num);
   };
 
   const handleAutoControl = () => {
-    console.log("자동 제어 시작");
+    updateAutoControlData();
+    updateAutoManualData();
+
     onCloseModal();
+    setModalType("");
+    setSliderChecked([]);
+    setManualChecked([]);
   };
 
-  const handleCancleClick = () => {
+  const handleGroupControl = () => {
+    const inputValue = methods.getValues("selectLocation");
+    updateGroupControlData(parseInt(inputValue));
+
+    onCloseModal();
+    setModalType("");
+    setSliderChecked([]);
+  };
+
+  const handleCancelClick = () => {
     onCloseModal();
     window.location.reload();
   };
@@ -31,7 +61,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
       <FormProvider {...methods}>
         <Modal
           title={`${controlBtn === "그룹 제어" ? "" : `${controlBtn} 하시겠습니까?`}`}
-          className="w-[23.75rem] h-auto z-100 bg-white py-[1.875rem]"
+          className={`${controlBtn === "그룹 제어" && "!bottom-0 z-50"} w-[23.75rem] h-auto z-100 bg-white py-[1.875rem]`}
           type
           pbNone={controlBtn === "그룹 제어" ? true : false}
         >
@@ -53,6 +83,11 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                   className="!gap-2"
                   name="select"
                   value={1}
+                  onChangeCallback={() => {
+                    setSliderChecked([
+                      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                    ]);
+                  }}
                 />
               </div>
               <div className="pt-6 py-8">
@@ -76,7 +111,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                   </div>
                 </div>
                 <Input
-                  registerName="selectLocaion"
+                  registerName="selectLocation"
                   inputWrap="w-full bg-sub2"
                   className="text-4 font-normal w-full text-right text-white"
                   unit="%"
@@ -91,11 +126,15 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                 <Button
                   customType="SUB"
                   className="w-[7.5rem]"
-                  onClick={handleCancleClick}
+                  onClick={handleCancelClick}
                 >
                   동작 취소
                 </Button>
-                <Button customType="SUB" className="w-[7.5rem]">
+                <Button
+                  customType="SUB"
+                  className="w-[7.5rem]"
+                  onClick={handleGroupControl}
+                >
                   작동 시작
                 </Button>
               </>
@@ -111,7 +150,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
                 <Button
                   customType="SUB"
                   className="w-[7.5rem]"
-                  onClick={handleCancleClick}
+                  onClick={handleCancelClick}
                 >
                   아니오
                 </Button>
@@ -124,7 +163,7 @@ const GroupContol = ({ controlBtn }: { controlBtn: string }) => {
   );
 };
 
-export default GroupContol;
+export default GroupControl;
 
 const BTN_LIST = [
   { id: 1, num: "25" },

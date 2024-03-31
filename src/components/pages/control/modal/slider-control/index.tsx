@@ -1,20 +1,11 @@
 import { useContext } from "react";
 
-import { updateControlData } from "@/http/control";
-
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import Modal from "@/components/common/modal";
-import { ControlData } from "control";
 
-const SliderControl = ({ data }: { data: ControlData[] }) => {
+const SliderControl = () => {
   const { onCloseModal } = useContext(ModalContext);
-
-  const handleMoveClick = async () => {
-    updateControlData(JSON.stringify(data));
-
-    onCloseModal();
-  };
 
   const handleCancleClick = () => {
     onCloseModal();
@@ -32,7 +23,7 @@ const SliderControl = ({ data }: { data: ControlData[] }) => {
           <Button
             customType="SUB"
             className="w-[7.5rem]"
-            onClick={handleMoveClick}
+            onClick={onCloseModal}
           >
             동작
           </Button>

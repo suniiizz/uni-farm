@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import useSensor from "@/hooks/service/control/useSensor";
 import useControl from "@/hooks/service/control/useControl";
 import useManual from "@/hooks/service/control/useManual";
-import { updateManual } from "@/http/control";
+import { updateControlData, updateManualData } from "@/http/control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
@@ -30,7 +30,6 @@ const ControlContent = ({
   const [manualBtn, setManualBtn] = useState<string>("");
   const [sliderValue, setSliderValue] = useState({});
   const [cctv, setCctv] = useState<boolean>(false);
-  const [data, setData] = useState<ControlData[]>([]);
   const [sliderChecked, setSliderChecked] = useState<Array<number>>([]);
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
 
@@ -59,8 +58,12 @@ const ControlContent = ({
   };
 
   // 7,8 슬라이더 위치
-  const slierLeftTop = controlData.find((item) => item.location === 7);
-  const slierRightTop = controlData.find((item) => item.location === 8);
+  const slierLeftTop = controlData.find(
+    (item: ControlData) => item.location === 7,
+  );
+  const slierRightTop = controlData.find(
+    (item: ControlData) => item.location === 8,
+  );
 
   // 현재 슬라이더 값 데이터
   const controlDataFunc = (location: number) => {
@@ -80,8 +83,8 @@ const ControlContent = ({
   };
 
   // 변경한 슬라이더 값 업데이트
-  const updateControlData = () => {
-    const updatedData = controlData.map((item) => {
+  const handleUpdateControlValue = () => {
+    const updatedData = controlData.map((item: ControlData) => {
       const { location } = item;
       if (sliderValue.hasOwnProperty(location)) {
         return { ...item, value: sliderValue[location], controlMode: 2 };
@@ -89,11 +92,11 @@ const ControlContent = ({
       return item;
     });
 
-    setData(updatedData);
+    updateControlData(JSON.stringify(updatedData));
   };
 
   useEffect(() => {
-    updateControlData();
+    handleUpdateControlValue();
   }, [controlData, sliderValue]);
 
   // 하단 제어 버튼 모달
@@ -117,7 +120,7 @@ const ControlContent = ({
       return item;
     });
 
-    updateManual(JSON.stringify(updatedManualData));
+    updateManualData(JSON.stringify(updatedManualData));
 
     onCloseModal();
   };
@@ -135,7 +138,33 @@ const ControlContent = ({
     }
   };
 
-  // 하단 제어 버튼 체크리스트
+  // 그룹 제어 데이터 패칭
+  const updateGroupControlData = (inputValue: number) => {
+    const selectLocation = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (sliderChecked.includes(location)) {
+        return { ...item, value: inputValue, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateControlData(JSON.stringify(selectLocation));
+  };
+
+  // 자동 제어 복귀 슬라이더 데이터 패칭
+  const updateAutoControlData = () => {
+    const selectLocation = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (sliderChecked.includes(location)) {
+        return { ...item, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateControlData(JSON.stringify(selectLocation));
+  };
+
+  // 자동 제어 복귀 - 하단 제어 버튼 체크리스트
   const handleManualChecked = (location: number) => {
     if (modalType !== "group") return;
 
@@ -146,6 +175,19 @@ const ControlContent = ({
     } else {
       setManualChecked((prev) => [...prev, location]);
     }
+  };
+
+  // 자동 제어 복귀 - 하단 제어 버튼 데티어 패칭
+  const updateAutoManualData = () => {
+    const selectManual = manualData.map((item: ControlData) => {
+      const { location } = item;
+      if (manualChecked.includes(location)) {
+        return { ...item, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateManualData(JSON.stringify(selectManual));
   };
 
   return (
@@ -529,7 +571,17 @@ const ControlContent = ({
           modalType === "manual-control" ||
           modalType === "slider") && (
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60">
-            {modalType === "group" && <GroupContol controlBtn={controlBtn} />}
+            {modalType === "group" && (
+              <GroupContol
+                controlBtn={controlBtn}
+                updateAutoControlData={updateAutoControlData}
+                updateAutoManualData={updateAutoManualData}
+                updateGroupControlData={updateGroupControlData}
+                setSliderChecked={setSliderChecked}
+                setManualChecked={setManualChecked}
+                setModalType={setModalType}
+              />
+            )}
             {modalType === "manual" && (
               <ManualControl
                 manualBtn={manualBtn}
@@ -540,7 +592,7 @@ const ControlContent = ({
             {modalType === "manual-control" && (
               <ManualControlModal manualBtn={manualBtn} />
             )}
-            {modalType === "slider" && <SliderControl data={data} />}
+            {modalType === "slider" && <SliderControl />}
           </div>
         )}
     </>
