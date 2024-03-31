@@ -12,7 +12,7 @@ import Button from "@/components/common/button";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import SliderControl from "@/components/pages/control/modal/slider-control";
 import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
-import GroupContol from "./modal/control-button/groupContorl";
+import GroupControl from "./modal/control-button/groupControl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
 import ManualControlModal from "@/components/pages/control/modal/manual-button/manualControl";
 
@@ -46,6 +46,97 @@ const ControlContent = ({
     onOpenModal();
   };
 
+  // 슬라이더 체크리스트
+  const handleSliderChecked = (location: number) => {
+    if (modalType !== "group") return;
+
+    const isClicked = sliderChecked.includes(location);
+
+    if (isClicked) {
+      setSliderChecked((prev) => prev.filter((id) => id !== location));
+    } else {
+      setSliderChecked((prev) => [...prev, location]);
+    }
+  };
+
+  // 하단 제어 버튼 체크리스트
+  const handleManualChecked = (no: number) => {
+    if (modalType !== "group") return;
+
+    const isClicked = manualChecked.includes(no);
+
+    if (isClicked) {
+      setManualChecked((prev) => prev.filter((id) => id !== no));
+    } else {
+      setManualChecked((prev) => [...prev, no]);
+    }
+  };
+
+  // [긴급 제어] 슬라이더 데이터 패칭
+  const updateEmergencyControlData = () => {
+    const selectLocation = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (sliderChecked.includes(location)) {
+        return { ...item, value: 210, controlMode: 4 };
+      }
+      return item;
+    });
+
+    updateControlData(JSON.stringify(selectLocation));
+  };
+
+  // [긴급 제어] 하단 제어 버튼 데이터 패칭
+  const updateEmergencyManualData = () => {
+    const selectManual = manualData.map((item: ControlData) => {
+      const { no } = item;
+      if (manualChecked.includes(no)) {
+        return { ...item, value: 210, controlMode: 4 };
+      }
+      return item;
+    });
+
+    updateManualData(JSON.stringify(selectManual));
+  };
+
+  // [그룹 제어] 데이터 패칭
+  const updateGroupControlData = (inputValue: number) => {
+    const selectLocation = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (sliderChecked.includes(location)) {
+        return { ...item, value: inputValue, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateControlData(JSON.stringify(selectLocation));
+  };
+
+  // [자동 제어 복귀] 슬라이더 데이터 패칭
+  const updateAutoControlData = () => {
+    const selectLocation = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (sliderChecked.includes(location)) {
+        return { ...item, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateControlData(JSON.stringify(selectLocation));
+  };
+
+  // [자동 제어 복귀] 하단 제어 버튼 데이터 패칭
+  const updateAutoManualData = () => {
+    const selectManual = manualData.map((item: ManualData) => {
+      const { no } = item;
+      if (manualChecked.includes(no)) {
+        return { ...item, controlMode: 7 };
+      }
+      return item;
+    });
+
+    updateManualData(JSON.stringify(selectManual));
+  };
+
   // 평균 데이터 박스
   const sensorDataFunc = (id: number) => {
     const sensorDataList: SensorData | undefined = sensorData.find(
@@ -74,7 +165,7 @@ const ControlContent = ({
     return controlDataList?.value;
   };
 
-  // 변경한 슬라이더 위치, 값 저장
+  // 수동 조절 슬라이더 위치, 값 저장
   const handleSliderChange = (location: number, value: number) => {
     setSliderValue((prevValues) => ({
       ...prevValues,
@@ -82,7 +173,7 @@ const ControlContent = ({
     }));
   };
 
-  // 변경한 슬라이더 값 업데이트
+  // 수동 조절 슬라이더 값 업데이트
   const handleUpdateControlValue = () => {
     const updatedData = controlData.map((item: ControlData) => {
       const { location } = item;
@@ -123,71 +214,6 @@ const ControlContent = ({
     updateManualData(JSON.stringify(updatedManualData));
 
     onCloseModal();
-  };
-
-  // 자동 제어 복귀 슬라이더 체크리스트
-  const handleSliderChecked = (location: number) => {
-    if (modalType !== "group") return;
-
-    const isClicked = sliderChecked.includes(location);
-
-    if (isClicked) {
-      setSliderChecked((prev) => prev.filter((id) => id !== location));
-    } else {
-      setSliderChecked((prev) => [...prev, location]);
-    }
-  };
-
-  // 그룹 제어 데이터 패칭
-  const updateGroupControlData = (inputValue: number) => {
-    const selectLocation = controlData.map((item: ControlData) => {
-      const { location } = item;
-      if (sliderChecked.includes(location)) {
-        return { ...item, value: inputValue, controlMode: 7 };
-      }
-      return item;
-    });
-
-    updateControlData(JSON.stringify(selectLocation));
-  };
-
-  // 자동 제어 복귀 슬라이더 데이터 패칭
-  const updateAutoControlData = () => {
-    const selectLocation = controlData.map((item: ControlData) => {
-      const { location } = item;
-      if (sliderChecked.includes(location)) {
-        return { ...item, controlMode: 7 };
-      }
-      return item;
-    });
-
-    updateControlData(JSON.stringify(selectLocation));
-  };
-
-  // 자동 제어 복귀 - 하단 제어 버튼 체크리스트
-  const handleManualChecked = (location: number) => {
-    if (modalType !== "group") return;
-
-    const isClicked = manualChecked.includes(location);
-
-    if (isClicked) {
-      setManualChecked((prev) => prev.filter((id) => id !== location));
-    } else {
-      setManualChecked((prev) => [...prev, location]);
-    }
-  };
-
-  // 자동 제어 복귀 - 하단 제어 버튼 데티어 패칭
-  const updateAutoManualData = () => {
-    const selectManual = manualData.map((item: ControlData) => {
-      const { location } = item;
-      if (manualChecked.includes(location)) {
-        return { ...item, controlMode: 7 };
-      }
-      return item;
-    });
-
-    updateManualData(JSON.stringify(selectManual));
   };
 
   return (
@@ -546,7 +572,7 @@ const ControlContent = ({
           </ul>
         </div>
         <div
-          className={`${modalType === "group" && controlBtn === "자동 제어 복귀" && "z-30"} flex gap-4 justify-center items-center`}
+          className={`${modalType === "group" && (controlBtn === "자동 제어 복귀" || controlBtn === "긴급 제어") && "z-30"} flex gap-4 justify-center items-center`}
         >
           {BTN_LIST.map((list) => {
             return (
@@ -572,11 +598,13 @@ const ControlContent = ({
           modalType === "slider") && (
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60">
             {modalType === "group" && (
-              <GroupContol
+              <GroupControl
                 controlBtn={controlBtn}
+                updateEmergencyControlData={updateEmergencyControlData}
+                updateEmergencyManualData={updateEmergencyManualData}
+                updateGroupControlData={updateGroupControlData}
                 updateAutoControlData={updateAutoControlData}
                 updateAutoManualData={updateAutoManualData}
-                updateGroupControlData={updateGroupControlData}
                 setSliderChecked={setSliderChecked}
                 setManualChecked={setManualChecked}
                 setModalType={setModalType}

@@ -9,6 +9,8 @@ import { Input } from "@/components/common/input";
 
 const GroupControl = ({
   controlBtn,
+  updateEmergencyControlData,
+  updateEmergencyManualData,
   updateAutoControlData,
   updateAutoManualData,
   updateGroupControlData,
@@ -17,6 +19,8 @@ const GroupControl = ({
   setModalType,
 }: {
   controlBtn: string;
+  updateEmergencyControlData: () => void;
+  updateEmergencyManualData: () => void;
   updateAutoControlData: () => void;
   updateAutoManualData: () => void;
   updateGroupControlData: (inputValue: number) => void;
@@ -33,8 +37,13 @@ const GroupControl = ({
   };
 
   const handleAutoControl = () => {
-    updateAutoControlData();
-    updateAutoManualData();
+    if (controlBtn === "자동 제어 복귀") {
+      updateAutoControlData();
+      updateAutoManualData();
+    } else if (controlBtn === "긴급 제어") {
+      updateEmergencyControlData();
+      updateEmergencyManualData();
+    }
 
     onCloseModal();
     setModalType("");
