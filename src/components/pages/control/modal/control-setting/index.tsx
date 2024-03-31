@@ -1,15 +1,25 @@
+import { useState } from "react";
+import useControl from "@/hooks/service/control/useControl";
+
+import { ControlData } from "control";
+
 import Button from "@/components/common/button";
 import CheckBox from "@/components/common/checkbox";
 import Select from "@/components/common/select";
 import Modal from "@/components/common/modal";
 import { Input, TimeInput } from "@/components/common/input";
-import { useState } from "react";
 
 const ControlModal = () => {
   const [select, setSelect] = useState<string>("");
-  const [checkedList, setCheckedList] = useState<Array<string>>([]);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [locationCheckedList, setLocationCheckedList] = useState<Array<number>>(
+    [],
+  );
+  const [timeCheckedList, setTimeCheckedList] = useState<Array<string>>([]);
+  const [isLocationChecked, setIsLocationChecked] = useState<boolean>(false);
+  const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
+
+  const { controlData } = useControl();
 
   const handleControlSelection = (value: string) => {
     setSelect(value);
@@ -22,14 +32,26 @@ const ControlModal = () => {
   const handleCheckedList = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: string,
+    type: string,
   ) => {
     const isChecked = e.target.checked;
-    setIsChecked(isChecked);
 
-    if (isChecked) {
-      setCheckedList((prev) => [...prev, value]);
-    } else {
-      setCheckedList((prev) => prev.filter((item) => item !== value));
+    if (type === "time") {
+      setIsTimeChecked(isChecked);
+
+      if (isChecked) {
+        setTimeCheckedList((prev) => [...prev, value]);
+      } else {
+        setTimeCheckedList((prev) => prev.filter((item) => item !== value));
+      }
+    } else if (type === "location") {
+      setIsLocationChecked(isChecked);
+
+      if (isChecked) {
+        setLocationCheckedList((prev) => [...prev, value]);
+      } else {
+        setLocationCheckedList((prev) => prev.filter((item) => item !== value));
+      }
     }
   };
 
@@ -41,8 +63,14 @@ const ControlModal = () => {
     >
       <div className="w-full flex flex-col justify-center items-center py-3 gap-5">
         <div className="grid-cols-4 grid gap-[.625rem] gap-x-[3.125rem] justify-center">
-          {CHECK_LIST.map((list) => {
-            return <CheckBox labelTitle={list.name} key={list.id} />;
+          {controlData.map((list: ControlData) => {
+            return (
+              <CheckBox
+                labelTitle={list.shapeName}
+                key={list.id}
+                onChange={(e) => handleCheckedList(e, list.shape, "location")}
+              />
+            );
           })}
         </div>
 
@@ -53,25 +81,25 @@ const ControlModal = () => {
                 <li className="flex items-center gap-[.625rem]" key={list.id}>
                   <Button
                     customType="MODAL"
-                    className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem] ${checkedList.includes(list.name) && "bg-yellow"}`}
+                    className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem] ${timeCheckedList.includes(list.name) && "bg-yellow"}`}
                   >
                     {list.name}
                   </Button>
                   <TimeInput
                     maxLength={2}
                     className="text-right"
-                    inputWrap={`${checkedList.includes(list.name) && "bg-yellow"}`}
+                    inputWrap={`${timeCheckedList.includes(list.name) && "bg-yellow"}`}
                   />
                   <CheckBox
-                    checked={checkedList.includes(list.name)}
-                    onChange={(e) => handleCheckedList(e, list.name)}
+                    checked={timeCheckedList.includes(list.name)}
+                    onChange={(e) => handleCheckedList(e, list.name, "time")}
                   />
                   <Select
                     options={SELECT_OPTION}
                     onChange={(e) => {
                       handleControlSelection(e.target.value);
                     }}
-                    selectWrap={`${checkedList.includes(list.name) && "bg-yellow"}`}
+                    selectWrap={`${timeCheckedList.includes(list.name) && "bg-yellow"}`}
                   />
                 </li>
               </>
@@ -196,21 +224,6 @@ export default ControlModal;
 const BTN_LIST = [
   { id: 1, name: "설명서", img: "info@2x.svg" },
   { id: 2, name: "설정저장", img: "save@2x.svg" },
-];
-
-const CHECK_LIST = [
-  { id: 1, name: "좌 측창 1" },
-  { id: 2, name: "좌 측창 2" },
-  { id: 3, name: "좌 측창 3" },
-  { id: 4, name: "우 측창 1" },
-  { id: 5, name: "우 측창 2" },
-  { id: 6, name: "우 측창 3" },
-  { id: 7, name: "좌 천창 1" },
-  { id: 8, name: "좌 천창 2" },
-  { id: 9, name: "좌 천창 3" },
-  { id: 10, name: "우 천창 1" },
-  { id: 11, name: "우 천창 2" },
-  { id: 12, name: "우 천창 3" },
 ];
 
 const COUNT_LIST = [
