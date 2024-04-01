@@ -26,10 +26,11 @@ const ControlContent = ({
   const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
 
   const [toggle, setToggle] = useState<boolean>(false);
+  const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
   const [manualBtn, setManualBtn] = useState<string>("");
   const [sliderValue, setSliderValue] = useState({});
-  const [cctv, setCctv] = useState<boolean>(false);
+  const [controlDataUpdate, setControlDataUpdate] = useState<ControlData[]>([]);
   const [sliderChecked, setSliderChecked] = useState<Array<number>>([]);
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
 
@@ -189,7 +190,7 @@ const ControlContent = ({
       }
     });
 
-    updateControlData(JSON.stringify(updatedData));
+    setControlDataUpdate(updatedData);
   };
 
   useEffect(() => {
@@ -626,7 +627,9 @@ const ControlContent = ({
             {modalType === "manual-control" && (
               <ManualControlModal manualBtn={manualBtn} />
             )}
-            {modalType === "slider" && <SliderControl />}
+            {modalType === "slider" && (
+              <SliderControl data={controlDataUpdate} />
+            )}
           </div>
         )}
     </>

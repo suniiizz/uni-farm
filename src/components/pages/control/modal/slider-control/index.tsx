@@ -3,11 +3,19 @@ import { useContext } from "react";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import Modal from "@/components/common/modal";
+import { updateControlData } from "@/http/control";
+import { ControlData } from "control";
 
-const SliderControl = () => {
+const SliderControl = ({ data }: { data: ControlData[] }) => {
   const { onCloseModal } = useContext(ModalContext);
 
-  const handleCancleClick = () => {
+  const handleMoveClick = async () => {
+    updateControlData(JSON.stringify(data));
+
+    onCloseModal();
+  };
+
+  const handleCancelClick = () => {
     onCloseModal();
     window.location.reload();
   };
@@ -23,12 +31,12 @@ const SliderControl = () => {
           <Button
             customType="SUB"
             className="w-[7.5rem]"
-            onClick={onCloseModal}
+            onClick={handleMoveClick}
           >
             동작
           </Button>
           <Button
-            onClick={handleCancleClick}
+            onClick={handleCancelClick}
             customType="SUB"
             className="w-[7.5rem]"
           >
