@@ -81,12 +81,14 @@ const TimeInput = ({ maxLength, ...props }: Props) => {
         className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-5 text-white`}
       >
         <Input
+          registerName="fromTime"
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
+          registerName="fromMinute"
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
@@ -94,12 +96,14 @@ const TimeInput = ({ maxLength, ...props }: Props) => {
         <span className="text-[1.375rem] font-bold">분</span>
         <span className="inline-block ml-2">~</span>
         <Input
+          registerName="toTime"
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
+          registerName="toMinute"
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"

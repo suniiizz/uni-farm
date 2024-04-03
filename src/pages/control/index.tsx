@@ -3,17 +3,18 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 import { FormProvider, useForm } from "react-hook-form";
-import { ModalContext } from "@/components/common/modal/context/modalContext";
-import ControlModal from "@/components/pages/control/modal/control-setting";
-import ControlContent from "@/components/pages/control/controlContent";
-
-import Button from "@/components/common/button";
-import VerticalTab from "@/components/common/tab";
-import DeviceModal from "@/components/pages/control/modal/device-setting";
+import useControl from "@/hooks/service/control/useControl";
 
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
+import { ModalContext } from "@/components/common/modal/context/modalContext";
+import ControlModal from "@/components/pages/control/modal/control-setting";
+import ControlContent from "@/components/pages/control/ControlContent";
+import Button from "@/components/common/button";
+import VerticalTab from "@/components/common/tab";
+import DeviceModal from "@/components/pages/control/modal/device-setting";
 
 const WeatherControl = () => {
   const methods = useForm();
@@ -23,6 +24,8 @@ const WeatherControl = () => {
   const [value, setValue] = useState(1);
   const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  const { controlData } = useControl();
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
@@ -119,6 +122,7 @@ const WeatherControl = () => {
               <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
                 {section === "1" && (
                   <ControlContent
+                    controlData={controlData}
                     modalType={modalType}
                     setModalType={setModalType}
                   />
@@ -130,7 +134,9 @@ const WeatherControl = () => {
           </div>
         </div>
 
-        {isOpen && modalType === "control" && <ControlModal />}
+        {isOpen && modalType === "control" && (
+          <ControlModal controlData={controlData} />
+        )}
         {isOpen && modalType === "device" && <DeviceModal />}
       </FormProvider>
     </>

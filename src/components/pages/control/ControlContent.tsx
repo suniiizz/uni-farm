@@ -3,23 +3,24 @@ import { useContext, useEffect, useState } from "react";
 // import useGlobalQuery from "@/hooks/global/useGlobalQuery";
 // import { useGetSensor } from "@/hooks/service/control/useGetSensor";
 import useSensor from "@/hooks/service/control/useSensor";
-import useControl from "@/hooks/service/control/useControl";
 import useManual from "@/hooks/service/control/useManual";
 import { updateControlData, updateManualData } from "@/http/control";
+import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
-import Button from "@/components/common/button";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import SliderControl from "@/components/pages/control/modal/slider-control";
-import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
 import GroupControl from "./modal/control-button/groupControl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
 import ManualControlModal from "@/components/pages/control/modal/manual-button/manualControl";
+import Button from "@/components/common/button";
 
 const ControlContent = ({
+  controlData,
   modalType,
   setModalType,
 }: {
+  controlData: never[];
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -35,7 +36,6 @@ const ControlContent = ({
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
 
   const { sensorData } = useSensor();
-  const { controlData } = useControl();
   const { manualData } = useManual();
 
   // const { data: sensorList } = useGlobalQuery(useGetSensor);

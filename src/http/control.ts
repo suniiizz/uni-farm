@@ -2,7 +2,7 @@ import axios from "axios";
 // import { ajaxRequest } from "@/http/sns";
 
 export const getSensorData = async () => {
-  const response = axios.get(
+  const response = await axios.get(
     "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
   );
 
@@ -18,7 +18,7 @@ export const getControlData = async () => {
 
   // ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
 
-  const response = axios.get(
+  const response = await axios.get(
     "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
   );
 
@@ -26,7 +26,7 @@ export const getControlData = async () => {
 };
 
 export const updateControlData = async (params: string) => {
-  const response = axios.get(
+  const response = await axios.get(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
   );
 
@@ -34,7 +34,7 @@ export const updateControlData = async (params: string) => {
 };
 
 export const getManualData = async () => {
-  const response = axios.get(
+  const response = await axios.get(
     "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/relay_list?farmCode=0002&houseNo=01&enable=1",
   );
 
@@ -42,8 +42,26 @@ export const getManualData = async () => {
 };
 
 export const updateManualData = async (params: string) => {
-  const response = axios.get(
+  const response = await axios.get(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
+  );
+
+  return response;
+};
+
+// 시간 데이터?
+export const getControlModalData = async (params: number) => {
+  const response = await axios.get(
+    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_time_control_list?opclId=${encodeURI(params)}`,
+  );
+
+  return response;
+};
+
+// 설정 저장
+export const updateControlSetData = async (params: string) => {
+  const response = await axios.get(
+    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_opcl_time_control?opclTimeControlList=${encodeURI(params)} &opclIds=172,146,111`,
   );
 
   return response;
