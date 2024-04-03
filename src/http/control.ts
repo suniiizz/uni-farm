@@ -49,7 +49,7 @@ export const updateManualData = async (params: string) => {
   return response;
 };
 
-// 시간 데이터?
+// 위치별 데이터
 export const getControlModalData = async (params: string) => {
   const response = await axios.get(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_time_control_list?opclId=${encodeURI(params)}`,

@@ -40,4 +40,52 @@ declare module "control" {
   export type ManualData = {
     no: number;
   };
+
+  export type OpclSensorControlDto = {
+    id: number;
+    priority: number;
+    enable: number;
+    sensorNo: number;
+    useUpperLimit: number;
+    upperLimit: number;
+    upperLimitLocation: number;
+    useIncludeimit: number;
+    includeLimitLocation: number;
+    useLowerLimit: number;
+    lowerLimit: number;
+    lowerLimitLocation: number;
+    useRatioControl: number;
+    ratioControl: number;
+    useInnerSensor: number;
+    useTimerControl: number;
+    timerControl: number;
+    timerOperationTime: number;
+    opclTimeControlId: number;
+  };
+
+  export type OpclLocationControlDto = {
+    id: number;
+    enable: number;
+    targetLocation: number;
+    useTimer: number;
+    cycle: number;
+    operationTime: number;
+    onLocation: number;
+    offLocation: number;
+    opclTimeControlId: number;
+  };
+
+  export type ControlModalData = {
+    id: number;
+    no: number;
+    enable: number;
+    mode: number;
+    fromTime: string;
+    toTime: string;
+    opclLocationControlDto: OpclLocationControlDto;
+    opclSensorControlDtoList: OpclSensorControlDto[];
+    opclId: number;
+  };
+
+  export type OpclData = ControlModalData[];
 }

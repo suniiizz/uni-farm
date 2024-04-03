@@ -11,6 +11,10 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   labelMarginNone?: boolean;
   disabled?: boolean;
   labelBlack?: boolean;
+  fromTime?: string;
+  fromMinute?: string;
+  toTime?: string;
+  toMinute?: string;
 };
 
 const Input = ({
@@ -71,7 +75,14 @@ const Input = ({
   );
 };
 
-const TimeInput = ({ maxLength, ...props }: Props) => {
+const TimeInput = ({
+  maxLength,
+  fromTime,
+  fromMinute,
+  toTime,
+  toMinute,
+  ...props
+}: Props) => {
   const inputWrap = `flex items-center ${props.inputWrap ?? ""}`;
   const className = `outline-0 border-none bg-inherit w-6 ${props.className ?? ""}`;
 
@@ -81,14 +92,14 @@ const TimeInput = ({ maxLength, ...props }: Props) => {
         className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-5 text-white`}
       >
         <Input
-          registerName="fromTime"
+          registerName={fromTime}
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
-          registerName="fromMinute"
+          registerName={fromMinute}
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
@@ -96,14 +107,14 @@ const TimeInput = ({ maxLength, ...props }: Props) => {
         <span className="text-[1.375rem] font-bold">분</span>
         <span className="inline-block ml-2">~</span>
         <Input
-          registerName="toTime"
+          registerName={toTime}
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
-          registerName="toMinute"
+          registerName={toMinute}
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"

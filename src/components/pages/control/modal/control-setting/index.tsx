@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { ControlData } from "control";
+import useControlSetting from "@/hooks/service/control/useControlSetting";
 
 import Button from "@/components/common/button";
 import CheckBox from "@/components/common/checkbox";
 import Select from "@/components/common/select";
 import Modal from "@/components/common/modal";
 import { Input, TimeInput } from "@/components/common/input";
-import { FormProvider, useForm } from "react-hook-form";
 
 const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const methods = useForm();
@@ -25,7 +26,9 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   isLocationChecked;
   isTimeChecked;
 
-  // const { controlSetData } = useControlSetting(172);
+  const locationId = locationCheckedList[locationCheckedList.length - 1];
+
+  const { controlSetData } = useControlSetting(locationId);
 
   // 옵션 선택
   const handleOptionSelect = (value: string, type: string) => {
@@ -36,16 +39,20 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     }
   };
 
-  // useEffect(() => {
-  //   controlSetData.forEach((data, index) => {
-  //     methods.setValue(`fromTime[${index}]`, data.fromTime);
-  //   });
-  // }, [controlSetData]);
+  useEffect(() => {
+    if (!controlSetData?.length) return;
+
+    methods.reset({
+      fromTime: controlSetData.map((value) => value.fromTime.slice(0, 2)),
+      fromMinute: controlSetData.map((value) => value.fromTime.slice(3, 5)),
+      toTime: controlSetData.map((value) => value.toTime.slice(0, 2)),
+      toMinute: controlSetData.map((value) => value.toTime.slice(3, 5)),
+    });
+  }, [controlSetData]);
 
   // 타이머 제어 체크박스 클릭 시
   const handleTimerCheck = () => {
     setTimerControl(!timerControl);
-    // methods.setValue("fromTime", controlSetData[0].fromTime);
   };
 
   // 체크박스 체크 시 state 저장
@@ -96,19 +103,22 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
       >
         <div className="w-full flex flex-col justify-center items-center py-3 gap-5">
           <div className="grid-cols-4 grid gap-[.625rem] gap-x-[2.8125rem] justify-center">
-            {controlData.map((list: ControlData) => {
+            {controlData.map((list: ControlData, index) => {
               return (
                 <CheckBox
+                  registerName={`location.${index}`}
                   labelTitle={list.shapeName}
                   key={list.id}
-                  onChange={(e) => handleCheckedList(e, list.shape, "location")}
+                  onChangeCallBack={(e) =>
+                    handleCheckedList(e, list.id, "location")
+                  }
                 />
               );
             })}
           </div>
 
           <ul className="w-full flex flex-col justify-center items-center max-w-[36.8125rem] gap-[.375rem]">
-            {COUNT_LIST.map((list) => {
+            {COUNT_LIST.map((list, index) => {
               return (
                 <>
                   <li className="flex items-center gap-[.625rem]" key={list.id}>
@@ -122,10 +132,17 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                       maxLength={2}
                       className="text-right w-[1.875rem]"
                       inputWrap={`${timeCheckedList.includes(list.name) && "bg-yellow"}`}
+                      fromTime={`fromTime.${index}`}
+                      fromMinute={`fromMinute.${index}`}
+                      toTime={`toTime.${index}`}
+                      toMinute={`toMinute.${index}`}
                     />
                     <CheckBox
+                      registerName={`timeCheck.${index}`}
                       checked={timeCheckedList.includes(list.name)}
-                      onChange={(e) => handleCheckedList(e, list.name, "time")}
+                      onChangeCallBack={(e) =>
+                        handleCheckedList(e, list.name, "time")
+                      }
                     />
                     <Select
                       options={SELECT_OPTION}
@@ -146,6 +163,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
             {select === "" || select === "예약" ? (
               <div className="flex justify-between w-[75%]">
                 <CheckBox
+                  registerName="timerControl"
                   labelTitle="타이머 제어"
                   onChange={() => handleTimerCheck()}
                 />
@@ -182,10 +200,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
             ) : (
               <div className="flex gap-4 items-center justify-center">
                 <ul className="flex flex-col gap-2">
-                  {SENSOR_CONT_LIST.map((list) => {
+                  {SENSOR_CONT_LIST.map((list, index) => {
                     return (
                       <li className="flex gap-4" key={list.id}>
                         <CheckBox
+                          registerName={`getUse.${index}`}
                           labelTitle={`${list.id} 번째 사용`}
                           className="!gap-2"
                         />
@@ -201,7 +220,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   })}
                 </ul>
                 <ul className="flex flex-col gap-2">
-                  {SENSOR_CONT_OPTION2.map((list) => {
+                  {SENSOR_CONT_OPTION2.map((list, index) => {
                     if (
                       `${select}` === "온도" ||
                       `${select}` === "습도" ||
@@ -212,6 +231,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                         <li className="flex justify-between h-[2.8125rem]">
                           <>
                             <CheckBox
+                              registerName={`secondOption.${index}`}
                               labelTitle={`${list.name}`}
                               key={list.id}
                               className="!gap-2 !text-[1.125rem] mr-3"
@@ -238,6 +258,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                         <>
                           <li className="flex justify-between h-[2.8125rem]">
                             <CheckBox
+                              registerName={`secondOption.${index}`}
                               labelTitle={`${list.name}`}
                               key={list.id}
                               className="!gap-2 !text-[1.125rem] mr-3"
@@ -263,10 +284,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   })}
                 </ul>
                 <ul className="flex flex-col gap-2">
-                  {SENSOR_CONT_OPTION3.map((list) => {
+                  {SENSOR_CONT_OPTION3.map((list, index) => {
                     return (
                       <li className="flex justify-between">
                         <CheckBox
+                          registerName={`thirdOption.${index}`}
                           labelTitle={`${list.name}`}
                           key={list.id}
                           className="!gap-2 !text-[1.125rem] mr-3"

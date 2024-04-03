@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getControlModalData } from "@/http/control";
+import { OpclData } from "control";
 
-const useControlSetting = (id: string) => {
-  const [controlSetData, setControlSetData] = useState([]);
+const useControlSetting = (id: number) => {
+  const [controlSetData, setControlSetData] = useState<OpclData>([]);
 
   const fetchControlSetData = async () => {
-    await getControlModalData(id)
+    await getControlModalData(id.toString())
       .then((response) => {
         setControlSetData(response.data);
       })
@@ -16,7 +17,7 @@ const useControlSetting = (id: string) => {
 
   useEffect(() => {
     fetchControlSetData();
-  }, []);
+  }, [id]);
 
   return {
     controlSetData,
