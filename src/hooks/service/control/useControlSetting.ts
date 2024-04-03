@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getControlModalData } from "@/http/control";
 
-const useControlSetting = (id: number) => {
+const useControlSetting = (id: string) => {
   const [controlSetData, setControlSetData] = useState([]);
 
   const fetchControlSetData = async () => {

@@ -33,6 +33,7 @@ const WeatherControl = () => {
   }, [location]);
 
   const handleSideTabChange = (e: React.SyntheticEvent, newValue: number) => {
+    e;
     setValue(newValue);
   };
 

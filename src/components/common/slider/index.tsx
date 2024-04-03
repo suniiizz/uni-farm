@@ -25,13 +25,16 @@ export const RowReverseBar = ({
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
+  value;
 
   const handleChange = (
-    event: React.SyntheticEvent | Event,
+    e: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
+    e;
     const reversedValue =
-      ((marks.length - 1 - newValue) / (marks.length - 1)) * 10 + 90;
+      ((marks.length - 1 - (newValue as number)) / (marks.length - 1)) * 10 +
+      90;
 
     // 슬라이더 변경 값 저장
     setValue(newValue as number);
@@ -40,7 +43,7 @@ export const RowReverseBar = ({
     sliderValue(location, reversedValue);
   };
 
-  const handleSliderContorl = (type: string) => {
+  const handleSliderControl = (type: string) => {
     if (disabled) return;
 
     setModalType(type);
@@ -87,7 +90,7 @@ export const RowReverseBar = ({
             max={100}
             min={0}
             onChangeCommitted={handleChange}
-            onClick={() => handleSliderContorl("slider")}
+            onClick={() => handleSliderControl("slider")}
           />
         </Box>
         <div className="flex items-center flex-col w-[2.25rem]">
@@ -126,14 +129,15 @@ export const RowBar = ({
     e: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
+    e;
     // 슬라이더 변경 값 저장
     setValue(newValue as number);
 
     // 슬라이더 변경된 location 저장
-    sliderValue(location, newValue);
+    sliderValue(location, newValue as number);
   };
 
-  const handleSliderContorl = (type: string) => {
+  const handleSliderControl = (type: string) => {
     if (disabled) return;
 
     setModalType(type);
@@ -162,7 +166,7 @@ export const RowBar = ({
       >
         <span
           onClick={() => {
-            handelCloseBtn("close"), handleSliderContorl("slider");
+            handelCloseBtn("close"), handleSliderControl("slider");
           }}
           className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
         ></span>
@@ -192,7 +196,7 @@ export const RowBar = ({
             max={100}
             min={0}
             onChangeCommitted={handleChange}
-            onClick={() => handleSliderContorl("slider")}
+            onClick={() => handleSliderControl("slider")}
           />
         </Box>
         <div className="flex items-center flex-col w-[2.25rem]">
@@ -201,7 +205,7 @@ export const RowBar = ({
         </div>
         <span
           onClick={() => {
-            handelCloseBtn("open"), handleSliderContorl("slider");
+            handelCloseBtn("open"), handleSliderControl("slider");
           }}
           className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
         ></span>
@@ -233,17 +237,18 @@ export const ColBar = ({
   const [value, setValue] = useState<number>(currentValue);
 
   const handleChange = (
-    event: React.SyntheticEvent | Event,
+    e: React.SyntheticEvent | Event,
     newValue: number | number[],
   ) => {
+    e;
     // 슬라이더 변경 값 저장
     setValue(newValue as number);
 
     // 슬라이더 변경된 location 저장
-    sliderValue(location, newValue);
+    sliderValue(location, newValue as number);
   };
 
-  const handleSliderContorl = (type: string) => {
+  const handleSliderControl = (type: string) => {
     setModalType(type);
     onOpenModal();
   };
@@ -282,7 +287,7 @@ export const ColBar = ({
             max={100}
             min={0}
             onChangeCommitted={handleChange}
-            onClick={() => handleSliderContorl("slider")}
+            onClick={() => handleSliderControl("slider")}
           />
         </Box>
         <div className="flex items-center flex-col">

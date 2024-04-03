@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ControlData } from "control";
 
@@ -7,8 +7,6 @@ import CheckBox from "@/components/common/checkbox";
 import Select from "@/components/common/select";
 import Modal from "@/components/common/modal";
 import { Input, TimeInput } from "@/components/common/input";
-import { getControlModalData } from "@/http/control";
-import useControlSetting from "@/hooks/service/control/useControlSetting";
 import { FormProvider, useForm } from "react-hook-form";
 
 const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
@@ -23,17 +21,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
 
-  // console.log("locationCheckedList", locationCheckedList);
+  locationCheckedList;
+  isLocationChecked;
+  isTimeChecked;
 
-  const { controlSetData } = useControlSetting(172);
-
-  // const test = controlSetData.map((value, index) => {
-  //   return {
-  //     ...value,
-  //     formTime:
-  //   }
-  // });
-  // console.log("test", test);
+  // const { controlSetData } = useControlSetting(172);
 
   // 옵션 선택
   const handleOptionSelect = (value: string, type: string) => {
@@ -44,11 +36,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     }
   };
 
-  useEffect(() => {
-    controlSetData.forEach((data, index) => {
-      methods.setValue(`fromTime[${index}]`, data.fromTime);
-    });
-  }, [controlSetData]);
+  // useEffect(() => {
+  //   controlSetData.forEach((data, index) => {
+  //     methods.setValue(`fromTime[${index}]`, data.fromTime);
+  //   });
+  // }, [controlSetData]);
 
   // 타이머 제어 체크박스 클릭 시
   const handleTimerCheck = () => {
@@ -59,7 +51,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   // 체크박스 체크 시 state 저장
   const handleCheckedList = (
     e: React.ChangeEvent<HTMLInputElement>,
-    value: string,
+    value: string | number,
     type: string,
   ) => {
     const isChecked = e.target.checked;
@@ -68,7 +60,13 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
       setIsTimeChecked(isChecked);
 
       if (isChecked) {
-        setTimeCheckedList((prev) => [...prev, value]);
+        setTimeCheckedList((prev) => {
+          if (typeof value === "string") {
+            return [...prev, value];
+          } else {
+            return prev;
+          }
+        });
       } else {
         setTimeCheckedList((prev) => prev.filter((item) => item !== value));
       }
@@ -76,7 +74,13 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
       setIsLocationChecked(isChecked);
 
       if (isChecked) {
-        setLocationCheckedList((prev) => [...prev, value]);
+        setLocationCheckedList((prev) => {
+          if (typeof value === "number") {
+            return [...prev, value];
+          } else {
+            return prev;
+          }
+        });
       } else {
         setLocationCheckedList((prev) => prev.filter((item) => item !== value));
       }

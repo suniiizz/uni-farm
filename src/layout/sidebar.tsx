@@ -16,22 +16,24 @@ const Nav = () => {
   return (
     <>
       <div className="flex h-screen fixed top-[3.75rem] left-0 z-10">
-        <Sidebar width="12.5rem" rootStyles={rootStyles}>
-          <Menu>
-            {MENU.map((e) => {
-              return (
-                <MenuItem
-                  key={e.key}
-                  component={<Link to={`${e.path}`} />}
-                  icon={e.icon}
-                  active={e.path === pathname}
-                >
-                  {e.label}
-                </MenuItem>
-              );
-            })}
-          </Menu>
-          <div className="w-[12.5rem] max-h-[20.625rem] h-auto bg-[#212120] p-[.625rem]">
+        <div className={`flex flex-col justify-between h-[calc(100vh-60px)]`}>
+          <Sidebar width="12.5rem" rootStyles={rootStyles}>
+            <Menu>
+              {MENU.map((e) => {
+                return (
+                  <MenuItem
+                    key={e.key}
+                    component={<Link to={`${e.path}`} />}
+                    icon={e.icon}
+                    active={e.path === pathname}
+                  >
+                    {e.label}
+                  </MenuItem>
+                );
+              })}
+            </Menu>
+          </Sidebar>
+          <div className="w-[12.5rem] max-h-[20.625rem] h-auto bg-[#212120] p-[.625rem] text-white">
             <p className="pb-[.625rem] border-b-2">(주)소하테크</p>
             <div className="pt-4 pb-[1.875rem] flex flex-col gap-1">
               <span className="">대표 윤득중</span>
@@ -55,10 +57,30 @@ const Nav = () => {
               Copyright ⓒ SOHA-TECH All Right Reserved.
             </span>
           </div>
-        </Sidebar>
+        </div>
       </div>
     </>
   );
+};
+
+export default Nav;
+
+const rootStyles = {
+  "&.ps-sidebar-root": {
+    borderRightWidth: "0",
+    color: "#fff",
+    height: "100%",
+    ".ps-sidebar-container": {
+      backgroundColor: "#746A68",
+    },
+    ".ps-menu-icon": { minWidth: "1.5rem", width: "1.5rem", height: "1.5rem" },
+    ".ps-menu-button:hover": {
+      backgroundColor: "#D0943A",
+    },
+    ".ps-active": {
+      backgroundColor: "#D0943A",
+    },
+  },
 };
 
 const MENU = [
@@ -117,26 +139,3 @@ const MENU = [
     icon: <List />,
   },
 ];
-
-const rootStyles = {
-  "&.ps-sidebar-root": {
-    borderRightWidth: "0",
-    color: "#fff",
-    ".ps-sidebar-container": {
-      backgroundColor: "#746A68",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      height: "calc(100vh - 60px)",
-    },
-    ".ps-menu-icon": { minWidth: "1.5rem", width: "1.5rem", height: "1.5rem" },
-    ".ps-menu-button:hover": {
-      backgroundColor: "#D0943A",
-    },
-    ".ps-active": {
-      backgroundColor: "#D0943A",
-    },
-  },
-};
-
-export default Nav;

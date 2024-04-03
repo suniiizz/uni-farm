@@ -20,7 +20,7 @@ const ControlContent = ({
   modalType,
   setModalType,
 }: {
-  controlData: never[];
+  controlData: ControlData[];
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -30,7 +30,7 @@ const ControlContent = ({
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
   const [manualBtn, setManualBtn] = useState<string>("");
-  const [sliderValue, setSliderValue] = useState({});
+  const [sliderValue, setSliderValue] = useState<Array<number>>([]);
   const [controlDataUpdate, setControlDataUpdate] = useState<ControlData[]>([]);
   const [sliderChecked, setSliderChecked] = useState<Array<number>>([]);
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
@@ -168,7 +168,7 @@ const ControlContent = ({
       (item: ControlData) => item.location === location,
     );
 
-    return controlDataList?.value;
+    return controlDataList?.value ?? 0;
   };
 
   // 수동 조절 슬라이더 위치, 값 저장
@@ -183,7 +183,7 @@ const ControlContent = ({
   const handleUpdateControlValue = () => {
     const updatedData = controlData.map((item: ControlData) => {
       const { location } = item;
-      if (sliderValue.hasOwnProperty(location)) {
+      if (location in sliderValue) {
         return { ...item, value: sliderValue[location], controlMode: 2 };
       } else {
         return { ...item, controlMode: 0 };
@@ -296,7 +296,7 @@ const ControlContent = ({
             <div
               className={`${(modalType === "slider" || modalType === "group") && "z-40"} flex justify-end flex-col-reverse gap-2`}
             >
-              {controlData?.map((object: ControlData) => {
+              {controlData.map((object: ControlData) => {
                 return (
                   <>
                     {object.location === 13 && (
