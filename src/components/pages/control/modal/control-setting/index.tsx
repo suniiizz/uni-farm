@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { ControlData } from "control";
@@ -12,6 +12,7 @@ import { Input, TimeInput } from "@/components/common/input";
 
 const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const methods = useForm();
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [select, setSelect] = useState<string>("");
   const [locationCheckedList, setLocationCheckedList] = useState<Array<number>>(
@@ -21,6 +22,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [isLocationChecked, setIsLocationChecked] = useState<boolean>(false);
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
+  const [inputFocus, setInputFocus] = useState<number | null>(null);
 
   locationCheckedList;
   isLocationChecked;
@@ -94,6 +96,25 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     }
   };
 
+  // 인풋 포커즈
+  useEffect(() => {
+    const handleFocusOutInput = (e: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
+        setInputFocus(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleFocusOutInput);
+  }, []);
+
+  // 시간 인풋 포커즈
+  const handleFocusInput = (index: number) => {
+    setInputFocus(index);
+  };
+
   return (
     <FormProvider {...methods}>
       <Modal
@@ -124,18 +145,21 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   <li className="flex items-center gap-[.625rem]" key={list.id}>
                     <Button
                       customType="MODAL"
-                      className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem] ${timeCheckedList.includes(list.name) && "bg-yellow"}`}
+                      className={`py-[.625rem] w-[8.4375rem] h-[2.8125rem] !text-[1.375rem]`}
                     >
                       {list.name}
                     </Button>
                     <TimeInput
+                      wrapperRef={wrapperRef}
                       maxLength={2}
-                      className="text-right w-[1.875rem]"
-                      inputWrap={`${timeCheckedList.includes(list.name) && "bg-yellow"}`}
+                      className="text-right w-[1.875rem] focus:bg-yellow"
+                      inputWrap={`${inputFocus === index && "bg-yellow"}`}
                       fromTime={`fromTime.${index}`}
                       fromMinute={`fromMinute.${index}`}
                       toTime={`toTime.${index}`}
                       toMinute={`toMinute.${index}`}
+                      onFocus={() => handleFocusInput(index)}
+                      onBlur={() => setInputFocus(null)}
                     />
                     <CheckBox
                       registerName={`timeCheck.${index}`}
@@ -149,7 +173,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                       onChange={(e) => {
                         handleOptionSelect(e.target.value, "time");
                       }}
-                      selectWrap={`${timeCheckedList.includes(list.name) && "bg-yellow"}`}
                     />
                   </li>
                 </>
@@ -165,7 +188,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                 <CheckBox
                   registerName="timerControl"
                   labelTitle="타이머 제어"
-                  onChange={() => handleTimerCheck()}
+                  onChangeCallBack={handleTimerCheck}
                 />
                 {timerControl ? (
                   <ul className="gap-2 grid grid-cols-2 gap-x-[1.875rem]">

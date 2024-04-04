@@ -17,6 +17,10 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   toMinute?: string;
 };
 
+type Ref = {
+  wrapperRef?: React.RefObject<HTMLDivElement>;
+};
+
 const Input = ({
   unit,
   label,
@@ -81,8 +85,11 @@ const TimeInput = ({
   fromMinute,
   toTime,
   toMinute,
+  onFocus,
+  onBlur,
+  wrapperRef,
   ...props
-}: Props) => {
+}: Props & Ref) => {
   const inputWrap = `flex items-center ${props.inputWrap ?? ""}`;
   const className = `outline-0 border-none bg-inherit w-6 ${props.className ?? ""}`;
 
@@ -90,12 +97,15 @@ const TimeInput = ({
     <>
       <div
         className={`${inputWrap} rounded-lg bg-sub2 h-[2.8125rem] p-[.625rem] pr-[1.875rem] pl-5 text-white`}
+        ref={wrapperRef}
       >
         <Input
           registerName={fromTime}
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
@@ -103,6 +113,8 @@ const TimeInput = ({
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <span className="text-[1.375rem] font-bold">분</span>
         <span className="inline-block ml-2">~</span>
@@ -111,6 +123,8 @@ const TimeInput = ({
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <span className="text-[1.375rem] font-bold">시</span>
         <Input
@@ -118,6 +132,8 @@ const TimeInput = ({
           maxLength={maxLength}
           className={`${className} text-[1.375rem] font-bold`}
           inputWrap="pr-1 pl-2"
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <span className="text-[1.375rem] font-bold">분</span>
       </div>
