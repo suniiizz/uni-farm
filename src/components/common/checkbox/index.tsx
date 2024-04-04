@@ -18,40 +18,43 @@ const CheckBox = ({
 }: Props) => {
   const { register } = useFormContext();
 
+  if (!registerName) {
+    return (
+      <input
+        type="checkbox"
+        id={props.id}
+        checked={props.checked}
+        onChange={props.onChange}
+        disabled={props.disabled}
+        readOnly={props.readOnly}
+        className={`${defaultStyle}`}
+        value={props.value}
+      />
+    );
+  }
+
   return (
     <>
-      {registerName ? (
-        onChangeCallBack || labelTitle ? (
-          <label
-            htmlFor={props.id}
-            className={`text-white cursor-pointer text-[1rem] font-bold flex items-center gap-5 ${className ?? ""}`}
-          >
-            <input
-              type="checkbox"
-              id={props.id}
-              checked={props.checked}
-              disabled={props.disabled}
-              readOnly={props.readOnly}
-              className={`${defaultStyle}`}
-              {...register(registerName, {})}
-              onChange={onChangeCallBack}
-            />
-            {labelTitle}
-          </label>
-        ) : (
+      {onChangeCallBack || labelTitle ? (
+        <label
+          htmlFor={props.id}
+          className={`text-white cursor-pointer text-[1rem] font-bold flex items-center gap-5 ${className ?? ""}`}
+        >
           <input
             type="checkbox"
             id={props.id}
             checked={props.checked}
-            onChange={props.onChange}
             disabled={props.disabled}
             readOnly={props.readOnly}
             className={`${defaultStyle}`}
-            value={props.value}
+            {...register(registerName, {})}
+            onChange={onChangeCallBack}
           />
-        )
+          {labelTitle}
+        </label>
       ) : (
         <input
+          type="checkbox"
           id={props.id}
           checked={props.checked}
           onChange={props.onChange}

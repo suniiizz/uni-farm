@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { ControlData } from "control";
+import { ControlData, OpclData } from "control";
 import useControlSetting from "@/hooks/service/control/useControlSetting";
 
 import Button from "@/components/common/button";
@@ -14,15 +14,19 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const methods = useForm();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const [select, setSelect] = useState<string>("");
+  const [sensorOption, setSensorOption] = useState<string>("");
+  const [timeOption, setTimeOption] = useState<number>(0);
   const [locationCheckedList, setLocationCheckedList] = useState<Array<number>>(
     [],
   );
-  const [timeCheckedList, setTimeCheckedList] = useState<Array<string>>([]);
+  const [timeCheckedList, setTimeCheckedList] = useState<Array<number>>([]);
   const [isLocationChecked, setIsLocationChecked] = useState<boolean>(false);
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
+  const [data, setData] = useState<OpclData>([]);
+
+  console.log("data", data);
 
   locationCheckedList;
   isLocationChecked;
@@ -32,12 +36,40 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
   const { controlSetData } = useControlSetting(locationId);
 
+  useEffect(() => {
+    handleTimeUpdate();
+  }, [timeCheckedList]);
+
+  const handleTimeUpdate = () => {
+    const test = controlSetData.map((value, index) => {
+      const { no } = value;
+
+      const updatedOpclLocationControlDto = {
+        ...value.opclLocationControlDto,
+        cycle: parseInt(methods.watch("cycle")),
+        onLocation: parseInt(methods.watch("onLocation")),
+        operationTime: parseInt(methods.watch("operationTime")),
+        offLocation: parseInt(methods.watch("offLocation")),
+      };
+
+      const timeOption = methods.getValues(`timeOption.${index}`);
+      const mode = timeCheckedList.includes(no) ? parseInt(timeOption) : 0;
+      return {
+        ...value,
+        mode: mode,
+        opclLocationControlDto: updatedOpclLocationControlDto,
+      };
+    });
+
+    setData(test);
+  };
+
   // 옵션 선택
-  const handleOptionSelect = (value: string, type: string) => {
+  const handleOptionSelect = (value: any, type: string) => {
     if (type === "time") {
-      setSelect(value);
+      setTimeOption(value);
     } else if (type === "use") {
-      setSelect(value);
+      setSensorOption(value);
     }
   };
 
@@ -54,13 +86,13 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
   // 타이머 제어 체크박스 클릭 시
   const handleTimerCheck = () => {
-    setTimerControl(!timerControl);
+    setTimerControl((prev) => !prev);
   };
 
   // 체크박스 체크 시 state 저장
   const handleCheckedList = (
     e: React.ChangeEvent<HTMLInputElement>,
-    value: string | number,
+    value: number,
     type: string,
   ) => {
     const isChecked = e.target.checked;
@@ -70,11 +102,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
       if (isChecked) {
         setTimeCheckedList((prev) => {
-          if (typeof value === "string") {
-            return [...prev, value];
-          } else {
-            return prev;
-          }
+          return [...prev, value];
         });
       } else {
         setTimeCheckedList((prev) => prev.filter((item) => item !== value));
@@ -84,11 +112,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
       if (isChecked) {
         setLocationCheckedList((prev) => {
-          if (typeof value === "number") {
-            return [...prev, value];
-          } else {
-            return prev;
-          }
+          return [...prev, value];
         });
       } else {
         setLocationCheckedList((prev) => prev.filter((item) => item !== value));
@@ -96,7 +120,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     }
   };
 
-  // 인풋 포커즈
+  // 시간 인풋 포커즈
   useEffect(() => {
     const handleFocusOutInput = (e: MouseEvent) => {
       if (
@@ -110,7 +134,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     document.addEventListener("mousedown", handleFocusOutInput);
   }, []);
 
-  // 시간 인풋 포커즈
   const handleFocusInput = (index: number) => {
     setInputFocus(index);
   };
@@ -163,12 +186,13 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                     />
                     <CheckBox
                       registerName={`timeCheck.${index}`}
-                      checked={timeCheckedList.includes(list.name)}
+                      checked={timeCheckedList.includes(list.id)}
                       onChangeCallBack={(e) =>
-                        handleCheckedList(e, list.name, "time")
+                        handleCheckedList(e, list.id, "time")
                       }
                     />
                     <Select
+                      registerName={`timeOption.${index}`}
                       options={SELECT_OPTION}
                       onChange={(e) => {
                         handleOptionSelect(e.target.value, "time");
@@ -181,12 +205,12 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
           </ul>
 
           <div
-            className={`${select === "센서" ? "my-4" : "my-[1.875rem]"} my-[1.875rem] w-full flex justify-center`}
+            className={`${timeOption === 2 ? "my-4" : "my-[1.875rem]"} my-[1.875rem] w-full flex justify-center`}
           >
-            {select === "" || select === "예약" ? (
+            {timeOption !== 2 ? (
               <div className="flex justify-between w-[75%]">
                 <CheckBox
-                  registerName="timerControl"
+                  registerName="useTimer"
                   labelTitle="타이머 제어"
                   onChangeCallBack={handleTimerCheck}
                 />
@@ -197,6 +221,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                         <li className="flex justify-between items-center gap-4">
                           {list.unit && (
                             <Input
+                              registerName={list.registerName}
                               inputWrap="w-[7.5rem] bg-sub2"
                               className="text-4 font-bold text-right text-white"
                               unit={list.unit}
@@ -211,6 +236,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                 ) : (
                   <div className="flex items-center gap-4">
                     <Input
+                      registerName="targetLocation"
                       inputWrap="w-[12.5rem] bg-sub2"
                       className="text-4 font-bold w-full text-right text-white"
                       unit="%"
@@ -245,10 +271,10 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                 <ul className="flex flex-col gap-2">
                   {SENSOR_CONT_OPTION2.map((list, index) => {
                     if (
-                      `${select}` === "온도" ||
-                      `${select}` === "습도" ||
-                      `${select}` === "CO2" ||
-                      `${select}` === "일사(실내)"
+                      `${sensorOption}` === "온도" ||
+                      `${sensorOption}` === "습도" ||
+                      `${sensorOption}` === "CO2" ||
+                      `${sensorOption}` === "일사(실내)"
                     ) {
                       return (
                         <li className="flex justify-between h-[2.8125rem]">
@@ -353,8 +379,8 @@ const COUNT_LIST = [
 ];
 
 const SELECT_OPTION = [
-  { id: 1, value: "예약", name: "예약" },
-  { id: 2, value: "센서", name: "센서" },
+  { id: 1, value: 1, name: "예약" },
+  { id: 2, value: 2, name: "센서" },
 ];
 
 const SENSOR_CONT_LIST = [{ id: 1 }, { id: 2 }, { id: 3 }];
@@ -392,8 +418,8 @@ const SENSOR_CONT_OPTION3 = [
 ];
 
 const TIMER_OPTION = [
-  { id: 1, unit: "초", label: "사이클" },
-  { id: 2, unit: "%", label: "ON위치" },
-  { id: 3, unit: "%", label: "작동시간" },
-  { id: 4, unit: "%", label: "OFF위치" },
+  { id: 1, unit: "초", label: "사이클", registerName: "cycle" },
+  { id: 2, unit: "%", label: "ON위치", registerName: "onLocation" },
+  { id: 3, unit: "%", label: "작동시간", registerName: "operationTime" },
+  { id: 4, unit: "%", label: "OFF위치", registerName: "offLocation" },
 ];

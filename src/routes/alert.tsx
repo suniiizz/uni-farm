@@ -1,4 +1,4 @@
-import Layout from "../layout";
+import Layout from "@/layout";
 import { RouteObject } from "react-router-dom";
 import AlertList from "@/pages/alert";
 

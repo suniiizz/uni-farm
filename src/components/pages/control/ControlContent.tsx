@@ -10,7 +10,7 @@ import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import SliderControl from "@/components/pages/control/modal/slider-control";
-import GroupControl from "./modal/control-button/groupControl";
+import GroupControl from "@/components/pages/control/modal/control-button/groupControl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
 import ManualControlModal from "@/components/pages/control/modal/manual-button/manualControl";
 import Button from "@/components/common/button";
