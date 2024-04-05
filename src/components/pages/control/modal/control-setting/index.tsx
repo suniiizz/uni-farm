@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import {
-  ControlData,
-  OpclData,
-  OpclLocationControlDto,
-  OpclSensorControlDto,
-} from "control";
+import { ControlData, OpclData } from "control";
 import { updateControlSetData } from "@/http/control";
 import useControlSetting from "@/hooks/service/control/useControlSetting";
 
@@ -32,8 +27,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
   const [saveSetting, setSaveSetting] = useState<OpclData>([]);
-
-  console.log("saveSetting", saveSetting);
 
   locationCheckedList;
   isLocationChecked;
