@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { ControlData, OpclData } from "control";
+import {
+  ControlData,
+  OpclData,
+  OpclLocationControlDto,
+  OpclSensorControlDto,
+} from "control";
+import { updateControlSetData } from "@/http/control";
 import useControlSetting from "@/hooks/service/control/useControlSetting";
 
 import Button from "@/components/common/button";
@@ -9,6 +15,7 @@ import CheckBox from "@/components/common/checkbox";
 import Select from "@/components/common/select";
 import Modal from "@/components/common/modal";
 import { Input, TimeInput } from "@/components/common/input";
+import Radio from "@/components/common/radio";
 
 const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const methods = useForm();
@@ -24,9 +31,9 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
-  const [data, setData] = useState<OpclData>([]);
+  const [saveSetting, setSaveSetting] = useState<OpclData>([]);
 
-  console.log("data", data);
+  console.log("saveSetting", saveSetting);
 
   locationCheckedList;
   isLocationChecked;
@@ -36,41 +43,152 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
   const { controlSetData } = useControlSetting(locationId);
 
-  useEffect(() => {
-    handleTimeUpdate();
-  }, [timeCheckedList]);
+  // 초기화
+  // const handleReset = () => {
+  //   setLocationCheckedList([]);
+  //   setTimeCheckedList([]);
+  //   methods.reset();
+  // };
 
-  const handleTimeUpdate = () => {
-    const test = controlSetData.map((value, index) => {
+  // 설정저장
+  const handleSaveSetting = () => {
+    if (!confirm("저장하시겠습니까?")) return;
+
+    if (saveSetting.length) {
+      handleUpdateSetting();
+
+      updateControlSetData(
+        JSON.stringify(saveSetting),
+        locationCheckedList.toString(),
+      );
+    } else {
+      alert("설정 값을 입력해 주세요.");
+    }
+  };
+
+  const handleUpdateSetting = () => {
+    const updateData = controlSetData.map((value, index) => {
       const { no } = value;
 
+      // 예약/설정 선택
+      const timeOption = methods.getValues(`mode.${index}`);
+      const mode = timeCheckedList.includes(no) ? parseInt(timeOption) : 0;
+
+      // 예약 데이터
       const updatedOpclLocationControlDto = {
         ...value.opclLocationControlDto,
-        cycle: parseInt(methods.watch("cycle")),
-        onLocation: parseInt(methods.watch("onLocation")),
-        operationTime: parseInt(methods.watch("operationTime")),
-        offLocation: parseInt(methods.watch("offLocation")),
+        useTimer: methods.watch("useTimer") ? 1 : 0,
+        targetLocation:
+          methods.watch("targetLocation") !== undefined
+            ? parseInt(methods.getValues("targetLocation"))
+            : 0,
+        cycle:
+          methods.watch("cycle") !== undefined
+            ? parseInt(methods.getValues("cycle"))
+            : 0,
+        onLocation:
+          methods.watch("onLocation") !== undefined
+            ? parseInt(methods.getValues("onLocation"))
+            : 0,
+        operationTime:
+          methods.watch("operationTime") !== undefined
+            ? parseInt(methods.getValues("operationTime"))
+            : 0,
+        offLocation:
+          methods.watch("offLocation") !== undefined
+            ? parseInt(methods.getValues("offLocation"))
+            : 0,
       };
 
-      const timeOption = methods.getValues(`timeOption.${index}`);
-      const mode = timeCheckedList.includes(no) ? parseInt(timeOption) : 0;
+      // 센서 데이터
+      const selectPriority = methods.watch("priority");
+      const updateOpclSensorControlDtoList = value.opclSensorControlDtoList.map(
+        (list, index) => {
+          const { priority } = list;
+
+          if (selectPriority?.includes(priority)) {
+            return {
+              ...list,
+              sensorNo:
+                methods.watch(`sensorNo.${index}`) !== undefined
+                  ? parseInt(methods.getValues(`sensorNo.${index}`))
+                  : 0,
+              useUpperLimit: methods.watch("useUpperLimit") ? 1 : 0, //초과 사용 유무
+              upperLimit: methods.watch("upperLimit")
+                ? parseInt(methods.getValues("upperLimit"))
+                : 0, //초과 값
+              upperLimitLocation:
+                methods.watch("upperLimitLocation") !== undefined
+                  ? parseInt(methods.getValues("upperLimitLocation"))
+                  : 0, //초과 - 목표위치
+              useIncludeimit: methods.watch("useIncludeimit") ? 1 : 0, //포함 사용 유무
+              includeLimitLocation:
+                methods.watch("includeLimitLocation") !== undefined
+                  ? parseInt(methods.getValues("includeLimitLocation"))
+                  : 0, //포함 - 목표위치
+              useLowerLimit: methods.watch("useLowerLimit") ? 1 : 0, //미만 사용 유무
+              lowerLimit:
+                methods.watch("lowerLimit") !== undefined
+                  ? parseInt(methods.getValues("lowerLimit"))
+                  : 0, //미만 값
+              lowerLimitLocation:
+                methods.watch("lowerLimitLocation") !== undefined
+                  ? parseInt(methods.getValues("lowerLimitLocation"))
+                  : 0, //미만 - 목표위치
+              useRatioControl: methods.watch("useRatioControl") ? 1 : 0, //비례제어 사용 유무
+              useInnerSensor: methods.watch("useInnerSensor") ? 1 : 0, //내부비교 사용 유무
+              useTimerControl: methods.watch("useTimerControl") ? 1 : 0, //타이머 제어 사용 유무
+              windDirection:
+                methods.watch("windDirection") !== undefined
+                  ? parseInt(methods.getValues("windDirection"))
+                  : 0, //풍향 값
+              sensorUnit:
+                methods.watch("sensorUnit") !== undefined
+                  ? parseInt(methods.getValues("sensorUnit"))
+                  : 0, //적용단위
+              timerCycle:
+                methods.watch("timerCycle") !== undefined
+                  ? parseInt(methods.getValues("timerCycle"))
+                  : 0, //사이클
+              cycleTimeOn:
+                methods.watch("cycleTimeOn") !== undefined
+                  ? parseInt(methods.getValues("cycleTimeOn"))
+                  : 0, //작동시간
+            };
+          }
+          return list;
+        },
+      );
+
       return {
         ...value,
         mode: mode,
+        fromTime: `${methods.watch("fromTime")[index]}:${methods.watch("fromMinute")[index]}`,
+        toTime: `${methods.watch("toTime")[index]}:${methods.watch("toMinute")[index]}`,
         opclLocationControlDto: updatedOpclLocationControlDto,
+        opclSensorControlDtoList: updateOpclSensorControlDtoList,
       };
     });
 
-    setData(test);
+    // 예약/센서 동시 설정 확인
+    const checkModeDuplicates = (value: OpclData) => {
+      const mode = value.map((list) => list.mode);
+      return mode.includes(2) && mode.includes(3);
+    };
+
+    if (checkModeDuplicates(updateData)) {
+      alert("센서와 예악을 동시에 설정할 수 없습니다.");
+    } else {
+      setSaveSetting(updateData);
+    }
   };
 
   // 옵션 선택
-  const handleOptionSelect = (value: any, type: string) => {
-    if (type === "time") {
-      setTimeOption(value);
-    } else if (type === "use") {
-      setSensorOption(value);
-    }
+  const handleTimeOptionSelect = (value: number) => {
+    setTimeOption(value);
+  };
+  const handleUseOptionSelect = (value: string) => {
+    setSensorOption(value);
   };
 
   useEffect(() => {
@@ -104,8 +222,12 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
         setTimeCheckedList((prev) => {
           return [...prev, value];
         });
+        // setTimeOptionList((prev) => {
+        //   return [...prev, value];
+        // });
       } else {
         setTimeCheckedList((prev) => prev.filter((item) => item !== value));
+        // setTimeOptionList((prev) => prev.filter((item) => item !== value));
       }
     } else if (type === "location") {
       setIsLocationChecked(isChecked);
@@ -144,6 +266,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
         title="개폐기 시간 및 작동방법 설정"
         buttonList={BTN_LIST}
         className="w-[54.625rem] h-auto !max-h-[95%] z-100"
+        onClickCallBack={handleSaveSetting}
       >
         <div className="w-full flex flex-col justify-center items-center py-3 gap-5">
           <div className="grid-cols-4 grid gap-[.625rem] gap-x-[2.8125rem] justify-center">
@@ -192,10 +315,10 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                       }
                     />
                     <Select
-                      registerName={`timeOption.${index}`}
+                      registerName={`mode.${index}`}
                       options={SELECT_OPTION}
                       onChange={(e) => {
-                        handleOptionSelect(e.target.value, "time");
+                        handleTimeOptionSelect(parseInt(e.target.value));
                       }}
                     />
                   </li>
@@ -207,7 +330,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
           <div
             className={`${timeOption === 2 ? "my-4" : "my-[1.875rem]"} my-[1.875rem] w-full flex justify-center`}
           >
-            {timeOption !== 2 ? (
+            {timeOption !== 3 ? (
               <div className="flex justify-between w-[75%]">
                 <CheckBox
                   registerName="useTimer"
@@ -227,6 +350,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                               unit={list.unit}
                               label={list.label}
                               labelMarginNone
+                              defaultValue={0}
                             />
                           )}
                         </li>
@@ -242,6 +366,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                       unit="%"
                       label="목표 위치"
                       labelMarginNone
+                      defaultValue={0}
                     />
                   </div>
                 )}
@@ -252,16 +377,20 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   {SENSOR_CONT_LIST.map((list, index) => {
                     return (
                       <li className="flex gap-4" key={list.id}>
-                        <CheckBox
-                          registerName={`getUse.${index}`}
-                          labelTitle={`${list.id} 번째 사용`}
-                          className="!gap-2"
+                        <Radio
+                          id={list.label}
+                          registerName="priority"
+                          labelTitle={list.label}
+                          className="!gap-2 text-white font-bold text-[1.125rem]"
+                          name="select"
+                          value={list.id}
                         />
                         <Select
+                          registerName={`sensorNo.${index}`}
                           options={SENSOR_CONT_OPTION1}
                           selectWrap="w-[7.5rem]"
                           onChange={(e) => {
-                            handleOptionSelect(e.target.value, "use");
+                            handleUseOptionSelect(e.target.value);
                           }}
                         />
                       </li>
@@ -269,7 +398,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   })}
                 </ul>
                 <ul className="flex flex-col gap-2">
-                  {SENSOR_CONT_OPTION2.map((list, index) => {
+                  {SENSOR_CONT_OPTION2.map((list) => {
                     if (
                       `${sensorOption}` === "온도" ||
                       `${sensorOption}` === "습도" ||
@@ -280,7 +409,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                         <li className="flex justify-between h-[2.8125rem]">
                           <>
                             <CheckBox
-                              registerName={`secondOption.${index}`}
+                              registerName={list.check}
                               labelTitle={`${list.name}`}
                               key={list.id}
                               className="!gap-2 !text-[1.125rem] mr-3"
@@ -293,9 +422,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                               )}
                               {list.unit && (
                                 <Input
+                                  registerName={list.check}
                                   inputWrap="w-[7.5rem] bg-sub2"
                                   className="text-4 font-bold text-right text-white w-full"
                                   unit={list.unit}
+                                  defaultValue={0}
                                 />
                               )}
                             </div>
@@ -307,7 +438,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                         <>
                           <li className="flex justify-between h-[2.8125rem]">
                             <CheckBox
-                              registerName={`secondOption.${index}`}
+                              registerName={list.check}
                               labelTitle={`${list.name}`}
                               key={list.id}
                               className="!gap-2 !text-[1.125rem] mr-3"
@@ -320,9 +451,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                               )}
                               {list.unit && (
                                 <Input
+                                  registerName={list.input}
                                   inputWrap="w-[7.5rem] bg-sub2"
                                   className="text-4 font-bold text-right text-white w-full"
                                   unit={list.unit}
+                                  defaultValue={0}
                                 />
                               )}
                             </div>
@@ -333,20 +466,17 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                   })}
                 </ul>
                 <ul className="flex flex-col gap-2">
-                  {SENSOR_CONT_OPTION3.map((list, index) => {
+                  {SENSOR_CONT_OPTION3.map((list) => {
                     return (
-                      <li className="flex justify-between">
-                        <CheckBox
-                          registerName={`thirdOption.${index}`}
-                          labelTitle={`${list.name}`}
-                          key={list.id}
-                          className="!gap-2 !text-[1.125rem] mr-3"
-                        />
+                      <li className="flex justify-between items-center gap-3">
                         {list.unit && (
                           <Input
+                            registerName={list.input}
                             inputWrap="w-[7.5rem] bg-sub2"
+                            label={`${list.name}`}
                             className="text-4 font-bold text-right text-white w-full"
                             unit={list.unit}
+                            defaultValue={0}
                           />
                         )}
                       </li>
@@ -379,42 +509,92 @@ const COUNT_LIST = [
 ];
 
 const SELECT_OPTION = [
-  { id: 1, value: 1, name: "예약" },
-  { id: 2, value: 2, name: "센서" },
+  { id: 1, value: 2, name: "예약" },
+  { id: 2, value: 3, name: "센서" },
 ];
 
-const SENSOR_CONT_LIST = [{ id: 1 }, { id: 2 }, { id: 3 }];
+const SENSOR_CONT_LIST = [
+  { id: 1, label: "1번째 사용" },
+  { id: 2, label: "2번째 사용" },
+  { id: 3, label: "3번째 사용" },
+];
 
 const SENSOR_CONT_OPTION1 = [
-  { id: 1, value: "외부 풍속", name: "외부 풍속" },
-  { id: 2, value: "풍속(풍향)", name: "풍속(풍향)" },
-  { id: 3, value: "강우", name: "강우" },
-  { id: 4, value: "일사", name: "일사" },
-  { id: 5, value: "기온", name: "기온" },
-  { id: 6, value: "습기", name: "습기" },
-  { id: 7, value: "Co2", name: "Co2" },
-  { id: 8, value: "온도", name: "온도" },
-  { id: 9, value: "습도", name: "습도" },
-  { id: 10, value: "CO2", name: "CO2" },
-  { id: 11, value: "일사(실내)", name: "일사(실내)" },
-  { id: 12, value: "Pt100", name: "Pt100" },
+  { id: 1, value: 0, name: "외부 풍속" },
+  { id: 2, value: 1, name: "풍속(풍향)" },
+  { id: 3, value: 2, name: "강우" },
+  { id: 4, value: 3, name: "일사" },
+  { id: 5, value: 4, name: "기온" },
+  { id: 6, value: 5, name: "습기" },
+  { id: 7, value: 6, name: "Co2" },
+  { id: 8, value: 7, name: "온도" },
+  { id: 9, value: 8, name: "습도" },
+  { id: 10, value: 9, name: "CO2" },
+  { id: 11, value: 10, name: "일사(실내)" },
+  { id: 12, value: 11, name: "Pt100" },
 ];
 
 const SENSOR_CONT_OPTION2 = [
-  { id: 1, name: "초과", unit: "M/S" },
-  { id: 2, name: "포함", unit: "" },
-  { id: 3, name: "미만", unit: "M/S" },
-  { id: 4, name: "비례 제어", unit: "M/S", label: "적용단위" },
-  { id: 5, name: "타이머 제어", unit: "초", label: "사이클" },
-  { id: 6, name: "내부 비교 사용" },
+  {
+    id: 1,
+    name: "초과",
+    unit: "M/S",
+    input: "upperLimit",
+    check: "useUpperLimit",
+  },
+  { id: 2, name: "포함", unit: "", input: "", check: "useIncludeimit" },
+  {
+    id: 3,
+    name: "미만",
+    unit: "M/S",
+    input: "lowerLimit",
+    check: "useLowerLimit",
+  },
+  {
+    id: 4,
+    name: "비례 제어",
+    unit: "M/S",
+    label: "적용단위",
+    input: "sensorUnit",
+    check: "useRatioControl",
+  },
+  {
+    id: 5,
+    name: "타이머 제어",
+    unit: "초",
+    label: "사이클",
+    input: "timerCycle",
+    check: "useTimerControl",
+  },
+  { id: 6, name: "내부 비교 사용", input: "", check: "useInnerSensor" },
 ];
 
 const SENSOR_CONT_OPTION3 = [
-  { id: 1, name: "목표위치", unit: "%" },
-  { id: 2, name: "목표위치", unit: "%" },
-  { id: 3, name: "목표위치", unit: "%" },
-  { id: 4, name: "풍향", unit: "˚" },
-  { id: 5, name: "작동시간", unit: "%" },
+  {
+    id: 1,
+    name: "목표위치",
+    unit: "%",
+    input: "upperLimitLocation",
+  },
+  {
+    id: 2,
+    name: "목표위치",
+    unit: "%",
+    input: "includeLimitLocation",
+  },
+  {
+    id: 3,
+    name: "목표위치",
+    unit: "%",
+    input: "lowerLimitLocation",
+  },
+  { id: 4, name: "풍향", unit: "˚", input: "windDirection" },
+  {
+    id: 5,
+    name: "작동시간",
+    unit: "%",
+    input: "cycleTimeOn",
+  },
 ];
 
 const TIMER_OPTION = [

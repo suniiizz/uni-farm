@@ -18,6 +18,7 @@ type Props = {
   titleBlack?: boolean;
   custom?: boolean;
   pbNone?: boolean;
+  onClickCallBack?: () => void;
 };
 
 const Modal = ({
@@ -28,6 +29,7 @@ const Modal = ({
   type,
   custom,
   pbNone,
+  onClickCallBack,
 }: Props) => {
   const { onCloseModal } = useContext(ModalContext);
 
@@ -60,6 +62,7 @@ const Modal = ({
                           key={list.id}
                           customType="MAIN"
                           className="relative h-9 text-center flex items-center gap-2"
+                          onClick={onClickCallBack}
                         >
                           <img
                             src={`src/assets/icon/${list.img}`}

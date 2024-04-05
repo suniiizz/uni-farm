@@ -59,9 +59,9 @@ export const getControlModalData = async (params: string) => {
 };
 
 // 설정 저장
-export const updateControlSetData = async (params: string) => {
+export const updateControlSetData = async (params: string, id: string) => {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_opcl_time_control?opclTimeControlList=${encodeURI(params)} &opclIds=172,146,111`,
+    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_opcl_time_control?opclTimeControlList=${encodeURI(params)} &opclIds=${id}`,
   );
 
   return response;

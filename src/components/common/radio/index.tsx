@@ -7,12 +7,17 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   onChangeCallback?: () => void;
 };
 
-const Radio = ({ registerName, onChangeCallback, ...props }: Props) => {
+const Radio = ({
+  className,
+  registerName,
+  onChangeCallback,
+  ...props
+}: Props) => {
   const { register } = useFormContext();
 
   return (
     <div
-      className={`flex items-center justify-start gap-1.5 ${
+      className={`flex items-center justify-start gap-1.5 ${className} ${
         props.disabled ? "cursor-default" : "cursor-pointer"
       }`}
     >

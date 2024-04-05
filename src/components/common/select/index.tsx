@@ -45,7 +45,7 @@ const Select = ({
           onChange: onChangeCallback,
         })}
         {...props}
-        defaultValue={""}
+        defaultValue={0}
       >
         {options.map((option) => {
           return (
