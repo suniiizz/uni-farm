@@ -47,16 +47,16 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const handleSaveSetting = () => {
     if (!confirm("저장하시겠습니까?")) return;
 
-    if (saveSetting.length) {
-      handleUpdateSetting();
+    // if (saveSetting.length) {
+    handleUpdateSetting();
 
-      updateControlSetData(
-        JSON.stringify(saveSetting),
-        locationCheckedList.toString(),
-      );
-    } else {
-      alert("설정 값을 입력해 주세요.");
-    }
+    updateControlSetData(
+      JSON.stringify(saveSetting),
+      locationCheckedList.toString(),
+    );
+    // } else {
+    //   alert("설정 값을 입력해 주세요.");
+    // }
   };
 
   const handleUpdateSetting = () => {
@@ -486,11 +486,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 };
 
 export default ControlModal;
-
-const BTN_LIST = [
-  { id: 1, name: "설명서", img: "info@2x.svg" },
-  { id: 2, name: "설정저장", img: "save@2x.svg" },
-];
 
 const COUNT_LIST = [
   { id: 1, name: "시간 1" },
