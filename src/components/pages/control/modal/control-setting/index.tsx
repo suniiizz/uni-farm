@@ -487,6 +487,11 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
 
 export default ControlModal;
 
+const BTN_LIST = [
+  { id: 1, name: "설명서", img: "info@2x.svg" },
+  { id: 2, name: "설정저장", img: "save@2x.svg" },
+];
+
 const COUNT_LIST = [
   { id: 1, name: "시간 1" },
   { id: 2, name: "시간 2" },
