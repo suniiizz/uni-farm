@@ -26,7 +26,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
-  const [saveSetting, setSaveSetting] = useState<OpclData>([]);
 
   locationCheckedList;
   isLocationChecked;
@@ -47,16 +46,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const handleSaveSetting = () => {
     if (!confirm("저장하시겠습니까?")) return;
 
-    // if (saveSetting.length) {
     handleUpdateSetting();
-
-    updateControlSetData(
-      JSON.stringify(saveSetting),
-      locationCheckedList.toString(),
-    );
-    // } else {
-    //   alert("설정 값을 입력해 주세요.");
-    // }
   };
 
   const handleUpdateSetting = () => {
@@ -172,7 +162,10 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     if (checkModeDuplicates(updateData)) {
       alert("센서와 예악을 동시에 설정할 수 없습니다.");
     } else {
-      setSaveSetting(updateData);
+      updateControlSetData(
+        JSON.stringify(updateData),
+        locationCheckedList.toString(),
+      );
     }
   };
 
