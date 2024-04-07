@@ -250,7 +250,7 @@ const ControlContent = ({
       {/* 시간 */}
       <div className="w-full h-[5.3125rem] bg-[#fff] rounded-md shadow-lg flex justify-between items-center px-[1.25rem]">
         <div className="flex flex-col items-center mt-[1.25rem] gap-1">
-          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('src/assets/icon/section_arw_left@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('../src/assets/icon/section_arw_left@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
           <span>00시</span>
         </div>
         <ul className="flex justify-center items-center h-full gap-1 mb-0">
@@ -266,7 +266,7 @@ const ControlContent = ({
           })}
         </ul>
         <div className="flex flex-col items-center mt-[1.25rem] gap-1">
-          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('src/assets/icon/section_arw_right@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
+          <span className="cursor-pointer w-8 h-7 inline-block bg-[url('../src/assets/icon/section_arw_right@2x.svg')] bg-no-repeat bg-center bg-contain"></span>
           <span>24시</span>
         </div>
       </div>
@@ -297,7 +297,7 @@ const ControlContent = ({
                 className="bg-[#fff] rounded-md p-4 flex justify-center items-center gap-5 h-[4.375rem] shadow-lg"
               >
                 <img
-                  src={`src/assets/icon/${list.img}`}
+                  src={`http://175.123.253.182/icon/${list.img}`}
                   alt="icon"
                   className="w-[2.5rem] h-[2.5rem]"
                 />
@@ -363,12 +363,12 @@ const ControlContent = ({
             </div>
 
             <div className="flex flex-col items-center z-10">
-              <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
+              <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('../src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
               <Button
                 onClick={() => {
                   setCctv((prev) => !prev);
                 }}
-                className="w-[5.625rem] h-[5.625rem] bg-[url('src/assets/icon/cctv-icon-black@2x.svg')] bg-contain bg-no-repeat"
+                className="w-[5.625rem] h-[5.625rem] bg-[url('../src/assets/icon/cctv-icon-black@2x.svg')] bg-contain bg-no-repeat"
               ></Button>
             </div>
             <div
@@ -582,7 +582,7 @@ const ControlContent = ({
                 >
                   {list.img && (
                     <img
-                      src={`src/assets/icon/${list.img}`}
+                      src={`http://175.123.253.182/icon/${list.img}`}
                       alt="icon"
                       className="w-[2.5rem] h-[2.5rem] p-1"
                     />

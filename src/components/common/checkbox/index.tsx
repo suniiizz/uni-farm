@@ -7,7 +7,7 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
 };
 
 const defaultStyle =
-  "select-none relative cursor-pointer appearance-none h-6 w-6 border-none before:content-[''] before:w-6 before:h-6 before:block before:bg-center before:bg-contain before:bg-[url(src/assets/icon/chk_1@2x.svg)] checked:before:bg-[url(src/assets/icon/chk_1_on2@2x.svg)]";
+  "select-none relative cursor-pointer appearance-none h-6 w-6 border-none before:content-[''] before:w-6 before:h-6 before:block before:bg-center before:bg-contain before:bg-[url(../src/assets/icon/chk_1@2x.svg)] checked:before:bg-[url(../src/assets/icon/chk_1_on2@2x.svg)]";
 
 const CheckBox = ({
   registerName,

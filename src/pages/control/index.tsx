@@ -65,7 +65,7 @@ const WeatherControl = () => {
                     className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
                     onClick={() => handleOpenModal("control")}
                   >
-                    <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
+                    <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                     제어설정
                   </Button>
                   <Button
@@ -73,7 +73,7 @@ const WeatherControl = () => {
                     className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
                     onClick={() => handleOpenModal("device")}
                   >
-                    <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
+                    <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                     장치설정
                   </Button>
                 </div>
@@ -120,7 +120,7 @@ const WeatherControl = () => {
               </div>
 
               {/* 컨텐츠 */}
-              <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
+              <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('../src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
                 {section === "1" && (
                   <ControlContent
                     controlData={controlData}
@@ -163,7 +163,7 @@ const CustomTabs = styled(Tabs)({
     opacity: "100",
   },
   "& .MuiTabs-scrollButtons": {
-    background: `url('src/assets/icon/section-arw-up-white@3x.svg')`,
+    background: `url('http://175.123.253.182/icon/section-arw-up-white@3x.svg')`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "60%",

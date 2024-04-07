@@ -49,7 +49,7 @@ const ManualControl = ({
         <Button
           onClick={onCloseModal}
           customType="SUB"
-          className="absolute !rounded right-[.625rem] top-[.625rem] bg-[url('src/assets/icon/close-30-white@2x.svg')] bg-no-repeat bg-center bg-contain"
+          className="absolute !rounded right-[.625rem] top-[.625rem] bg-[url('../src/assets/icon/close-30-white@2x.svg')] bg-no-repeat bg-center bg-contain"
         ></Button>
         <div className="flex justify-center gap-2">
           <Button

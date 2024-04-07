@@ -28,7 +28,7 @@ const UserList = () => {
               customType="MODAL"
               className="!bg-[#293394] w-[5.625rem] gap-2 text-center relative pl-[1.875rem] pr-[.625rem]"
             >
-              <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/search-icon@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
+              <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/search-icon@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
               검색
             </Button>
             <Button customType="MODAL" className="!bg-[#85601F] w-[3.75rem]">

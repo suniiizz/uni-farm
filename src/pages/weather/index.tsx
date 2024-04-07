@@ -17,7 +17,7 @@ const WeatherInfo = () => {
                 className="bg-sub2 rounded-md p-[.625rem] flex justify-start items-center gap-5 h-[3.125rem] shadow-lg"
               >
                 <img
-                  src={`src/assets/icon/${list.img}`}
+                  src={`http://175.123.253.182/icon/${list.img}`}
                   alt="icon"
                   className="w-[2.5rem] h-[2.5rem]"
                 />

@@ -47,7 +47,7 @@ const Calendar = ({
             className={`${inputDefaultClassName} ${inputClassName}`}
             value={selected ? format(selected, "yyyy-MM-dd") : ""}
           />
-          <span className="w-4 h-4 inline-block bg-[url('src/assets/icon/date-icon.svg')] bg-no-repeat bg-center bg-contain absolute right-1 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0"></span>
+          <span className="w-4 h-4 inline-block bg-[url('../src/assets/icon/date-icon.svg')] bg-no-repeat bg-center bg-contain absolute right-1 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0"></span>
         </Popover.Button>
         <Popover.Panel className="absolute top-[2.625rem] left-0 bg-white z-10 w-[15.625rem]">
           {({ close }) => (

@@ -47,7 +47,7 @@ const SensorContent = () => {
                 className="bg-sub2 rounded-md p-[.625rem] h-[3.75rem] flex justify-start items-center shadow-lg"
               >
                 <img
-                  src={`src/assets/icon/${list.img}`}
+                  src={`http://175.123.253.182/icon/${list.img}`}
                   alt="icon"
                   className="w-[2.5rem] h-[2.5rem]"
                 />
@@ -79,7 +79,7 @@ const SensorContent = () => {
                     <div className="flex items-center justify-center gap-2 font-bold">
                       {value.img && (
                         <img
-                          src={`src/assets/icon/${value.img}`}
+                          src={`http://175.123.253.182/icon/${value.img}`}
                           alt="icon"
                           className="w-[2.5rem] h-[2.5rem]"
                         />

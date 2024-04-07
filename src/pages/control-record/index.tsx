@@ -55,7 +55,7 @@ const ControlRecord = () => {
                     className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
                     // onClick={() => handleOpenModal("register")}
                   >
-                    <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/check-icon@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
+                    <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/check-icon@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                     표시항목
                   </Button>
                   <Button
@@ -63,7 +63,7 @@ const ControlRecord = () => {
                     className="w-auto gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
                     // onClick={() => handleOpenModal("control")}
                   >
-                    <span className="w-6 h-6 inline-block bg-[url('src/assets/icon/data_log@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
+                    <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/data_log@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                     데이터 보기
                   </Button>
                 </div>
@@ -143,7 +143,7 @@ const CustomTabs = styled(Tabs)({
     opacity: "100",
   },
   "& .MuiTabs-scrollButtons": {
-    background: `url('src/assets/icon/section-arw-up-white@3x.svg')`,
+    background: `url('../src/assets/icon/section-arw-up-white@3x.svg')`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "60%",

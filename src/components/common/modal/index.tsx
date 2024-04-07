@@ -65,7 +65,7 @@ const Modal = ({
                           onClick={onClickCallBack}
                         >
                           <img
-                            src={`src/assets/icon/${list.img}`}
+                            src={`http://175.123.253.182/icon/${list.img}`}
                             alt="icon"
                             className="w-6 h-6"
                           />
