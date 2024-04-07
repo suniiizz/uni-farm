@@ -88,4 +88,49 @@ declare module "control" {
   };
 
   export type OpclData = ControlModalData[];
+
+  export type ManualItem = {
+    id: number;
+    no: number;
+    enable: number;
+    shape: number;
+    shapeName: string | null;
+    value: number;
+    controlMode: number;
+    cycle: number;
+    operation: number;
+    currentTimeControlNo: number;
+    currentControl: number;
+    houseNo: string;
+    farmCode: string;
+  };
+
+  export type RelayItem = {
+    id: number;
+    no: number;
+    enable: number;
+    mode: number;
+    fromTime: string;
+    toTime: string;
+    relaySensorControlDto: RelaySensorControlDto;
+    relayCycleControlDto: RelayCycleControlDto;
+    relayId: number;
+  }[];
+
+  export type RelaySensorControlDto = {
+    id: number;
+    onValue: number;
+    offValue: number;
+    cycle: number;
+    twinTimer: number;
+    relayTimeControlId: number;
+  };
+
+  export type RelayCycleControlDto = {
+    id: number;
+    enable: number;
+    cycle: number;
+    period: number;
+    relayTimeControlId: number;
+  };
 }

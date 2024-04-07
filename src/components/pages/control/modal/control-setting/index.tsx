@@ -3,7 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { ControlData, OpclData } from "control";
 import { updateControlSetData } from "@/http/control";
-import useControlSetting from "@/hooks/service/control/useControlSetting";
+import useControlSetting from "@/hooks/service/control/useControlSet";
 
 import Button from "@/components/common/button";
 import CheckBox from "@/components/common/checkbox";
@@ -27,7 +27,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
 
-  locationCheckedList;
   isLocationChecked;
   isTimeChecked;
 
@@ -49,6 +48,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     handleUpdateSetting();
   };
 
+  // 설정 저장 데이터
   const handleUpdateSetting = () => {
     const updateData = controlSetData.map((value, index) => {
       const { no } = value;
@@ -160,7 +160,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     };
 
     if (checkModeDuplicates(updateData)) {
-      alert("센서와 예악을 동시에 설정할 수 없습니다.");
+      alert("예약과 센서를 동시에 설정할 수 없습니다.");
     } else {
       updateControlSetData(
         JSON.stringify(updateData),
@@ -208,12 +208,8 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
         setTimeCheckedList((prev) => {
           return [...prev, value];
         });
-        // setTimeOptionList((prev) => {
-        //   return [...prev, value];
-        // });
       } else {
         setTimeCheckedList((prev) => prev.filter((item) => item !== value));
-        // setTimeOptionList((prev) => prev.filter((item) => item !== value));
       }
     } else if (type === "location") {
       setIsLocationChecked(isChecked);

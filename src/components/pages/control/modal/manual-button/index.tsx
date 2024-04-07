@@ -1,47 +1,48 @@
 import { useContext } from "react";
 
+import { ManualData, ManualItem } from "control";
+
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import Modal from "@/components/common/modal";
+import { updateManualData } from "@/http/control";
 
 const ManualControl = ({
+  manualData,
   manualBtn,
+  type,
   setModalType,
-  handleManualMove,
+  handleControlSetting,
 }: {
-  manualBtn: string;
+  manualData: ManualItem[];
+  manualBtn: number;
+  type: (no: number) => void;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
-  handleManualMove: (control: string, id?: number) => void;
+  handleControlSetting: (manualBtn: number) => void;
 }) => {
   const { onCloseModal } = useContext(ModalContext);
 
-  const type = (name: string) => {
-    switch (name) {
-      case "냉방":
-        return 1;
-      case "난방":
-        return 2;
-      case "제습":
-        return 3;
-      case "가습":
-        return 4;
-      case "환풍":
-        return 5;
-      case "공급":
-        return 6;
-      case "급수":
-        return 7;
-      case "관수":
-        return 8;
-      default:
-        return;
-    }
+  // on/off
+  const handleManualMove = (control: string, id?: number) => {
+    const updatedManualData = manualData.map((item: ManualData) => {
+      if (control === "on" && item.no === id) {
+        return { ...item, value: 100, controlMode: 1 };
+      } else if (control === "off" && item.no === id) {
+        return { ...item, value: 0, controlMode: 1 };
+      } else {
+        return { ...item, controlMode: 0 };
+      }
+    });
+
+    updateManualData(JSON.stringify(updatedManualData));
+
+    onCloseModal();
   };
 
   return (
     <>
       <Modal
-        title={`(${manualBtn})수동 동작 하시겠습니까?`}
+        title={`(${type(manualBtn)})수동 동작 하시겠습니까?`}
         className="w-[23.75rem] h-auto z-100 bg-white"
         type
       >
@@ -54,21 +55,24 @@ const ManualControl = ({
           <Button
             customType="SUB"
             className="w-[7.5rem]"
-            onClick={() => handleManualMove("on", type(manualBtn))}
+            onClick={() => handleManualMove("on", manualBtn)}
           >
             ON
           </Button>
           <Button
             customType="SUB"
             className="w-[7.5rem]"
-            onClick={() => handleManualMove("off", type(manualBtn))}
+            onClick={() => handleManualMove("off", manualBtn)}
           >
             OFF
           </Button>
           <Button
             customType="SUB"
             className="w-[7.5rem]"
-            onClick={() => setModalType("manual-control")}
+            onClick={() => {
+              setModalType("manual-control");
+              handleControlSetting(manualBtn);
+            }}
           >
             제어설정
           </Button>

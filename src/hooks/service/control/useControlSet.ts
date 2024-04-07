@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getControlModalData } from "@/http/control";
 import { OpclData } from "control";
 
-const useControlSetting = (id: number) => {
+const useControlSet = (id: number) => {
   const [controlSetData, setControlSetData] = useState<OpclData>([]);
 
   const fetchControlSetData = async () => {
@@ -24,4 +24,4 @@ const useControlSetting = (id: number) => {
   };
 };
 
-export default useControlSetting;
+export default useControlSet;

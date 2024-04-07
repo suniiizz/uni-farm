@@ -5,7 +5,13 @@ import { useContext, useEffect, useState } from "react";
 import useSensor from "@/hooks/service/control/useSensor";
 import useManual from "@/hooks/service/control/useManual";
 import { updateControlData, updateManualData } from "@/http/control";
-import { ControlData, ManualData, SensorData, SensorDtoList } from "control";
+import {
+  ControlData,
+  ManualItem,
+  ManualData,
+  SensorData,
+  SensorDtoList,
+} from "control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
@@ -24,16 +30,17 @@ const ControlContent = ({
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const { isOpen, onOpenModal, onCloseModal } = useContext(ModalContext);
+  const { isOpen, onOpenModal } = useContext(ModalContext);
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [cctv, setCctv] = useState<boolean>(false);
   const [controlBtn, setControlBtn] = useState<string>("");
-  const [manualBtn, setManualBtn] = useState<string>("");
+  const [manualBtn, setManualBtn] = useState<number>(0);
   const [sliderValue, setSliderValue] = useState<Array<number>>([]);
   const [controlDataUpdate, setControlDataUpdate] = useState<ControlData[]>([]);
   const [sliderChecked, setSliderChecked] = useState<Array<number>>([]);
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
+  const [manualId, setManualId] = useState<number>(0);
 
   const { sensorData } = useSensor();
   const { manualData } = useManual();
@@ -89,7 +96,7 @@ const ControlContent = ({
 
   // [긴급 제어] 하단 제어 버튼 데이터 패칭
   const updateEmergencyManualData = () => {
-    const selectManual = manualData.map((item: ControlData) => {
+    const selectManual = manualData.map((item: ManualItem) => {
       const { no } = item;
       if (manualChecked.includes(no)) {
         return { ...item, value: 210, controlMode: 4 };
@@ -197,30 +204,45 @@ const ControlContent = ({
     handleUpdateControlValue();
   }, [controlData, sliderValue]);
 
-  // 하단 제어 버튼 모달
-  const handleManualBtn = (name: string) => {
+  // [하단 제어 버튼] - 모달
+  const handleManualBtn = (no: number) => {
     if (modalType === "group") return;
 
-    setManualBtn(name);
+    setManualBtn(no);
     setModalType("manual");
     onOpenModal();
   };
 
-  // 하단 제어 버튼 on/off
-  const handleManualMove = (control: string, id?: number) => {
-    const updatedManualData = manualData.map((item: ManualData) => {
-      if (control === "on" && item.no === id) {
-        return { ...item, value: 100, controlMode: 1 };
-      } else if (control === "off" && item.no === id) {
-        return { ...item, value: 0, controlMode: 1 };
-      } else {
-        return { ...item, controlMode: 0 };
-      }
-    });
+  // [하단 제어 버튼] - 제어설정
+  const handleControlSetting = (manualBtn: number) => {
+    const value = manualData.find((item) => item.no === manualBtn);
 
-    updateManualData(JSON.stringify(updatedManualData));
+    if (value) {
+      setManualId(value.id);
+    }
+  };
 
-    onCloseModal();
+  const type = (no: number) => {
+    switch (no) {
+      case 1:
+        return "냉방";
+      case 2:
+        return "난방";
+      case 3:
+        return "제습";
+      case 4:
+        return "가습";
+      case 5:
+        return "환풍";
+      case 6:
+        return "공급";
+      case 7:
+        return "급수";
+      case 8:
+        return "관수";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -581,18 +603,18 @@ const ControlContent = ({
         <div
           className={`${modalType === "group" && (controlBtn === "자동 제어 복귀" || controlBtn === "긴급 제어") && "z-30"} flex gap-4 justify-center items-center`}
         >
-          {BTN_LIST.map((list) => {
+          {manualData.map((list) => {
             return (
               <Button
                 key={list.id}
                 customType="DEFAULT"
-                className={`${manualChecked.includes(list.id) ? "bg-yellow text-white" : ""} ${list.name === "냉방" ? "bg-green text-white" : list.name === "제습" ? "bg-blue text-white" : list.name === "환풍" ? "bg-yellow text-white" : null} flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem]`}
+                className={`${manualChecked.includes(list.id) ? "bg-yellow text-white" : ""} ${list.no === 1 ? "bg-green text-white" : list.no === 3 ? "bg-blue text-white" : list.no === 5 ? "bg-yellow text-white" : null} flex justify-center items-center w-[7.5rem] h-[2.25rem] !text-[1.25rem]`}
                 onClick={() => {
-                  handleManualBtn(list.name);
+                  handleManualBtn(list.no);
                   handleManualChecked(list.id);
                 }}
               >
-                {list.name}
+                {type(list.no)}
               </Button>
             );
           })}
@@ -619,13 +641,19 @@ const ControlContent = ({
             )}
             {modalType === "manual" && (
               <ManualControl
+                manualData={manualData}
                 manualBtn={manualBtn}
+                type={type}
                 setModalType={setModalType}
-                handleManualMove={handleManualMove}
+                handleControlSetting={handleControlSetting}
               />
             )}
             {modalType === "manual-control" && (
-              <ManualControlModal manualBtn={manualBtn} />
+              <ManualControlModal
+                manualBtn={manualBtn}
+                type={type}
+                manualId={manualId}
+              />
             )}
             {modalType === "slider" && (
               <SliderControl data={controlDataUpdate} />
@@ -670,17 +698,6 @@ const CONTROL_LIST = [
   { id: 2, name: "긴급 제어" },
   { id: 3, name: "그룹 제어" },
   { id: 4, name: "자동 제어 복귀" },
-];
-
-const BTN_LIST = [
-  { id: 1, name: "냉방" },
-  { id: 2, name: "난방" },
-  { id: 3, name: "제습" },
-  { id: 4, name: "가습" },
-  { id: 5, name: "환풍" },
-  { id: 6, name: "공급" },
-  { id: 7, name: "급수" },
-  { id: 8, name: "관수" },
 ];
 
 const INFO_LIST1 = [

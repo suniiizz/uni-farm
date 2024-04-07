@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getManualData } from "@/http/control";
+import { ManualItem } from "control";
 
 const useManual = () => {
-  const [manualData, setManualData] = useState([]);
+  const [manualData, setManualData] = useState<ManualItem[]>([]);
 
   const fetchManualData = async () => {
     await getManualData()
