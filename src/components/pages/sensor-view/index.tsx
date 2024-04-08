@@ -203,7 +203,7 @@ const TABLE_HEAD = [
   { name: "습도", unit: "(%)", img: "sensor_humidity_2@2x.svg" },
   { name: "CO₂", unit: "(ppm)", img: "sensor-co2@2x.svg" },
   { name: "일사", unit: "(W/㎡)", img: "sun-icon@2x.svg" },
-  { name: "Pt100", unit: "(℃)", img: "temper-icon@2X.svg" },
+  { name: "Pt100", unit: "(℃)", img: "temper-icon@2x.svg" },
   { name: "pH", unit: "(pH)", img: "ph.svg" },
   { name: "EC", unit: "(mD/cm)", img: "ec.svg" },
 ];
