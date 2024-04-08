@@ -24,7 +24,10 @@ export const RowReverseBar = ({
   sliderChecked: number[];
 }) => {
   const { onOpenModal } = useContext(ModalContext);
-  const [value, setValue] = useState<number>(currentValue);
+
+  const reverseCurrentValue =
+    ((marks.length - 1 - currentValue) / (marks.length - 1)) * 10 + 90;
+  const [value, setValue] = useState<number>(reverseCurrentValue);
   value;
 
   const handleChange = (
@@ -53,6 +56,7 @@ export const RowReverseBar = ({
   const valueLabelFormat = (value: number) => {
     const reversedValue =
       ((marks.length - 1 - value) / (marks.length - 1)) * 10 + 90;
+
     return reversedValue;
   };
 
@@ -86,6 +90,7 @@ export const RowReverseBar = ({
             valueLabelDisplay="auto"
             aria-label="row slider"
             valueLabelFormat={valueLabelFormat}
+            value={value}
             marks={marks}
             max={100}
             min={0}
