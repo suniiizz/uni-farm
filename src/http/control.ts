@@ -65,9 +65,13 @@ export const getManualSetData = async (id: string) => {
 
 // [원격제어 - 하단 설정 버튼] - 제어설정 데이터 업데이트
 export const updateManualSetData = async (params: string, id: string) => {
+  const formData = new FormData();
+  formData.append("relayIds", id);
+  formData.append("relayTimeControlList", params);
+
   const response = await axios.post(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_relay_time_control`,
-    { relayIds: id, relayTimeControlList: params },
+    formData,
   );
 
   return response;
@@ -84,9 +88,13 @@ export const getControlModalData = async (id: string) => {
 
 // [원격제어 - 제어설정] 설정 저장
 export const updateControlSetData = async (params: string, id: string) => {
+  const formData = new FormData();
+  formData.append("opclIds", id);
+  formData.append("opclTimeControlList", params);
+
   const response = await axios.post(
     `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_opcl_time_control`,
-    { opclIds: id, opclTimeControlList: params },
+    formData,
   );
 
   return response;
