@@ -89,11 +89,17 @@ const ManualControlModal = ({
             : 0,
       };
 
+      const fromTimeValue = `${methods.watch("fromTime")[index]}:${methods.watch("fromMinute")[index]}`;
+      const fromTime = fromTimeValue.replace(/\b\d\b/g, "0$&");
+
+      const toTimeValue = `${methods.watch("toTime")[index]}:${methods.watch("toMinute")[index]}`;
+      const toTime = toTimeValue.replace(/\b\d\b/g, "0$&");
+
       return {
         ...value,
         mode: mode,
-        fromTime: `${methods.watch("fromTime")[index]}:${methods.watch("fromMinute")[index]}`,
-        toTime: `${methods.watch("toTime")[index]}:${methods.watch("toMinute")[index]}`,
+        fromTime: fromTime,
+        toTime: toTime,
         relaySensorControlDto: updateRelaySensorControlDto,
         relayCycleControlDto: updateRelayCycleControlDto,
       };
