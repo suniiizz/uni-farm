@@ -114,7 +114,7 @@ const ManualControlModal = ({
     if (checkModeDuplicates(updateData)) {
       alert("예약과 센서를 동시에 설정할 수 없습니다.");
     } else {
-      updateManualSetData(JSON.stringify(updateData), checkedList.toString());
+      updateManualSetData(JSON.stringify(updateData), manualId.toString());
     }
   };
 
