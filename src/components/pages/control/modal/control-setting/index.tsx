@@ -16,7 +16,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const methods = useForm();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const [sensorOption, setSensorOption] = useState<string>("");
+  const [sensorOption, setSensorOption] = useState<number>(0);
   const [timeOption, setTimeOption] = useState<number>(0);
   const [locationCheckedList, setLocationCheckedList] = useState<Array<number>>(
     [],
@@ -26,6 +26,8 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [isTimeChecked, setIsTimeChecked] = useState<boolean>(false);
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
+
+  console.log("sensorOption", typeof sensorOption);
 
   isLocationChecked;
   isTimeChecked;
@@ -180,7 +182,8 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     setTimeOption(value);
   };
   const handleUseOptionSelect = (value: string) => {
-    setSensorOption(value);
+    const option = parseInt(value);
+    setSensorOption(option);
   };
 
   useEffect(() => {
@@ -388,10 +391,10 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                 <ul className="flex flex-col gap-2">
                   {SENSOR_CONT_OPTION2.map((list) => {
                     if (
-                      `${sensorOption}` === "온도" ||
-                      `${sensorOption}` === "습도" ||
-                      `${sensorOption}` === "CO2" ||
-                      `${sensorOption}` === "일사(실내)"
+                      sensorOption === 7 ||
+                      sensorOption === 8 ||
+                      sensorOption === 9 ||
+                      sensorOption === 10
                     ) {
                       return (
                         <li className="flex justify-between h-[2.8125rem]">
