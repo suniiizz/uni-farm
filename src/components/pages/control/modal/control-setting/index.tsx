@@ -27,8 +27,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
   const [timerControl, setTimerControl] = useState<boolean>(false);
   const [inputFocus, setInputFocus] = useState<number | null>(null);
 
-  console.log("sensorOption", typeof sensorOption);
-
   isLocationChecked;
   isTimeChecked;
 
