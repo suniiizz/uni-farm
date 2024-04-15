@@ -49,14 +49,6 @@ const SensorView = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                  onClick={() => handleOpenModal("register")}
-                >
-                  <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
-                  센서등록
-                </Button>
-                <Button
-                  customType="MAIN"
-                  className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
                   onClick={() => handleOpenModal("control")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>

@@ -15,6 +15,7 @@ type Props = React.ComponentPropsWithoutRef<"input"> & {
   fromMinute?: string;
   toTime?: string;
   toMinute?: string;
+  readOnly?: boolean;
 };
 
 type Ref = {
@@ -29,11 +30,12 @@ const Input = ({
   disabled,
   labelBlack,
   registerName,
+  readOnly,
   ...props
 }: Props) => {
   const { register } = useFormContext();
 
-  const inputWrap = `flex items-center justify-end gap-1 rounded-lg h-[2.8125rem] px-3 py-2 ${props.inputWrap ?? ""}`;
+  const inputWrap = `flex items-center justify-end gap-1 rounded-lg h-[2.8125rem] px-3 py-2 ${props.inputWrap ?? ""} ${disabled && "bg-transparent border-2 border-[#54524F]"}`;
   const className = `flex items-center outline-0 border-none bg-inherit w-6 text-[.9375rem] placeholder:text-[.9375rem] ${props.className ?? ""}`;
 
   if (!registerName)
@@ -47,7 +49,12 @@ const Input = ({
           </span>
         )}
         <div className={inputWrap ?? ""}>
-          <input {...props} className={className} />
+          <input
+            {...props}
+            className={className}
+            disabled={disabled}
+            readOnly={readOnly}
+          />
           {unit && <span className="text-white text-4">{unit}</span>}
         </div>
       </>
@@ -68,6 +75,7 @@ const Input = ({
           {...props}
           className={className}
           disabled={disabled}
+          readOnly={readOnly}
           maxLength={maxLength}
           {...register(registerName, {
             maxLength: maxLength && maxLength,
