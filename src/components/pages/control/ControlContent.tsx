@@ -18,7 +18,7 @@ import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
 import SliderControl from "@/components/pages/control/modal/slider-control";
 import GroupControl from "@/components/pages/control/modal/control-button/groupControl";
 import ManualControl from "@/components/pages/control/modal/manual-button";
-import ManualControlModal from "@/components/pages/control/modal/manual-button/manualControl";
+import ManualControlModal from "@/components/pages/control/modal/manual-button/ManualControl";
 import Button from "@/components/common/button";
 
 const ControlContent = ({
@@ -78,6 +78,17 @@ const ControlContent = ({
     } else {
       setManualChecked((prev) => [...prev, no]);
     }
+  };
+
+  // [외부 환경] 데이터
+  const environmentalData = (id: number) => {
+    const sensorDataList: SensorData | undefined = sensorData.find(
+      (item: SensorData) => item.id === 115,
+    );
+
+    return sensorDataList?.sensorDtoList.find(
+      (item: SensorDtoList) => item.id === id,
+    ).value;
   };
 
   // [긴급 제어] 슬라이더 데이터 패칭
@@ -291,6 +302,26 @@ const ControlContent = ({
         </div>
         <div className="flex items-center gap-2">
           {INFO_LIST1.map((list) => {
+            const value = (name: string) => {
+              switch (name) {
+                case "기온":
+                  return <>{environmentalData(116)}</>;
+                case "습기":
+                  return <>{environmentalData(117)}</>;
+                case "강우":
+                  return <>{environmentalData(118)}</>;
+                case "일사":
+                  return <>{environmentalData(119)}</>;
+                case "풍향":
+                  return <>{environmentalData(120)}</>;
+                case "풍속":
+                  return <>{environmentalData(121)}</>;
+                case "CO₂":
+                  return <>{environmentalData(122)}</>;
+                default:
+                  return;
+              }
+            };
             return (
               <div
                 key={list.id}
@@ -302,8 +333,10 @@ const ControlContent = ({
                   className="w-[2.5rem] h-[2.5rem]"
                 />
                 <span>
-                  {list.name1}: {list.value1} <br />
-                  {list.name2}: {list.value2}
+                  {list.name1}: {value(list.name1)}
+                  {list.unit1} <br />
+                  {list.name2}: {value(list.name2)}
+                  {list.unit2}
                 </span>
               </div>
             );
@@ -705,24 +738,24 @@ const INFO_LIST1 = [
     id: 1,
     name1: "기온",
     name2: "습기",
-    value1: "15.8 ℃",
-    value2: "31.4 %",
+    unit1: "℃",
+    unit2: "%",
     img: "temper-icon3@2x.svg",
   },
   {
     id: 2,
     name1: "강우",
     name2: "일사",
-    value1: "1 mm",
-    value2: "18W/㎡",
+    unit1: "mm",
+    unit2: "W/㎡",
     img: "sun-icon@2x.svg",
   },
   {
     id: 3,
     name1: "풍향",
     name2: "풍속",
-    value1: "246 ˚",
-    value2: "0 m/s",
+    unit1: "˚",
+    unit2: "m/s",
     img: "wind-icon@2x.svg",
   },
 ];
