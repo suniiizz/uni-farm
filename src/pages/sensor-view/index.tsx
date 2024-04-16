@@ -9,7 +9,7 @@ import { ModalContext } from "@/components/common/modal/context/modalContext";
 import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";
 import SensorContent from "@/components/pages/sensor-view/index";
-import RegisterModal from "@/components/pages/sensor-view/modal/register";
+import SensorSettingModal from "@/components/pages/sensor-view/modal/setting";
 
 const SensorView = () => {
   const location = useLocation();
@@ -106,7 +106,7 @@ const SensorView = () => {
         </div>
       </div>
 
-      {isOpen && modalType === "control" && <RegisterModal />}
+      {isOpen && modalType === "control" && <SensorSettingModal />}
     </>
   );
 };

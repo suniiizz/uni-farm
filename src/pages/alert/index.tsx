@@ -1,6 +1,19 @@
+import { useContext, useState } from "react";
+
+import AlertModal from "@/components/pages/alert/modal/setting";
 import Button from "@/components/common/button";
+import { ModalContext } from "@/components/common/modal/context/modalContext";
 
 const AlertList = () => {
+  const { isOpen, onOpenModal } = useContext(ModalContext);
+
+  const [modalType, setModalType] = useState("");
+
+  const handleOpenModal = (type: string) => {
+    setModalType(type);
+    onOpenModal();
+  };
+
   return (
     <>
       <div className="w-full">
@@ -17,7 +30,7 @@ const AlertList = () => {
                 <Button
                   customType="MAIN"
                   className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                  // onClick={() => handleOpenModal("register")}
+                  onClick={() => handleOpenModal("alert")}
                 >
                   <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                   경보설정
@@ -35,6 +48,8 @@ const AlertList = () => {
           </div>
         </div>
       </div>
+
+      {isOpen && modalType === "alert" && <AlertModal />}
     </>
   );
 };

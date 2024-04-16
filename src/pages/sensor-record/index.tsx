@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
-
-// import { ModalContext } from "@/components/common/modal/context/modalContext";
-import Button from "@/components/common/button";
-import VerticalTab from "@/components/common/tab";
 
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Calendar from "@/components/common/calendar";
 
+import Button from "@/components/common/button";
+import VerticalTab from "@/components/common/tab";
+import SensorRecordDisplayModal from "@/components/pages/sensor-record/modal/display";
+import { ModalContext } from "@/components/common/modal/context/modalContext";
+
 const SensorRecord = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [section, setSection] = useState("");
   const [value, setValue] = useState(1);
-  // const [modalType, setModalType] = useState("");
-  // const { isOpen, onOpenModal } = useContext(ModalContext);
+  const [modalType, setModalType] = useState("");
+  const { isOpen, onOpenModal } = useContext(ModalContext);
   const methods = useForm();
 
   useEffect(() => {
@@ -29,10 +30,10 @@ const SensorRecord = () => {
     setValue(newValue);
   };
 
-  // const handleOpenModal = (type: string) => {
-  //   setModalType(type);
-  //   onOpenModal();
-  // };
+  const handleOpenModal = (type: string) => {
+    setModalType(type);
+    onOpenModal();
+  };
 
   return (
     <>
@@ -53,7 +54,7 @@ const SensorRecord = () => {
                   <Button
                     customType="MAIN"
                     className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                    // onClick={() => handleOpenModal("register")}
+                    onClick={() => handleOpenModal("display")}
                   >
                     <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/check-icon@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
                     표시항목
@@ -118,7 +119,7 @@ const SensorRecord = () => {
           </div>
         </div>
 
-        {/* {isOpen && modalType === "control" && <RegisterModal />} */}
+        {isOpen && modalType === "display" && <SensorRecordDisplayModal />}
       </FormProvider>
     </>
   );

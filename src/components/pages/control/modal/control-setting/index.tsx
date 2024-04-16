@@ -180,7 +180,6 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
     setTimeOption(value);
   };
   const handleUseOptionSelect = (value: string) => {
-    console.log("value", value);
     const option = parseInt(value);
     setSensorOption(option);
   };

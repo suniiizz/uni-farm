@@ -185,6 +185,7 @@ const ManualControlModal = ({
                 className="!gap-4"
                 onChange={handleAllCheckedList}
                 checked={checkedList.length === COUNT_LIST.length}
+                registerName="test"
               />
             </li>
             {manualSetData.map((list, index) => {

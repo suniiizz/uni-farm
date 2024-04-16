@@ -5,16 +5,13 @@ import { Input } from "@/components/common/input";
 import Modal from "@/components/common/modal";
 import Select from "@/components/common/select";
 
-const RegisterModal = () => {
+const SensorSettingModal = () => {
   const methods = useForm();
   const [availableInfo, setAvailableInfo] = useState(0);
 
   const handleSensorChange = (value: string) => {
     setAvailableInfo(parseInt(value));
   };
-
-  // 온도 습도 CO2 일사 -> 실내 1-4
-  // 기온 습기 일사 CO2 -> 외부환경 블라블라
 
   return (
     <FormProvider {...methods}>
@@ -321,7 +318,7 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default SensorSettingModal;
 
 const BTN_LIST = [
   { id: 1, name: "설명서", img: "info@2x.svg" },

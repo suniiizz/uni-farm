@@ -19,6 +19,7 @@ type Props = {
   custom?: boolean;
   pbNone?: boolean;
   onClickCallBack?: () => void;
+  titleWrap?: boolean;
 };
 
 const Modal = ({
@@ -30,6 +31,7 @@ const Modal = ({
   custom,
   pbNone,
   onClickCallBack,
+  titleWrap,
 }: Props) => {
   const { onCloseModal } = useContext(ModalContext);
 
@@ -38,22 +40,24 @@ const Modal = ({
       {createPortal(
         <>
           {!type && (
-            <div className="fixed top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60"></div>
+            <div
+              className={`fixed top-0 left-0 right-0 bottom-0 bg-black z-20 bg-opacity-60 `}
+            ></div>
           )}
           <div
-            className={`fixed ${type ? (custom ? "top-[50%] left-[50%]" : "bottom-[15%] left-[58%]") : "top-[50%] left-[50%]"} -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 h-auto rounded-lg px-[1.875rem] py-[1.25rem] ${
+            className={`fixed ${titleWrap && "overflow-auto"} ${type ? (custom ? "top-[50%] left-[50%]" : "bottom-[15%] left-[58%]") : "top-[50%] left-[50%]"} -translate-x-[50%] -translate-y-[50%] bg-main max-w-[90%] max-h-[90%] z-20 h-auto rounded-lg px-[1.875rem] py-[1.25rem] ${
               className ? className : ""
             }`}
           >
             <div
-              className={`flex justify-between items-center border-b border-white/30 pb-6 ${pbNone && "!pb-0"}`}
+              className={`flex justify-between items-center border-b border-white/30 pb-6 ${pbNone && "!pb-0"} ${titleWrap && "mx-[1.25rem] pt-[1.25rem] sticky top-0 left-0 bg-main z-10 rounded-t-lg"}`}
             >
               <span
                 className={`text-[22px] font-bold ${type ? "text-black text-center w-full" : "text-white"}`}
               >
                 {title}
               </span>
-              <div className="flex gap-2">
+              <div className={`flex gap-2`}>
                 {buttonList && (
                   <>
                     {buttonList.map((list) => {
