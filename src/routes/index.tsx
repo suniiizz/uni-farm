@@ -5,8 +5,9 @@ import controlRecordRoute from "@/routes/control-record";
 import sensorViewRoute from "@/routes/sensor-view";
 import sensorRecordRoute from "@/routes/sensor-record";
 import farmRoute from "@/routes/farm";
-import userRoute from "@/routes/user";
+import userRoute from "@/routes/user-list";
 import alertRoute from "@/routes/alert";
+import authRoute from "./auth";
 
 export default [
   {
@@ -15,6 +16,7 @@ export default [
     element: <Layout />,
   },
 
+  authRoute, //인증
   weatherRoute, //기상청 날씨 정보
   controlRoute, //원격 제어
   controlRecordRoute, //제어 기록

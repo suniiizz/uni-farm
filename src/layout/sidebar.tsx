@@ -129,7 +129,7 @@ const MENU = [
   {
     key: "사용자 리스트",
     label: "사용자 리스트",
-    path: "/user",
+    path: "/user-list",
     icon: <List />,
   },
   {
