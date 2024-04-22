@@ -183,9 +183,9 @@ const ManualControlModal = ({
               <CheckBox
                 labelTitle="전체선택"
                 className="!gap-4"
-                onChange={handleAllCheckedList}
+                onChangeCallBack={handleAllCheckedList}
                 checked={checkedList.length === COUNT_LIST.length}
-                registerName="test"
+                registerName="allSelect"
               />
             </li>
             {manualSetData.map((list, index) => {
