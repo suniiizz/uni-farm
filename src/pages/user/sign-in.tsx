@@ -4,9 +4,11 @@ import Logo from "@/assets/icon/logo@2x.svg";
 import { Input } from "@/components/common/input";
 import CheckBox from "@/components/common/checkbox";
 import Button from "@/components/common/button";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const methods = useForm();
+
   return (
     <>
       <FormProvider {...methods}>
@@ -52,12 +54,14 @@ const LoginPage = () => {
                 >
                   로그인
                 </Button>
-                <Button
-                  customType="MAIN"
-                  className="bg-[#616361] border-none h-[60px] text-bold !text-[1.125rem]"
-                >
-                  회원가입
-                </Button>
+                <Link to="/auth/register">
+                  <Button
+                    customType="MAIN"
+                    className="bg-[#616361] border-none h-[60px] text-bold !text-[1.125rem] w-full"
+                  >
+                    회원가입
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
