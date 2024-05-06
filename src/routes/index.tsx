@@ -7,13 +7,18 @@ import sensorRecordRoute from "@/routes/sensor-record";
 import farmRoute from "@/routes/farm";
 import userRoute from "@/routes/user-list";
 import alertRoute from "@/routes/alert";
-import authRoute from "./auth";
+import authRoute from "@/routes/auth";
+import RequiredAuth from "@/components/pages/user/required-auth";
 
 export default [
   {
     path: "/",
     index: true,
-    element: <Layout />,
+    element: (
+      <RequiredAuth>
+        <Layout />
+      </RequiredAuth>
+    ),
   },
 
   authRoute, //인증

@@ -5,7 +5,7 @@ export const signIn = async (params: string) => {
   formData.append("member", params);
 
   const response = await axios.post(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_member?member=${params}`,
+    `http://175.123.253.182:8888/api/update_member?member=${params}`,
     formData,
   );
 

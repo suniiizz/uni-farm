@@ -12,4 +12,9 @@ declare module "user" {
     terms: boolean;
     path: string;
   };
+
+  export type SignInRequest = {
+    id: string;
+    password: string;
+  };
 }

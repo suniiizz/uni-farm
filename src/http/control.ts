@@ -4,7 +4,7 @@ import axios from "axios";
 // [원격제어 - 가운데 박스] 데이터
 export const getSensorData = async () => {
   const response = await axios.get(
-    "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
+    "http://175.123.253.182:8888/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
   );
 
   return response;
@@ -21,7 +21,7 @@ export const getControlData = async () => {
   // ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
 
   const response = await axios.get(
-    "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
+    "http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
   );
 
   return response;
@@ -30,7 +30,7 @@ export const getControlData = async () => {
 // [원격제어 - 슬라이더] 데이터 업데이트
 export const updateControlData = async (params: string) => {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
+    `http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
   );
 
   return response;
@@ -39,7 +39,7 @@ export const updateControlData = async (params: string) => {
 // [원격제어 - 하단 설정 버튼] 데이터
 export const getManualData = async () => {
   const response = await axios.get(
-    "https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/relay_list?farmCode=0002&houseNo=01&enable=1",
+    "http://175.123.253.182:8888/api/relay_list?farmCode=0002&houseNo=01&enable=1",
   );
 
   return response;
@@ -48,7 +48,7 @@ export const getManualData = async () => {
 // [원격제어 - 하단 설정 버튼] on/off 업데이트
 export const updateManualData = async (params: string) => {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
+    `http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
   );
 
   return response;
@@ -57,7 +57,7 @@ export const updateManualData = async (params: string) => {
 // [원격제어 - 하단 설정 버튼] - 제어설정 데이터
 export const getManualSetData = async (id: string) => {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/relay_time_control_list?relayId=${id}`,
+    `http://175.123.253.182:8888/api/relay_time_control_list?relayId=${id}`,
   );
 
   return response;
@@ -70,7 +70,7 @@ export const updateManualSetData = async (params: string, id: string) => {
   formData.append("relayTimeControlList", params);
 
   const response = await axios.post(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_relay_time_control`,
+    `http://175.123.253.182:8888/api/update_relay_time_control`,
     formData,
   );
 
@@ -80,7 +80,7 @@ export const updateManualSetData = async (params: string, id: string) => {
 // [원격제어 - 제어설정] 상단 위치별 데이터
 export const getControlModalData = async (id: string) => {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/opcl_time_control_list?opclId=${id}`,
+    `http://175.123.253.182:8888/api/opcl_time_control_list?opclId=${id}`,
   );
 
   return response;
@@ -93,7 +93,7 @@ export const updateControlSetData = async (params: string, id: string) => {
   formData.append("opclTimeControlList", params);
 
   const response = await axios.post(
-    `https://cors-anywhere.herokuapp.com/http://175.123.253.182:8888/api/update_opcl_time_control`,
+    `http://175.123.253.182:8888/api/update_opcl_time_control`,
     formData,
   );
 
