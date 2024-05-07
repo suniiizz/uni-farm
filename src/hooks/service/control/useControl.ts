@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { getControlData } from "@/http/control";
 import { ControlData } from "control";
 
-const useControl = () => {
+const useControl = (houseNo: string) => {
   const [controlData, setControlData] = useState<ControlData[]>([]);
 
   const fetchControlData = async () => {
-    await getControlData()
+    await getControlData(houseNo)
       .then((response) => {
         setControlData(response.data);
       })
@@ -21,7 +21,7 @@ const useControl = () => {
 
   useEffect(() => {
     fetchControlData();
-  }, []);
+  }, [houseNo]);
 
   return {
     controlData,

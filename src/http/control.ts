@@ -11,7 +11,7 @@ export const getSensorData = async () => {
 };
 
 // [원격제어 - 슬라이더] 데이터
-export const getControlData = async () => {
+export const getControlData = async (houseNo: string) => {
   // const data = {
   //   farmCode: "0002",
   //   houseNo: "01",
@@ -21,7 +21,7 @@ export const getControlData = async () => {
   // ajaxRequest("http://175.123.253.182:8888/api/opcl_list", data, setControlDatal);
 
   const response = await axios.get(
-    "http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=01&enable=1",
+    `http://175.123.253.182:8888/api/opcl_list?farmCode=0002&houseNo=0${houseNo}&enable=1`,
   );
 
   return response;

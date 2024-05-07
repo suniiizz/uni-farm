@@ -1,29 +1,27 @@
-import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-
 import { FormProvider, useForm } from "react-hook-form";
+
 import useControl from "@/hooks/service/control/useControl";
 
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { ModalContext } from "@/components/common/modal/context/modalContext";
-import ControlModal from "@/components/pages/control/modal/control-setting";
-import ControlContent from "@/components/pages/control/ControlContent";
 import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";
-import DeviceModal from "@/components/pages/control/modal/device-setting";
+import { ModalContext } from "@/components/common/modal/context/modalContext";
+import { CctvSettingModal } from "@/components/pages/cctv/modal";
+import { CctvContent } from "../../components/pages/cctv/CctvContent";
 
-const WeatherControl = () => {
-  const methods = useForm();
+const Cctv = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [section, setSection] = useState("1");
   const [value, setValue] = useState(1);
   const [modalType, setModalType] = useState("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
+  const methods = useForm();
 
   const { controlData } = useControl(section);
 
@@ -32,8 +30,7 @@ const WeatherControl = () => {
     setSection(parsedSection ? parsedSection : "1");
   }, [location]);
 
-  const handleSideTabChange = (e: React.SyntheticEvent, newValue: number) => {
-    e;
+  const handleSideTabChange = (newValue: number) => {
     setValue(newValue);
   };
 
@@ -45,42 +42,27 @@ const WeatherControl = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <div className="w-full relative">
-          <div className="m-6 bg-bg rounded-[.625rem] h-[calc(100vh-6.75rem)]">
+        <div className="w-full">
+          <div className="m-6 bg-main rounded-[.625rem] h-[calc(100vh-6.75rem)]">
             {/* 상단 타이틀 */}
             <div className="h-full relative">
               <div className="h-[4.375rem] p-6 bg-main rounded-t-[.625rem] border-b border-mainLine flex justify-between items-center relative">
                 <div className="flex gap-6 items-center">
-                  <h2 className="text-[1.5rem] text-[#fff] font-bold">
-                    원격제어
-                  </h2>
-                  <span className="text-[#fff]">2023-12-18 15:25:46</span>
-                  <Button customType="MAIN" className="w-[7.5rem]">
-                    기상청 날씨
-                  </Button>
+                  <h2 className="text-[1.5rem] text-[#fff] font-bold">CCTV</h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button
                     customType="MAIN"
                     className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                    onClick={() => handleOpenModal("control")}
+                    onClick={() => handleOpenModal("cctv")}
                   >
                     <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
-                    제어설정
-                  </Button>
-                  <Button
-                    customType="MAIN"
-                    className="w-[7.5rem] gap-2 text-center relative pl-[2.5rem] pr-[1.25rem]"
-                    onClick={() => handleOpenModal("device")}
-                  >
-                    <span className="w-6 h-6 inline-block bg-[url('../src/assets/icon/setting@2x.svg')] bg-no-repeat bg-center bg-contain absolute top-[50%] translate-y-[-50%] left-2"></span>
-                    장치설정
+                    설정
                   </Button>
                 </div>
               </div>
-
               {/* 사이드 탭 */}
-              <div className="py-[.625rem] flex items-center flex-col justify-between gap-[1.125rem] left-0 top-[4.375rem] w-[4.375rem] h-[calc(100%-4.375rem)] bg-main rounded-bl-[.625rem]">
+              <div className="border-r py-[.625rem] flex items-center flex-col justify-between gap-[1.125rem] left-0 top-[4.375rem] w-[4.375rem] h-[calc(100%-4.375rem)] bg-main rounded-bl-[.625rem]">
                 <div className="flex flex-col gap-[.625rem] h-full">
                   <CustomTabs
                     orientation="vertical"
@@ -88,8 +70,8 @@ const WeatherControl = () => {
                     role="navigation"
                     value={value}
                     scrollButtons
-                    onChange={handleSideTabChange}
-                    selectionFollowsFocus
+                    allowScrollButtonsMobile
+                    onChange={() => handleSideTabChange(value)}
                     className="justify-between h-full"
                   >
                     <div className="flex flex-col gap-[.625rem] h-full">
@@ -120,31 +102,24 @@ const WeatherControl = () => {
               </div>
 
               {/* 컨텐츠 */}
-              <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('../src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
-                {section === "1" && (
-                  <ControlContent
-                    controlData={controlData}
-                    modalType={modalType}
-                    setModalType={setModalType}
-                  />
-                )}
-                {section === "2" && <div>22222</div>}
-                {section === "3" && <div>33333</div>}
+              <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem]">
+                <CctvContent
+                  controlData={controlData}
+                  setModalType={setModalType}
+                  section={section}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {isOpen && modalType === "control" && (
-          <ControlModal controlData={controlData} />
-        )}
-        {isOpen && modalType === "device" && <DeviceModal />}
+        {isOpen && modalType === "cctv" && <CctvSettingModal />}
       </FormProvider>
     </>
   );
 };
 
-export default WeatherControl;
+export default Cctv;
 
 const LIST = [
   { id: 1, num: "1" },
@@ -163,7 +138,7 @@ const CustomTabs = styled(Tabs)({
     opacity: "100",
   },
   "& .MuiTabs-scrollButtons": {
-    background: `url('http://175.123.253.182/icon/section-arw-up-white@3x.svg')`,
+    background: `url('../src/assets/icon/section-arw-up-white@3x.svg')`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "60%",

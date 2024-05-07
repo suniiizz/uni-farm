@@ -466,6 +466,7 @@ const ControlModal = ({ controlData }: { controlData: ControlData[] }) => {
                             className="text-4 font-bold text-right text-white w-full"
                             unit={list.unit}
                             defaultValue={0}
+                            labelMarginNone
                           />
                         )}
                       </li>

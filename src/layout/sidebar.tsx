@@ -123,7 +123,7 @@ const MENU = [
   {
     key: "CCTV",
     label: "CCTV",
-    path: "",
+    path: "/cctv",
     icon: <Cctv />,
   },
   {

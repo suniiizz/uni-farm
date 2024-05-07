@@ -8,6 +8,7 @@ import farmRoute from "@/routes/farm";
 import userRoute from "@/routes/user-list";
 import alertRoute from "@/routes/alert";
 import authRoute from "@/routes/auth";
+import cctvRoute from "@/routes/cctv";
 import RequiredAuth from "@/components/pages/user/required-auth";
 
 export default [
@@ -27,7 +28,8 @@ export default [
   controlRecordRoute, //제어 기록
   sensorViewRoute, //센서 보기
   sensorRecordRoute, //센서 기록
-  alertRoute,
+  alertRoute, //경보내역
+  cctvRoute, //cctv
   farmRoute, //농가 리스트
   userRoute, //사용자 리스트
 ];

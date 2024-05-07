@@ -6,10 +6,11 @@ type Option = {
 };
 
 type Props = React.ComponentPropsWithoutRef<"select"> & {
-  options: Option[];
+  options: Option[] | null;
   selectWrap?: string;
   registerName?: string;
   onChangeCallback?: (e?: ChangeEvent<HTMLInputElement>) => void;
+  cctv?: boolean;
 };
 
 const Select = ({
@@ -26,7 +27,7 @@ const Select = ({
   if (!registerName) {
     return (
       <select className={className} defaultValue={""} {...props}>
-        {options.map((option) => {
+        {options?.map((option) => {
           return (
             <option key={option.id} value={option.value} defaultValue={"선택"}>
               {option.name}
@@ -47,7 +48,7 @@ const Select = ({
         {...props}
         defaultValue={0}
       >
-        {options.map((option) => {
+        {options?.map((option) => {
           return (
             <option key={option.id} value={option.value} defaultValue={"선택"}>
               {option.name}

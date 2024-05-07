@@ -124,8 +124,8 @@ export const RowBar = ({
   sliderValue: (location: number, value: number) => void;
   zIndex?: boolean;
   disabled?: boolean;
-  handleSliderChecked: (divId: number) => void;
-  sliderChecked: number[];
+  handleSliderChecked?: (divId: number) => void;
+  sliderChecked?: number[];
 }) => {
   const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
@@ -165,56 +165,91 @@ export const RowBar = ({
 
   return (
     <>
-      <div
-        className={`${sliderChecked.includes(location) ? "bg-yellow" : ""} ${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
-        onClick={() => handleSliderChecked(location)}
-      >
-        <span
-          onClick={() => {
-            handelCloseBtn("close"), handleSliderControl("slider");
-          }}
-          className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('../src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
-        ></span>
-        <div className="flex items-center flex-col w-[2.25rem]">
-          <span>닫힘</span>
-          <span>0%</span>
-        </div>
-        <Box
-          sx={{
-            marginLeft: "5px",
-            marginRight: "5px",
-            maxWidth: "28.75rem",
-            minWidth: "17.875rem",
-            width: "auto",
-            height: "2.375rem",
-            borderLeft: "7px solid #707070",
-            borderRight: "7px solid #707070",
-            borderRadius: "5px",
-          }}
+      {handleSliderChecked && sliderChecked ? (
+        <div
+          className={`${sliderChecked.includes(location) ? "bg-yellow" : ""} ${zIndex ? "z-20" : "z-10"} w-auto max-w-[37.5rem] bg-[#fff] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between shadow-lg`}
+          onClick={() => handleSliderChecked(location)}
         >
-          <RowSlider
-            disabled={disabled}
-            valueLabelDisplay="auto"
-            aria-label="row slider"
-            marks={marks}
-            value={value}
-            max={100}
-            min={0}
-            onChangeCommitted={handleChange}
-            onClick={() => handleSliderControl("slider")}
-          />
-        </Box>
-        <div className="flex items-center flex-col w-[2.25rem]">
-          <span>열림</span>
-          <span>100%</span>
+          <span
+            onClick={() => {
+              handelCloseBtn("close"), handleSliderControl("slider");
+            }}
+            className="mr-1 rotate-[-90deg] cursor-pointer w-4 h-4 inline-block bg-[url('../src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
+          ></span>
+          <div className="flex items-center flex-col w-[2.25rem]">
+            <span>닫힘</span>
+            <span>0%</span>
+          </div>
+          <Box
+            sx={{
+              marginLeft: "5px",
+              marginRight: "5px",
+              maxWidth: "28.75rem",
+              minWidth: "17.875rem",
+              width: "auto",
+              height: "2.375rem",
+              borderLeft: "7px solid #707070",
+              borderRight: "7px solid #707070",
+              borderRadius: "5px",
+            }}
+          >
+            <RowSlider
+              disabled={disabled}
+              valueLabelDisplay="auto"
+              aria-label="row slider"
+              marks={marks}
+              value={value}
+              max={100}
+              min={0}
+              onChangeCommitted={handleChange}
+              onClick={() => handleSliderControl("slider")}
+            />
+          </Box>
+          <div className="flex items-center flex-col w-[2.25rem]">
+            <span>열림</span>
+            <span>100%</span>
+          </div>
+          <span
+            onClick={() => {
+              handelCloseBtn("open"), handleSliderControl("slider");
+            }}
+            className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('../src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
+          ></span>
         </div>
-        <span
-          onClick={() => {
-            handelCloseBtn("open"), handleSliderControl("slider");
-          }}
-          className="ml-1 rotate-[90deg] cursor-pointer w-4 h-4 inline-block bg-[url('../src/assets/icon/section_arw_up@2x.svg')] bg-no-repeat bg-center bg-contain"
-        ></span>
-      </div>
+      ) : (
+        <>
+          <div
+            className={`w-full max-w-[28.75rem] bg-[#fff] ml-[1.875rem] rounded-md lg:px-[.5rem] lg:py-[.625rem] flex items-center justify-between`}
+          >
+            <Box
+              sx={{
+                marginLeft: "5px",
+                marginRight: "5px",
+                maxWidth: "28.75rem",
+                width: "100%",
+                height: "2.375rem",
+                borderLeft: "7px solid #707070",
+                borderRight: "7px solid #707070",
+                borderRadius: "5px",
+              }}
+            >
+              <RowSlider
+                disabled={disabled}
+                valueLabelDisplay="auto"
+                aria-label="row slider"
+                marks={marks}
+                value={value}
+                max={100}
+                min={0}
+                onChangeCommitted={handleChange}
+              />
+            </Box>
+          </div>
+          <div className="bg-white p-2 rounded-md w-[6.25rem] h-[2.8125rem] flex items-center justify-center">
+            <p className="font-bold">{value}%</p>
+          </div>
+        </>
+      )}
     </>
   );
 };
