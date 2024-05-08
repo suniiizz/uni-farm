@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { loadPlayer } from "rtsp-relay/browser";
 
 import { ControlData } from "control";
+import { CctvDataList } from "control";
 import { updateControlData } from "@/http/control";
 
 import { RowBar } from "@/components/common/slider";
@@ -11,19 +14,17 @@ export const CctvContent = ({
   controlData,
   setModalType,
   section,
+  cctvData,
 }: {
   controlData: ControlData[];
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   section: string;
+  cctvData: CctvDataList[];
 }) => {
   const [optionValue, setOptionValue] = useState<number>(0); //선택한 위치 옵션 location값
   const [sliderValue, setSliderValue] = useState<Array<number>>([]); //수동 조절 시 슬라이더 값
   const [controlDataUpdate, setControlDataUpdate] = useState<ControlData[]>([]); //슬라이더 값 저장 데이터
   const [sliderData, setSliderData] = useState<number>(0); //선택한 위치 옵션 슬라이더 값
-
-  useEffect(() => {
-    handleUpdateControlValue();
-  }, [controlData, sliderValue]);
 
   // 위치 옵션 리스트
   const createOptionList = () => {
@@ -85,6 +86,10 @@ export const CctvContent = ({
     setControlDataUpdate(updatedData);
   };
 
+  useEffect(() => {
+    handleUpdateControlValue();
+  }, [controlData, sliderValue]);
+
   // 슬라이더 작동 / 중지 버튼
   const handleActionBtn = (name: string) => {
     if (name === "작동") {
@@ -97,14 +102,58 @@ export const CctvContent = ({
     }
   };
 
+  // [CCTV] 가상 데이터
+  const urlData = [
+    "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
+    "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
+  ];
+
+  // [CCTV]
+  // url 리스트
+  // const urlData = cctvData.map((item) => item.ip);
+
+  const canvasRefs = useRef<HTMLCanvasElement[]>([]);
+
+  useEffect(() => {
+    canvasRefs.current = [];
+  }, []);
+
+  const connectToCCTV = (url: string, canvasIndex: number) => {
+    setTimeout(() => {
+      loadPlayer({
+        url: url,
+        canvas: canvasRefs.current[canvasIndex],
+        onDisconnect: () => console.log("Connection lost!"),
+      });
+
+      console.log("성공!!!");
+      canvasRefs.current[canvasIndex].style.display = "block";
+    }, 1000);
+  };
+
+  const handleCctvConnect = (urlList: string[]) => {
+    urlList.forEach((url, index) => {
+      connectToCCTV(url, index);
+    });
+  };
+
+  useEffect(() => {
+    handleCctvConnect(urlData);
+  }, [controlData]);
+
   return (
     <div className="h-full flex flex-col gap-10">
       {/* cctv 화면 */}
-      <ul className="flex flex-wrap border bg-[#3C3C3C] h-[90%]">
-        {CCTV_LIST.map((list) => {
+      <ul className="flex flex-wrap bg-[#3C3C3C] h-[90%]">
+        {CCTV_LIST.map((list, index) => {
           return (
-            <li key={list.id} className="w-1/2 h-1/2 border text-white">
-              {list.num}
+            <li key={list.id} className="w-1/2 h-1/2 text-white">
+              <canvas
+                ref={(ref) => {
+                  canvasRefs.current[index] = ref as HTMLCanvasElement;
+                }}
+                style={{ width: "100%", height: "100%" }}
+              />
             </li>
           );
         })}

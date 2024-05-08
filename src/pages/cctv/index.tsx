@@ -3,6 +3,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 
 import useControl from "@/hooks/service/control/useControl";
+import useCctv from "@/hooks/service/cctv/useCctv";
 
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
@@ -12,7 +13,7 @@ import Button from "@/components/common/button";
 import VerticalTab from "@/components/common/tab";
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import { CctvSettingModal } from "@/components/pages/cctv/modal";
-import { CctvContent } from "../../components/pages/cctv/CctvContent";
+import { CctvContent } from "@/components/pages/cctv/CctvContent";
 
 const Cctv = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const Cctv = () => {
   const methods = useForm();
 
   const { controlData } = useControl(section);
+  const { cctvData } = useCctv(section);
 
   useEffect(() => {
     const parsedSection = searchParams.get("section");
@@ -107,13 +109,20 @@ const Cctv = () => {
                   controlData={controlData}
                   setModalType={setModalType}
                   section={section}
+                  cctvData={cctvData}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {isOpen && modalType === "cctv" && <CctvSettingModal />}
+        {isOpen && modalType === "cctv" && (
+          <CctvSettingModal
+            cctvData={cctvData}
+            methods={methods}
+            section={section}
+          />
+        )}
       </FormProvider>
     </>
   );
