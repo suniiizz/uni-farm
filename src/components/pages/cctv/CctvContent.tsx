@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ControlData } from "control";
+import { updateControlData } from "@/http/control";
 
 import { RowBar } from "@/components/common/slider";
 import Select from "@/components/common/select";
@@ -15,37 +16,54 @@ export const CctvContent = ({
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   section: string;
 }) => {
-  const [optionValue, setOptionValue] = useState(0);
-  const [sliderValue, setSliderValue] = useState<Array<number>>([]);
+  const [optionValue, setOptionValue] = useState<number>(0); //선택한 위치 옵션 location값
+  const [sliderValue, setSliderValue] = useState<Array<number>>([]); //수동 조절 시 슬라이더 값
+  const [controlDataUpdate, setControlDataUpdate] = useState<ControlData[]>([]); //슬라이더 값 저장 데이터
+  const [sliderData, setSliderData] = useState<number>(0); //선택한 위치 옵션 슬라이더 값
 
-  console.log("optionValue", optionValue);
-  console.log("sliderValue", sliderValue);
+  useEffect(() => {
+    handleUpdateControlValue();
+  }, [controlData, sliderValue]);
 
+  // 위치 옵션 리스트
+  const createOptionList = () => {
+    const sample = {
+      id: 0,
+      name: "선택",
+      value: 0,
+      sliderValue: 0,
+    };
+
+    const optionList = controlData.map((option) => {
+      const { shapeName, location, value } = option;
+
+      return {
+        id: location,
+        name: `[${section}]동 ` + (shapeName ?? "-"),
+        value: location,
+        sliderValue: value,
+      };
+    });
+
+    optionList.unshift(sample);
+
+    return optionList;
+  };
+
+  const optionList = createOptionList();
+
+  // 선택한 위치 옵션 슬라이더 값 데이터
   const handelLocationSelect = (value: string) => {
     setOptionValue(parseInt(value));
-  };
 
-  const optionList = controlData.map((option) => {
-    const { shapeName, location, value } = option;
-
-    return {
-      id: location,
-      name: `[${section}]동 ` + (shapeName ?? "-"),
-      value: location,
-      sliderValue: value,
-    };
-  });
-
-  // 선택 옵션 슬라이더 값 데이터
-  const controlDataFunc = (location: number) => {
     const controlDataList = controlData.find(
-      (item: ControlData) => item.location === location,
+      (item: ControlData) => item.location.toString() === value.toString(),
     );
 
-    return controlDataList?.value ?? 77;
+    if (controlDataList) return setSliderData(controlDataList?.value);
   };
 
-  // 수동 조절 슬라이더 위치, 값 저장
+  // 수동 조절 시 슬라이더 위치, 값 저장
   const handleSliderChange = (location: number, value: number) => {
     setSliderValue((prevValues) => ({
       ...prevValues,
@@ -53,24 +71,29 @@ export const CctvContent = ({
     }));
   };
 
-  // 수동 조절 슬라이더 값 업데이트
-  // const handleUpdateControlValue = () => {
-  //   const updatedData = controlData.map((item: ControlData) => {
-  //     const { location } = item;
-  //     if (location in sliderValue) {
-  //       return { ...item, value: sliderValue[location], controlMode: 2 };
-  //     } else {
-  //       return { ...item, controlMode: 0 };
-  //     }
-  //   });
+  // 수동 조절 시 슬라이더 값 업데이트
+  const handleUpdateControlValue = () => {
+    const updatedData = controlData.map((item: ControlData) => {
+      const { location } = item;
+      if (location in sliderValue) {
+        return { ...item, value: sliderValue[location], controlMode: 2 };
+      } else {
+        return { ...item, controlMode: 0 };
+      }
+    });
 
-  //   setControlDataUpdate(updatedData);
-  // };
+    setControlDataUpdate(updatedData);
+  };
 
-  // 슬라이더 동작 버튼
+  // 슬라이더 작동 / 중지 버튼
   const handleActionBtn = (name: string) => {
     if (name === "작동") {
-      console.log("hello");
+      // 작동 요청
+      updateControlData(JSON.stringify(controlDataUpdate));
+
+      alert("작동하였습니다.");
+    } else {
+      alert("준비중 입니다.");
     }
   };
 
@@ -97,7 +120,9 @@ export const CctvContent = ({
           />
           <RowBar
             setModalType={setModalType}
-            currentValue={controlDataFunc(optionValue)}
+            currentValue={sliderData}
+            sliderData={sliderData}
+            setSliderData={setSliderData}
             location={optionValue}
             sliderValue={handleSliderChange}
           />

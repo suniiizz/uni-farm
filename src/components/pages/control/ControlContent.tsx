@@ -1,4 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+
+import { loadPlayer } from "rtsp-relay/browser";
 
 // import useGlobalQuery from "@/hooks/global/useGlobalQuery";
 // import { useGetSensor } from "@/hooks/service/control/useGetSensor";
@@ -124,7 +126,7 @@ const ControlContent = ({
     const selectLocation = controlData.map((item: ControlData) => {
       const { location } = item;
       if (sliderChecked.includes(location)) {
-        return { ...item, value: inputValue, controlMode: 7 };
+        return { ...item, value: inputValue, controlMode: 2 };
       } else {
         return { ...item, controlMode: 0 };
       }
@@ -254,6 +256,24 @@ const ControlContent = ({
       default:
         return "";
     }
+  };
+
+  //[CCTV]
+  const canvasRef = useRef(null);
+
+  const handleCctvConnect = () => {
+    setCctv((prev) => !prev);
+
+    setTimeout(() => {
+      loadPlayer({
+        url: `ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102`,
+        canvas: canvasRef.current as unknown as HTMLCanvasElement,
+        // 선택적으로 연결이 끊겼을 때의 콜백을 정의할 수 있습니다.
+        onDisconnect: () => console.log("Connection lost!"),
+      });
+      // canvasRef.current.style.display = "block";
+      // 언마운트 시 리소스를 정리합니다.
+    }, 1000);
   };
 
   return (
@@ -399,7 +419,7 @@ const ControlContent = ({
               <span className="w-[6.875rem] h-[6.875rem] inline-block bg-[url('../src/assets/icon/fan@2x.svg')] bg-contain bg-no-repeat"></span>
               <Button
                 onClick={() => {
-                  setCctv((prev) => !prev);
+                  handleCctvConnect();
                 }}
                 className="w-[5.625rem] h-[5.625rem] bg-[url('../src/assets/icon/cctv-icon-black@2x.svg')] bg-contain bg-no-repeat"
               ></Button>
@@ -569,9 +589,7 @@ const ControlContent = ({
       {/* cctv 영역 */}
       {cctv && (
         <div className="z-10 w-[50%] h-[37%] bg-sub absolute bottom-[4.375rem] left-[50%] translate-x-[-50%]">
-          <video id="test_video" controls autoPlay className="w-full h-full">
-            <source src="" />
-          </video>
+          <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }} />
         </div>
       )}
 

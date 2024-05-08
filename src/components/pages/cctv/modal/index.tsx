@@ -29,11 +29,17 @@ export const CctvSettingModal = () => {
 
   const handleSubmit = () => {};
 
+  // 저장
+  const handleSaveSetting = () => {
+    if (!confirm("저장하시겠습니까?")) return;
+  };
+
   return (
     <Modal
       title="설정"
       buttonList={BTN_LIST}
       className="w-[50rem] h-auto !max-h-[95%] z-100"
+      onClickCallBack={handleSaveSetting}
     >
       <form onSubmit={handleSubmit}>
         <div className="w-full h-auto flex flex-col justify-center items-center py-6 gap-5 border-b border-white/30">
@@ -84,12 +90,11 @@ export const CctvSettingModal = () => {
                             {ENABLED_LIST.map((list) => {
                               return (
                                 <Radio
-                                  registerName={`${`urlList.${index}.name`}`}
-                                  id={list.label}
+                                  registerName={`${`urlList.${index}.enabled`}`}
                                   {...register(`urlList.${index}.enabled`)}
                                   labelTitle={list.label}
                                   className="!gap-2 text-white font-bold text-[1.125rem]"
-                                  name="select"
+                                  name="enabled"
                                   value={list.id}
                                 />
                               );
@@ -112,40 +117,6 @@ export const CctvSettingModal = () => {
                   </>
                 );
               })}
-              {/* {INPUT_LIST.map((list) => {
-                return (
-                  <li className="flex justify-between items-center gap-3">
-                    <Input
-                      registerName={list.registerName}
-                      inputWrap="w-10/12 bg-sub2"
-                      label={`${list.name}`}
-                      className="text-4 font-bold text-right text-white w-full"
-                      labelMarginNone
-                    />
-                  </li>
-                );
-              })}
-              <li className="flex justify-between items-center">
-                <span
-                  className={`font-bold text-[1.125rem] inline-block text-white`}
-                >
-                  사용유무
-                </span>
-                <div className="flex justify-center w-10/12 h-[2.8125rem] gap-[3.75rem]">
-                  {ENABLED_LIST.map((list) => {
-                    return (
-                      <Radio
-                        id={list.label}
-                        registerName="enabled"
-                        labelTitle={list.label}
-                        className="!gap-2 text-white font-bold text-[1.125rem]"
-                        name="select"
-                        value={list.id}
-                      />
-                    );
-                  })}
-                </div>
-              </li> */}
             </ul>
           </div>
         </div>
@@ -156,20 +127,7 @@ export const CctvSettingModal = () => {
 
 const BTN_LIST = [{ id: 2, name: "저장", img: "save@2x.svg" }];
 
-const INPUT_LIST = [
-  {
-    id: 1,
-    name: "이름",
-    registerName: "name",
-  },
-  {
-    id: 1,
-    name: "ip",
-    registerName: "ip",
-  },
-];
-
 const ENABLED_LIST = [
-  { id: 0, label: "사용" },
-  { id: 1, label: "미사용" },
+  { id: 0, label: "미사용" },
+  { id: 1, label: "사용" },
 ];

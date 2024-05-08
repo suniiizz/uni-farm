@@ -117,6 +117,8 @@ export const RowBar = ({
   disabled,
   handleSliderChecked,
   sliderChecked,
+  sliderData,
+  setSliderData,
 }: {
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   currentValue: number;
@@ -126,6 +128,8 @@ export const RowBar = ({
   disabled?: boolean;
   handleSliderChecked?: (divId: number) => void;
   sliderChecked?: number[];
+  sliderData?: number;
+  setSliderData?: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
@@ -147,6 +151,20 @@ export const RowBar = ({
 
     setModalType(type);
     onOpenModal();
+  };
+
+  const handleChange22 = (
+    e: React.SyntheticEvent | Event,
+    newValue: number | number[],
+  ) => {
+    e;
+    // 슬라이더 변경 값 저장
+    if (setSliderData) {
+      setSliderData(newValue as number);
+    }
+
+    // 슬라이더 변경된 location 저장
+    sliderValue(location, newValue as number);
   };
 
   const handelCloseBtn = (type: string) => {
@@ -238,15 +256,15 @@ export const RowBar = ({
                 valueLabelDisplay="auto"
                 aria-label="row slider"
                 marks={marks}
-                value={value}
+                value={sliderData}
                 max={100}
                 min={0}
-                onChangeCommitted={handleChange}
+                onChangeCommitted={handleChange22}
               />
             </Box>
           </div>
           <div className="bg-white p-2 rounded-md w-[6.25rem] h-[2.8125rem] flex items-center justify-center">
-            <p className="font-bold">{value}%</p>
+            <p className="font-bold">{sliderData}%</p>
           </div>
         </>
       )}
@@ -345,6 +363,11 @@ const RowReverseSlider = styled(Slider)({
   height: "2.375rem",
   padding: "0",
   borderRadius: "0",
+  "&.Mui-disabled": {
+    "& .MuiSlider-track": {
+      backgroundColor: "#e6e6e6",
+    },
+  },
   "& .MuiSlider-rail": {
     borderRadius: "0",
   },
