@@ -9,7 +9,7 @@ declare module "user" {
     password: string;
     passwordConfirm: string;
     phone: string;
-    terms: boolean;
+    terms: boolean | number;
     path: string;
   };
 

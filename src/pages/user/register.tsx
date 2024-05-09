@@ -1,7 +1,8 @@
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-// import { signIn } from "../../http/user";
+// import useRegister from "@/hooks/service/user/useRegister";
 import { RegisterUserForm } from "user";
+
 import { Input } from "@/components/common/input";
 import CheckBox from "@/components/common/checkbox";
 import Button from "@/components/common/button";
@@ -24,12 +25,20 @@ const JoinInPage = () => {
     },
   });
 
+  // const { fetchUserData } = useRegister();
+
   const handleSubmit: SubmitHandler<RegisterUserForm> = (
     data: RegisterUserForm,
   ) => {
-    console.log("data", data);
+    const dataFields = {
+      ...data,
+      terms: data.terms ? 1 : 0,
+    };
 
-    // signIn(JSON.stringify())
+    console.log("dataFields", dataFields);
+    // fetchUserData(dataFields);
+
+    return { ...data };
   };
 
   return (
@@ -130,6 +139,9 @@ const JoinInPage = () => {
                       <Button
                         customType="MAIN"
                         className="h-[3.75rem] w-[4.375rem] !text-[1rem] font-bold text-nowrap ml-[.625rem]"
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
                         검색
                       </Button>
@@ -158,6 +170,9 @@ const JoinInPage = () => {
                   <Button
                     customType="SUB"
                     className="pr-[1.5rem] bg-[url(../src/assets/icon/link_arw@2x.svg)] bg-auto bg-no-repeat bg-right"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
                     개인정보처리방침 전문확인
                   </Button>
