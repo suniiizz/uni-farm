@@ -36,13 +36,16 @@ export const CctvSettingModal = ({
   });
 
   // 추가
-  const addList = (e) => {
+  const addList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     append({ name: "", ip: "", enable: 0 });
   };
 
   // 저장
-  const handleSaveSetting = (e, index: number) => {
+  const handleSaveSetting = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
     e.preventDefault();
     if (!confirm("저장하시겠습니까?")) return;
 

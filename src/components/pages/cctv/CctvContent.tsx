@@ -103,14 +103,14 @@ export const CctvContent = ({
   };
 
   // [CCTV] 가상 데이터
-  const urlData = [
-    "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
-    "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
-  ];
+  // const urlData = [
+  //   "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
+  //   "ws://222.111.61.156:2000/api/hikvision/admin:choij65@@121.164.215.196:554/102",
+  // ];
 
   // [CCTV]
   // url 리스트
-  // const urlData = cctvData.map((item) => item.ip);
+  const urlData = cctvData.map((item) => item.ip);
 
   const canvasRefs = useRef<HTMLCanvasElement[]>([]);
 
