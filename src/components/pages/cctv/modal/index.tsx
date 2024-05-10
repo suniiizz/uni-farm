@@ -22,7 +22,11 @@ export const CctvSettingModal = ({
 
   const { control, register } = useForm({
     defaultValues: {
-      urlList: [{ name: "", ip: "", enable: 0 }],
+      urlList: cctvData.map((data) => ({
+        name: data.name || "",
+        ip: data.ip || "",
+        enable: data.enable || 0,
+      })),
     },
   });
 
