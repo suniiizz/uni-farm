@@ -1,6 +1,6 @@
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-// import useRegister from "@/hooks/service/user/useRegister";
+import useRegister from "@/hooks/service/user/useRegister";
 import { RegisterUserForm } from "user";
 
 import { Input } from "@/components/common/input";
@@ -15,7 +15,6 @@ const JoinInPage = () => {
       address: "",
       detailAddress: "",
       email: "",
-      farmName: "",
       code: "",
       name: "",
       password: "",
@@ -26,23 +25,24 @@ const JoinInPage = () => {
     },
   });
 
-  const [option, setOption] = useState<number>(0);
+  const [option, setOption] = useState<string>("");
 
-  // const { fetchUserData } = useRegister();
+  const { fetchUserData } = useRegister();
 
   const handleSubmit: SubmitHandler<RegisterUserForm> = (
     data: RegisterUserForm,
   ) => {
     const dataFields = {
       email: data.email,
-      farmName: data.farmName,
       code: data.code,
       name: data.name,
       password: data.password,
-      registrationPath: data.registrationPath,
       phone: data.phone,
-      address: data.address + data.detailAddress,
-      terms: data.terms ? 1 : 0,
+      address: data.address + " " + data.detailAddress,
+      registrationPath:
+        data.registrationPath + (" " + data.registrationPath_etc ?? ""),
+
+      // terms: data.terms ? 1 : 0,
     };
 
     console.log("dataFields", dataFields);
@@ -53,14 +53,14 @@ const JoinInPage = () => {
     if (data.terms === 0) {
       alert("개인정보처리방침에 동의해주십시오.");
     }
-    // fetchUserData(dataFields);
+    fetchUserData(dataFields);
 
     return { ...data };
   };
 
   // 가입경로 선택
   const handleOptionSelect = (value: string) => {
-    setOption(parseInt(value));
+    setOption(value);
   };
 
   return (
@@ -74,6 +74,7 @@ const JoinInPage = () => {
                   <Button
                     customType="SUB"
                     className="absolute left-0 top-[50%] translate-y-[-50%] bg-[url(../src/assets/icon/link_arw@2x.svg)] bg-auto bg-no-repeat bg-right rotate-180"
+                    onClick={(e) => e.preventDefault()}
                   ></Button>
                   <span className="text-[1.5rem] font-bold text-white text-center">
                     회원가입
@@ -92,6 +93,7 @@ const JoinInPage = () => {
                   <div className="flex gap-[.625rem] w-full">
                     <div className="w-1/2">
                       <Input
+                        type="password"
                         registerName="password"
                         className="text-left !text-[1rem] w-full placeholder:text-white text-white placeholder:opacity-40"
                         inputWrap="w-full !px-[1.25rem] !py-[.9375rem] bg-sub2 h-[3.75rem]"
@@ -101,15 +103,16 @@ const JoinInPage = () => {
                     </div>
                     <div className="w-1/2">
                       <Input
+                        type="password"
                         registerName="passwordConfirm"
                         className="text-left !text-[1rem] w-full placeholder:text-white text-white placeholder:opacity-40"
                         inputWrap="w-full !px-[1.25rem] !py-[.9375rem] bg-sub2 h-[3.75rem]"
                         placeholder="비밀번호 4~12자 입력해 주세요."
-                        label="비밀번호"
+                        label="비밀번호 확인"
                       />
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <Input
                       registerName="farmName"
                       className="text-left w-full placeholder:text-white text-white placeholder:opacity-40"
@@ -117,7 +120,7 @@ const JoinInPage = () => {
                       placeholder="농가명을 입력해 주세요."
                       label="농가명"
                     />
-                  </div>
+                  </div> */}
                   <div className="flex gap-[.625rem] w-full">
                     <div className="w-1/2">
                       <Input
@@ -186,7 +189,7 @@ const JoinInPage = () => {
                         selectWrap="w-full h-[3.75rem] !px-[1.25rem] bg-[right_20px_center]"
                         onChange={(e) => handleOptionSelect(e.target.value)}
                       />
-                      {option === 6 && (
+                      {option === "기타" && (
                         <Input
                           registerName="registrationPath_etc"
                           className="text-left !text-[1rem] w-full placeholder:text-white text-white placeholder:opacity-40"

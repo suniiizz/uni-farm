@@ -11,18 +11,18 @@ declare module "user" {
     phone: string;
     terms: boolean | number;
     registrationPath: string;
+    registrationPath_etc: string;
   };
 
   export type UpdateRegisterUserForm = {
     email: string;
-    farmName: string;
     code: string;
     name: string;
     password: string;
     registrationPath: string;
     phone: string;
     address: string;
-    terms: boolean | number;
+    // terms: boolean | number;
   };
 
   export type SignInRequest = {
