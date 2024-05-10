@@ -4,13 +4,25 @@ declare module "user" {
     detailAddress: string;
     email: string;
     farmName: string;
-    id: string;
+    code: string;
     name: string;
     password: string;
     passwordConfirm: string;
     phone: string;
     terms: boolean | number;
-    path: string;
+    registrationPath: string;
+  };
+
+  export type UpdateRegisterUserForm = {
+    email: string;
+    farmName: string;
+    code: string;
+    name: string;
+    password: string;
+    registrationPath: string;
+    phone: string;
+    address: string;
+    terms: boolean | number;
   };
 
   export type SignInRequest = {

@@ -7,6 +7,7 @@ import { Input } from "@/components/common/input";
 import CheckBox from "@/components/common/checkbox";
 import Button from "@/components/common/button";
 import Select from "@/components/common/select";
+import { useState } from "react";
 
 const JoinInPage = () => {
   const methods = useForm<RegisterUserForm>({
@@ -15,15 +16,17 @@ const JoinInPage = () => {
       detailAddress: "",
       email: "",
       farmName: "",
-      id: "",
+      code: "",
       name: "",
       password: "",
       passwordConfirm: "",
-      path: "",
+      registrationPath: "",
       phone: "",
       terms: false,
     },
   });
+
+  const [option, setOption] = useState<number>(0);
 
   // const { fetchUserData } = useRegister();
 
@@ -31,14 +34,33 @@ const JoinInPage = () => {
     data: RegisterUserForm,
   ) => {
     const dataFields = {
-      ...data,
+      email: data.email,
+      farmName: data.farmName,
+      code: data.code,
+      name: data.name,
+      password: data.password,
+      registrationPath: data.registrationPath,
+      phone: data.phone,
+      address: data.address + data.detailAddress,
       terms: data.terms ? 1 : 0,
     };
 
     console.log("dataFields", dataFields);
+
+    if (data.password !== data.passwordConfirm) {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+    if (data.terms === 0) {
+      alert("개인정보처리방침에 동의해주십시오.");
+    }
     // fetchUserData(dataFields);
 
     return { ...data };
+  };
+
+  // 가입경로 선택
+  const handleOptionSelect = (value: string) => {
+    setOption(parseInt(value));
   };
 
   return (
@@ -60,7 +82,7 @@ const JoinInPage = () => {
                 <div className="mb-6 flex flex-col gap-[.625rem]">
                   <div>
                     <Input
-                      registerName="id"
+                      registerName="code"
                       className="text-left !text-[1rem] w-full placeholder:text-white text-white placeholder:opacity-40"
                       inputWrap="w-full !px-[1.25rem] !py-[.9375rem] bg-sub2 h-[3.75rem]"
                       placeholder="생성 아이디를 입력해 주세요"
@@ -159,10 +181,19 @@ const JoinInPage = () => {
                         가입경로
                       </span>
                       <Select
-                        registerName="path"
-                        options={OPTION}
+                        registerName="registrationPath"
+                        options={REGISTER_PATH_OPTION}
                         selectWrap="w-full h-[3.75rem] !px-[1.25rem] bg-[right_20px_center]"
+                        onChange={(e) => handleOptionSelect(e.target.value)}
                       />
+                      {option === 6 && (
+                        <Input
+                          registerName="registrationPath_etc"
+                          className="text-left !text-[1rem] w-full placeholder:text-white text-white placeholder:opacity-40"
+                          inputWrap="w-full !px-[1.25rem] !py-[.9375rem] bg-sub2 h-[3.75rem]"
+                          placeholder="기타"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -199,4 +230,12 @@ const JoinInPage = () => {
 
 export default JoinInPage;
 
-const OPTION = [{ id: 1, name: "소개" }];
+const REGISTER_PATH_OPTION = [
+  { id: 0, name: "선택", value: "" },
+  { id: 1, name: "인터넷 검색", value: "인터넷 검색" },
+  { id: 2, name: "지인 소개", value: "지인 소개" },
+  { id: 3, name: "대리점 소개", value: "대리점 소개" },
+  { id: 4, name: "카달로그", value: "카달로그" },
+  { id: 5, name: "광고", value: "광고" },
+  { id: 6, name: "기타", value: "기타" },
+];

@@ -1,8 +1,8 @@
 import { updateRegister } from "@/http/user";
-import { RegisterUserForm } from "user";
+import { UpdateRegisterUserForm } from "user";
 
 const useRegister = () => {
-  const fetchUserData = async (params: RegisterUserForm) => {
+  const fetchUserData = async (params: UpdateRegisterUserForm) => {
     await updateRegister(JSON.stringify(params))
       .then((response) => {
         console.log("response", response.data);
@@ -12,7 +12,7 @@ const useRegister = () => {
       });
   };
 
-  const handleRefetch = async (params: RegisterUserForm) => {
+  const handleRefetch = async (params: UpdateRegisterUserForm) => {
     await fetchUserData(params);
   };
 
