@@ -8,17 +8,7 @@ export const getCctvList = async (houseNo: string) => {
   return response;
 };
 
-// export const updateCctvList = async (params: string) => {
-//   const response = await axios.post(
-//     `http://175.123.253.182:8888/api_main/update_cctv?cctv=${encodeURI(params)}`,
-//   );
-
-//   return response;
-
 export const updateCctvList = async (params: string) => {
-  const formData = new FormData();
-  formData.append("cctv", params);
-
   const response = await axios.post(
     `http://175.123.253.182:8888/api_main/update_cctv?cctv=${encodeURI(params)}`,
   );
