@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { getManualData } from "@/http/control";
 import { ManualItem } from "control";
 
-const useManual = () => {
+const useManual = (houseNo: string) => {
   const [manualData, setManualData] = useState<ManualItem[]>([]);
 
   const fetchManualData = async () => {
-    await getManualData()
+    await getManualData(houseNo)
       .then((response) => {
         setManualData(response.data);
       })

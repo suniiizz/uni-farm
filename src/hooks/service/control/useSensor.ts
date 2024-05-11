@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { getSensorData } from "@/http/control";
 import { SensorData } from "control";
 
-const useSensor = () => {
+const useSensor = (houseNo: string) => {
   const [sensorData, setSensorData] = useState<SensorData[]>([]);
 
   const fetchSensorData = async () => {
-    await getSensorData()
+    await getSensorData(houseNo)
       .then((response) => {
         setSensorData(response.data);
       })

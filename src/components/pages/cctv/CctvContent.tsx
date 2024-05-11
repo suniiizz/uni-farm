@@ -94,7 +94,7 @@ export const CctvContent = ({
   const handleActionBtn = (name: string) => {
     if (name === "작동") {
       // 작동 요청
-      updateControlData(JSON.stringify(controlDataUpdate));
+      updateControlData(section, JSON.stringify(controlDataUpdate));
 
       alert("작동하였습니다.");
     } else {

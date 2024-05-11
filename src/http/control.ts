@@ -2,9 +2,9 @@ import axios from "axios";
 // import { ajaxRequest } from "@/http/sns";
 
 // [원격제어 - 가운데 박스] 데이터
-export const getSensorData = async () => {
+export const getSensorData = async (houseNo: string) => {
   const response = await axios.get(
-    "http://175.123.253.182:8888/api/sensor_device_list?farmCode=0002&houseNo=01&enable=1",
+    `http://175.123.253.182:8888/api/sensor_device_list?farmCode=0002&houseNo=0${houseNo}&enable=1`,
   );
 
   return response;
@@ -28,27 +28,27 @@ export const getControlData = async (houseNo: string) => {
 };
 
 // [원격제어 - 슬라이더] 데이터 업데이트
-export const updateControlData = async (params: string) => {
+export const updateControlData = async (houseNo: string, params: string) => {
   const response = await axios.get(
-    `http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=01&opclList=${encodeURI(params)}`,
+    `http://175.123.253.182:8888/api/control_opcl?farmCode=0002&houseNo=0${houseNo}&opclList=${encodeURI(params)}`,
   );
 
   return response;
 };
 
 // [원격제어 - 하단 설정 버튼] 데이터
-export const getManualData = async () => {
+export const getManualData = async (houseNo: string) => {
   const response = await axios.get(
-    "http://175.123.253.182:8888/api/relay_list?farmCode=0002&houseNo=01&enable=1",
+    `http://175.123.253.182:8888/api/relay_list?farmCode=0002&houseNo=0${houseNo}&enable=1`,
   );
 
   return response;
 };
 
 // [원격제어 - 하단 설정 버튼] on/off 업데이트
-export const updateManualData = async (params: string) => {
+export const updateManualData = async (houseNo: string, params: string) => {
   const response = await axios.get(
-    `http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=01&relayList=${encodeURI(params)}`,
+    `http://175.123.253.182:8888/api/control_relay?farmCode=0002&houseNo=0${houseNo}&relayList=${encodeURI(params)}`,
   );
 
   return response;

@@ -27,10 +27,12 @@ const ControlContent = ({
   controlData,
   modalType,
   setModalType,
+  section,
 }: {
   controlData: ControlData[];
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
+  section: string;
 }) => {
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
@@ -44,8 +46,8 @@ const ControlContent = ({
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
   const [manualId, setManualId] = useState<number>(0);
 
-  const { sensorData } = useSensor();
-  const { manualData } = useManual();
+  const { sensorData } = useSensor(section);
+  const { manualData } = useManual(section);
 
   // const { data: sensorList } = useGlobalQuery(useGetSensor);
 
@@ -104,7 +106,7 @@ const ControlContent = ({
       }
     });
 
-    updateControlData(JSON.stringify(selectLocation));
+    updateControlData(section, JSON.stringify(selectLocation));
   };
 
   // [긴급 제어] 하단 제어 버튼 데이터 패칭
@@ -118,7 +120,7 @@ const ControlContent = ({
       }
     });
 
-    updateManualData(JSON.stringify(selectManual));
+    updateManualData(section, JSON.stringify(selectManual));
   };
 
   // [그룹 제어] 데이터 패칭
@@ -132,7 +134,7 @@ const ControlContent = ({
       }
     });
 
-    updateControlData(JSON.stringify(selectLocation));
+    updateControlData(section, JSON.stringify(selectLocation));
   };
 
   // [자동 제어 복귀] 슬라이더 데이터 패칭
@@ -146,7 +148,7 @@ const ControlContent = ({
       }
     });
 
-    updateControlData(JSON.stringify(selectLocation));
+    updateControlData(section, JSON.stringify(selectLocation));
   };
 
   // [자동 제어 복귀] 하단 제어 버튼 데이터 패칭
@@ -160,7 +162,7 @@ const ControlContent = ({
       }
     });
 
-    updateManualData(JSON.stringify(selectManual));
+    updateManualData(section, JSON.stringify(selectManual));
   };
 
   // 평균 데이터 박스

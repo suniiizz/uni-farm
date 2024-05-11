@@ -121,15 +121,14 @@ const WeatherControl = () => {
 
               {/* 컨텐츠 */}
               <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute p-6 top-[4.375rem] bg-[url('../src/assets/icon/green-house@2x.png')] bg-no-repeat bg-contain bg-center">
-                {section === "1" && (
+                {section && (
                   <ControlContent
                     controlData={controlData}
                     modalType={modalType}
                     setModalType={setModalType}
+                    section={section}
                   />
                 )}
-                {section === "2" && <div>22222</div>}
-                {section === "3" && <div>33333</div>}
               </div>
             </div>
           </div>
@@ -149,13 +148,6 @@ export default WeatherControl;
 const LIST = [
   { id: 1, num: "1" },
   { id: 2, num: "2" },
-  { id: 3, num: "3" },
-  { id: 4, num: "4" },
-  { id: 5, num: "5" },
-  { id: 6, num: "6" },
-  { id: 7, num: "7" },
-  { id: 8, num: "8" },
-  { id: 9, num: "9" },
 ];
 
 const CustomTabs = styled(Tabs)({
