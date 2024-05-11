@@ -17,7 +17,7 @@ const useSensor = (houseNo: string) => {
 
   useEffect(() => {
     fetchSensorData();
-  }, []);
+  }, [houseNo]);
 
   return {
     sensorData,

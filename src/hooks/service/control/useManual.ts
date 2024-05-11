@@ -21,7 +21,7 @@ const useManual = (houseNo: string) => {
 
   useEffect(() => {
     fetchManualData();
-  }, []);
+  }, [houseNo]);
 
   return {
     manualData,
