@@ -1,8 +1,8 @@
 import useSensor from "@/hooks/service/control/useSensor";
 import { SensorData, SensorDtoList } from "control";
 
-const SensorContent = () => {
-  const { sensorData } = useSensor();
+const SensorContent = ({section}: {section: string}) => {
+  const { sensorData } = useSensor(section);
 
   const sensorDataFunc = (id: number) => {
     const sensorDataList: SensorData | undefined = sensorData.find(
