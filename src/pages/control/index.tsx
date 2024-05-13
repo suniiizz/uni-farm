@@ -17,6 +17,11 @@ import VerticalTab from "@/components/common/tab";
 import DeviceModal from "@/components/pages/control/modal/device-setting";
 
 const WeatherControl = () => {
+  const LIST = [
+    { id: 1, num: "1" },
+    { id: 2, num: "2" },
+  ];
+
   const methods = useForm();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -127,6 +132,8 @@ const WeatherControl = () => {
                     modalType={modalType}
                     setModalType={setModalType}
                     section={section}
+                    methods={methods}
+                    houseNum={LIST}
                   />
                 )}
               </div>
@@ -144,11 +151,6 @@ const WeatherControl = () => {
 };
 
 export default WeatherControl;
-
-const LIST = [
-  { id: 1, num: "1" },
-  { id: 2, num: "2" },
-];
 
 const CustomTabs = styled(Tabs)({
   "& .MuiTabs-scrollButtons.Mui-disabled": {

@@ -16,17 +16,26 @@ import GroupControl from "@/components/pages/control/modal/control-button/groupC
 import ManualControl from "@/components/pages/control/modal/manual-button";
 import ManualControlModal from "@/components/pages/control/modal/manual-button/ManualControl";
 import Button from "@/components/common/button";
+import { UseFormReturn } from "react-hook-form";
+import useControl from "@/hooks/service/control/useControl";
 
 const ControlContent = ({
   controlData,
   modalType,
   setModalType,
   section,
+  methods,
+  houseNum,
 }: {
   controlData: ControlData[];
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   section: string;
+  methods: UseFormReturn;
+  houseNum: {
+    id: number;
+    num: string;
+  }[];
 }) => {
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
@@ -40,6 +49,7 @@ const ControlContent = ({
   const [manualChecked, setManualChecked] = useState<Array<number>>([]);
   const [manualId, setManualId] = useState<number>(0);
 
+  const { fetchAllControlData, firstData, secondData } = useControl(section);
   const { sensorData } = useSensor(section);
   const { manualData } = useManual(section);
 
@@ -50,6 +60,16 @@ const ControlContent = ({
     setControlBtn(name);
     setModalType("group");
     onOpenModal();
+
+    if (name === "그룹 제어") {
+      methods.setValue("selectLocation", "");
+      methods.setValue("allSelect", "");
+
+      houseNum.forEach((_, index) => {
+        const section = index + 1;
+        fetchAllControlData(section.toString());
+      });
+    }
   };
 
   // 슬라이더 체크리스트
@@ -118,17 +138,28 @@ const ControlContent = ({
   };
 
   // [그룹 제어] 데이터 패칭
-  const updateGroupControlData = (inputValue: number) => {
-    const selectLocation = controlData.map((item: ControlData) => {
-      const { location } = item;
-      if (sliderChecked.includes(location)) {
-        return { ...item, value: inputValue, controlMode: 2 };
-      } else {
-        return { ...item, controlMode: 0 };
-      }
-    });
+  const updateGroupControlData = async (inputValue: number) => {
+    const select = methods.getValues("allSelect");
 
-    updateControlData(section, JSON.stringify(selectLocation));
+    const updateControlMode = (item: ControlData) => {
+      const { location } = item;
+      return sliderChecked.includes(location)
+        ? { ...item, value: inputValue, controlMode: 2 }
+        : { ...item, controlMode: 0 };
+    };
+
+    const updateAllHouseData = (section: string, data: ControlData[]) => {
+      const updatedData = data.map(updateControlMode);
+      updateControlData(section, JSON.stringify(updatedData));
+    };
+
+    if (select === "0") {
+      updateAllHouseData("1", firstData);
+      updateAllHouseData("2", secondData);
+    } else {
+      const selectLocation = controlData.map(updateControlMode);
+      updateControlData(section, JSON.stringify(selectLocation));
+    }
   };
 
   // [자동 제어 복귀] 슬라이더 데이터 패칭
@@ -664,6 +695,7 @@ const ControlContent = ({
                 setSliderChecked={setSliderChecked}
                 setManualChecked={setManualChecked}
                 setModalType={setModalType}
+                methods={methods}
               />
             )}
             {modalType === "manual" && (
