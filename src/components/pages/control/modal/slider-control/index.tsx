@@ -6,11 +6,17 @@ import Modal from "@/components/common/modal";
 import { updateControlData } from "@/http/control";
 import { ControlData } from "control";
 
-const SliderControl = ({ data }: { data: ControlData[] }) => {
+const SliderControl = ({
+  data,
+  section,
+}: {
+  data: ControlData[];
+  section: string;
+}) => {
   const { onCloseModal } = useContext(ModalContext);
 
   const handleMoveClick = async () => {
-    updateControlData(JSON.stringify(data));
+    updateControlData(section, JSON.stringify(data));
 
     onCloseModal();
   };

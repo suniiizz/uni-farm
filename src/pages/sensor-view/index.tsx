@@ -14,9 +14,9 @@ import SensorSettingModal from "@/components/pages/sensor-view/modal/setting";
 const SensorView = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const [section, setSection] = useState("");
-  const [value, setValue] = useState(1);
-  const [modalType, setModalType] = useState("");
+  const [section, setSection] = useState<string>("");
+  const [value, setValue] = useState<number>(1);
+  const [modalType, setModalType] = useState<string>("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const SensorView = () => {
 
             {/* 컨텐츠 */}
             <div className="w-[calc(100%-4.375rem)] h-[calc(100%-4.375rem)] left-[4.375rem] absolute pl-2 pr-6 py-6 top-[4.375rem]">
-              <SensorContent section={section}/>
+              <SensorContent section={section} />
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
@@ -29,6 +29,10 @@ export const RowReverseBar = ({
     ((marks.length - 1 - currentValue) / (marks.length - 1)) * 10 + 90;
   const [value, setValue] = useState<number>(reverseCurrentValue);
   value;
+
+  useEffect(() => {
+    setValue(reverseCurrentValue);
+  }, [reverseCurrentValue]);
 
   const handleChange = (
     e: React.SyntheticEvent | Event,
@@ -133,6 +137,10 @@ export const RowBar = ({
 }) => {
   const [value, setValue] = useState<number>(currentValue);
   const { onOpenModal } = useContext(ModalContext);
+
+  useEffect(() => {
+    setValue(currentValue);
+  }, [currentValue]);
 
   const handleChange = (
     e: React.SyntheticEvent | Event,
@@ -293,6 +301,10 @@ export const ColBar = ({
 }) => {
   const { onOpenModal } = useContext(ModalContext);
   const [value, setValue] = useState<number>(currentValue);
+
+  useEffect(() => {
+    setValue(currentValue);
+  }, [currentValue]);
 
   const handleChange = (
     e: React.SyntheticEvent | Event,

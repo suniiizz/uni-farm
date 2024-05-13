@@ -1,17 +1,17 @@
 import useSensor from "@/hooks/service/control/useSensor";
-import { SensorData, SensorDtoList } from "control";
+import { SensorData } from "control";
 
-const SensorContent = ({section}: {section: string}) => {
+const SensorContent = ({ section }: { section: string }) => {
   const { sensorData } = useSensor(section);
 
-  const sensorDataFunc = (id: number) => {
-    const sensorDataList: SensorData | undefined = sensorData.find(
-      (item: SensorData) => item.id === 115,
-    );
+  const sensorDataFunc = (index: number) => {
+    const sensorDataList: SensorData | undefined =
+      sensorData[sensorData.length - 1];
 
-    return sensorDataList?.sensorDtoList.find(
-      (item: SensorDtoList) => item.id === id,
-    ).value;
+    if (sensorDataList) {
+      const sensor = sensorDataList.sensorDtoList[index];
+      return sensor ? sensor.value : undefined;
+    }
   };
 
   return (
@@ -20,27 +20,8 @@ const SensorContent = ({section}: {section: string}) => {
         <span className="text-[1.25rem] font-bold text-white">외부환경</span>
 
         <div className="grid-cols-4 grid justify-between w-full gap-2">
-          {INFO_LIST.map((list) => {
-            const value = (name: string) => {
-              switch (name) {
-                case "기온":
-                  return <>{sensorDataFunc(116)}</>;
-                case "습기":
-                  return <>{sensorDataFunc(117)}</>;
-                case "강우":
-                  return <>{sensorDataFunc(118)}</>;
-                case "일사":
-                  return <>{sensorDataFunc(119)}</>;
-                case "풍향":
-                  return <>{sensorDataFunc(120)}</>;
-                case "풍속":
-                  return <>{sensorDataFunc(121)}</>;
-                case "CO₂":
-                  return <>{sensorDataFunc(122)}</>;
-                default:
-                  return;
-              }
-            };
+          {INFO_LIST.map((list, index) => {
+            const value = sensorDataFunc(index);
             return (
               <div
                 key={list.id}
@@ -56,7 +37,7 @@ const SensorContent = ({section}: {section: string}) => {
                     {list.name}
                   </span>
                   <span className="text-white font-bold">
-                    {value(list.name)}
+                    {value}
                     {list.unit}
                   </span>
                 </div>

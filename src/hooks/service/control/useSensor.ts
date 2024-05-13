@@ -6,13 +6,15 @@ const useSensor = (houseNo: string) => {
   const [sensorData, setSensorData] = useState<SensorData[]>([]);
 
   const fetchSensorData = async () => {
-    await getSensorData(houseNo)
-      .then((response) => {
-        setSensorData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sensor data:", error);
-      });
+    if (houseNo) {
+      await getSensorData(houseNo)
+        .then((response) => {
+          setSensorData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching sensor data:", error);
+        });
+    }
   };
 
   useEffect(() => {

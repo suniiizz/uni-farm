@@ -13,12 +13,14 @@ const ManualControl = ({
   type,
   setModalType,
   handleControlSetting,
+  section,
 }: {
   manualData: ManualItem[];
   manualBtn: number;
   type: (no: number) => void;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   handleControlSetting: (manualBtn: number) => void;
+  section: string;
 }) => {
   const { onCloseModal } = useContext(ModalContext);
 
@@ -34,7 +36,7 @@ const ManualControl = ({
       }
     });
 
-    updateManualData(JSON.stringify(updatedManualData));
+    updateManualData(section, JSON.stringify(updatedManualData));
 
     onCloseModal();
   };

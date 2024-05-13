@@ -7,13 +7,7 @@ import { loadPlayer } from "rtsp-relay/browser";
 import useSensor from "@/hooks/service/control/useSensor";
 import useManual from "@/hooks/service/control/useManual";
 import { updateControlData, updateManualData } from "@/http/control";
-import {
-  ControlData,
-  ManualItem,
-  ManualData,
-  SensorData,
-  SensorDtoList,
-} from "control";
+import { ControlData, ManualItem, ManualData, SensorData } from "control";
 
 import { ModalContext } from "@/components/common/modal/context/modalContext";
 import { ColBar, RowBar, RowReverseBar } from "@/components/common/slider";
@@ -85,14 +79,14 @@ const ControlContent = ({
   };
 
   // [외부 환경] 데이터
-  const environmentalData = (id: number) => {
-    const sensorDataList: SensorData | undefined = sensorData.find(
-      (item: SensorData) => item.id === 115,
-    );
+  const environmentalData = (index: number) => {
+    const sensorDataList: SensorData | undefined =
+      sensorData[sensorData.length - 1];
 
-    return sensorDataList?.sensorDtoList.find(
-      (item: SensorDtoList) => item.id === id,
-    ).value;
+    if (sensorDataList) {
+      const sensor = sensorDataList.sensorDtoList[index];
+      return sensor ? sensor.value : undefined;
+    }
   };
 
   // [긴급 제어] 슬라이더 데이터 패칭
@@ -166,14 +160,13 @@ const ControlContent = ({
   };
 
   // 평균 데이터 박스
-  const sensorDataFunc = (id: number) => {
-    const sensorDataList = sensorData.find(
-      (item: SensorData) => item.id === 74,
-    );
+  const sensorDataFunc = (index: number) => {
+    const sensorDataList: SensorData | undefined = sensorData[0];
 
-    return sensorDataList?.sensorDtoList.find(
-      (item: SensorDtoList) => item.id === id,
-    ).value;
+    if (sensorDataList) {
+      const sensor = sensorDataList.sensorDtoList[index];
+      return sensor ? sensor.value : undefined;
+    }
   };
 
   // 7,8 슬라이더 위치
@@ -323,23 +316,23 @@ const ControlContent = ({
           })}
         </div>
         <div className="flex items-center gap-2">
-          {INFO_LIST1.map((list) => {
-            const value = (name: string) => {
+          {INFO_LIST1.map((list, index) => {
+            const value = (name: string, index: number) => {
               switch (name) {
                 case "기온":
-                  return <>{environmentalData(116)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "습기":
-                  return <>{environmentalData(117)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "강우":
-                  return <>{environmentalData(118)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "일사":
-                  return <>{environmentalData(119)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "풍향":
-                  return <>{environmentalData(120)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "풍속":
-                  return <>{environmentalData(121)}</>;
+                  return <>{environmentalData(index)}</>;
                 case "CO₂":
-                  return <>{environmentalData(122)}</>;
+                  return <>{environmentalData(index)}</>;
                 default:
                   return;
               }
@@ -355,9 +348,9 @@ const ControlContent = ({
                   className="w-[2.5rem] h-[2.5rem]"
                 />
                 <span>
-                  {list.name1}: {value(list.name1)}
+                  {list.name1}: {value(list.name1, index * 2)}
                   {list.unit1} <br />
-                  {list.name2}: {value(list.name2)}
+                  {list.name2}: {value(list.name2, index * 2 + 1)}
                   {list.unit2}
                 </span>
               </div>
@@ -597,7 +590,7 @@ const ControlContent = ({
 
       {/* 하단 버튼 영역 */}
       <div className="absolute bottom-6 left-0 px-6 w-full flex flex-col gap-[3.125rem] justify-center items-center">
-        <div className="z-7 w-[17.5rem] h-[11.25rem] p-4 bg-white shadow-lg rounded-md absolute bottom-[4.0625rem]">
+        <div className="z-7 w-[18.125rem] h-[11.25rem] p-4 bg-white shadow-lg rounded-md absolute bottom-[4.0625rem]">
           <div className="absolute right-[.25rem] top-[.25rem]">
             <Button
               className="bg-green2 border-[#707070] rounded-md w-[1.125rem] h-[1.125rem] !p-0"
@@ -607,27 +600,8 @@ const ControlContent = ({
             ></Button>
           </div>
           <ul className="mb-0 w-full flex flex-col justify-center items-center h-full">
-            {(!toggle ? INFO_LIST2 : INFO_LIST3).map((list) => {
-              const value = (name: string) => {
-                switch (name) {
-                  case "온도":
-                    return <>{sensorDataFunc(75)}</>;
-                  case "습도":
-                    return <>{sensorDataFunc(76)}</>;
-                  case "CO₂":
-                    return <>{sensorDataFunc(77)}</>;
-                  case "일사":
-                    return <>{sensorDataFunc(78)}</>;
-                  case "Pt100":
-                    return <>{sensorDataFunc(79)}</>;
-                  case "pH":
-                    return <>{sensorDataFunc(80)}</>;
-                  case "EC":
-                    return <>{sensorDataFunc(81)}</>;
-                  default:
-                    return;
-                }
-              };
+            {(!toggle ? INFO_LIST2 : INFO_LIST3).map((list, index) => {
+              const value = sensorDataFunc(index);
               return (
                 <li
                   key={list.id}
@@ -641,7 +615,7 @@ const ControlContent = ({
                     />
                   )}
                   <div>
-                    {list.name} : {value(list.name)}
+                    {list.name} : {value}
                     {list.name === "EC" ? (
                       <span className="text-[1.375rem]">{list.unit}</span>
                     ) : (
@@ -699,6 +673,7 @@ const ControlContent = ({
                 type={type}
                 setModalType={setModalType}
                 handleControlSetting={handleControlSetting}
+                section={section}
               />
             )}
             {modalType === "manual-control" && (
@@ -709,7 +684,7 @@ const ControlContent = ({
               />
             )}
             {modalType === "slider" && (
-              <SliderControl data={controlDataUpdate} />
+              <SliderControl data={controlDataUpdate} section={section} />
             )}
           </div>
         )}

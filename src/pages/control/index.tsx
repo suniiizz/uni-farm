@@ -20,9 +20,9 @@ const WeatherControl = () => {
   const methods = useForm();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const [section, setSection] = useState("1");
-  const [value, setValue] = useState(1);
-  const [modalType, setModalType] = useState("");
+  const [section, setSection] = useState<string>("");
+  const [value, setValue] = useState<number>(1);
+  const [modalType, setModalType] = useState<string>("");
   const { isOpen, onOpenModal } = useContext(ModalContext);
 
   const { controlData } = useControl(section);
